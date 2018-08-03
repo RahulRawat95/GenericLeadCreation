@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="button_background">#ffffff</color>
+    <color name="button_background_stroke">#000000</color>
+    <color name="progress_dialog_background">#aa000000</color>
+    <color name="spinner_background_dark_grey">#88000000</color>
+    <color name="list_background">#eeeeee</color>
+    <color name="list_item_color">#ffffff</color>
+    <color name="bottom_sheet_back_color">#cccccc</color>
+</resources>
