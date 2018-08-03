@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<String> strings = new ArrayList<>();
         strings.add("rahul");
         strings.add("rawat");
-        Intent intent = ListLeadsActivity.getListLeadsIntent(this, "http://13.126.198.143:10008/", "w2aDealerDb", "dbo", BuildConfig.APPLICATION_ID, 1, strings);
+        Intent intent = ListLeadsActivity.getListLeadsIntent(this, "http://13.126.198.143:10008/", "w2aDealerDb", "dbo", BuildConfig.APPLICATION_ID, 1, "loki");
         startActivity(intent);
     }
 }
