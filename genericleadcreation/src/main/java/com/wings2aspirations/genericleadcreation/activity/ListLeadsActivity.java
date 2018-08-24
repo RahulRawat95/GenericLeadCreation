@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -196,6 +197,8 @@ public class ListLeadsActivity extends AppCompatActivity implements Adapter.Prog
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_leads);
+
+        PreferenceManager.getDefaultSharedPreferences(this).edit().putString(getString(R.string.key_remind_at_time), "18:00").commit();
 
         if (!getIntent().hasExtra(EXTRA_DB_NAME)) {
             ShowToast.showToast(this, "No Db name specified");

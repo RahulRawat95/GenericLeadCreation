@@ -14,7 +14,7 @@ import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 
-public class LeadDetail implements CalendarHelper.CalendarInstance{
+public class LeadDetail implements CalendarHelper.CalendarInstance {
     @SerializedName("ID")
     @Expose
     private int ID;
@@ -276,5 +276,10 @@ public class LeadDetail implements CalendarHelper.CalendarInstance{
     @Override
     public String getEmails() {
         return EMAIL;
+    }
+
+    @Override
+    public String getSyncId() {
+        return "2013912" + String.valueOf(ID);
     }
 }

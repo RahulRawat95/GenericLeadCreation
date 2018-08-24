@@ -47,6 +47,8 @@ public class CalendarHelper {
         String getLocation();
 
         String getEmails();
+
+        String getSyncId();
     }
 
     public interface CalendarCallback {
@@ -134,7 +136,7 @@ public class CalendarHelper {
 
     @SuppressWarnings({"MissingPermission"})
     private long getCalendarId() {
-        logCalendars();
+        //logCalendars();
         String[] projection = new String[]{CalendarContract.Calendars._ID};
         Cursor cursor = context.getContentResolver().query(CalendarContract.Calendars.CONTENT_URI, projection, null, null, null);
         if (cursor.moveToFirst()) {
@@ -203,7 +205,7 @@ public class CalendarHelper {
             return;
         }
         new AsyncTask<Void, Void, Void>() {
-            private boolean wasEventInserted;
+            private Boolean wasEventInserted;
             private String eventInsertionString;
 
             @Override
@@ -214,10 +216,21 @@ public class CalendarHelper {
                     long calendarId = getCalendarId();
                     long eventID;
                     CalendarInstance instance;
+                    int j = 0;
                     for (int i = 0; i < list.size(); i++) {
                         instance = list.get(i);
+
+                        String[] proj = new String[]{CalendarContract.Instances._ID};
+                        Cursor cursor = context.getContentResolver().query(CalendarContract.Events.CONTENT_URI,
+                                proj, CalendarContract.Events.UID_2445 + " = ?",
+                                new String[]{instance.getSyncId()}, null);
+                        if (cursor.getCount() > 0) {
+                            continue;
+                        }
+                        j++;
                         values = new ContentValues();
                         values.put(CalendarContract.Events.DTSTART, instance.getFromDate(context));
+                        values.put(CalendarContract.Events.UID_2445, instance.getSyncId());
                         values.put(CalendarContract.Events.DTEND, instance.getToDate(context));
                         values.put(CalendarContract.Events.TITLE, instance.getTitle());
                         values.put(CalendarContract.Events.DESCRIPTION, instance.getDescription());
@@ -233,8 +246,13 @@ public class CalendarHelper {
                         values.put(CalendarContract.Reminders.MINUTES, 15);
                         cr.insert(CalendarContract.Reminders.CONTENT_URI, values);
                     }
-                    wasEventInserted = true;
-                    eventInsertionString = "Event added to Calendar";
+                    if (j > 0) {
+                        wasEventInserted = true;
+                        eventInsertionString = "Event added to Calendar";
+                    } else {
+                        wasEventInserted = null;
+                        eventInsertionString = "Doesn't Matter";
+                    }
                 } catch (Exception e) {
                     wasEventInserted = false;
                     eventInsertionString = "Event not added to Calendar";
