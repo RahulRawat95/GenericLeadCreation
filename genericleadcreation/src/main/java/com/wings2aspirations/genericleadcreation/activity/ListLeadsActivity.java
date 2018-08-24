@@ -2,7 +2,9 @@ package com.wings2aspirations.genericleadcreation.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
@@ -13,6 +15,8 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -31,6 +35,7 @@ import com.wings2aspirations.genericleadcreation.models.AuthorisationToken;
 import com.wings2aspirations.genericleadcreation.models.LeadDetail;
 import com.wings2aspirations.genericleadcreation.network.ApiClient;
 import com.wings2aspirations.genericleadcreation.network.ApiInterface;
+import com.wings2aspirations.genericleadcreation.repository.CalendarHelper;
 import com.wings2aspirations.genericleadcreation.repository.ExcelCreator;
 import com.wings2aspirations.genericleadcreation.repository.ShowToast;
 import com.wings2aspirations.genericleadcreation.repository.Utility;
@@ -61,6 +66,7 @@ public class ListLeadsActivity extends AppCompatActivity implements Adapter.Prog
 
 
     public AlertDialog leadFileOptionDialog;
+    private static final int REQUEST_CODE_CALENDAR_WRITE = 123;
     public static final int SESSION_AUTHORIZATION_TOKEN_OFFSET = 12;
 
     public interface ListLeadCallback {
@@ -94,6 +100,8 @@ public class ListLeadsActivity extends AppCompatActivity implements Adapter.Prog
     private Call<JsonArray> call;
 
     private ApiInterface apiInterface;
+
+    private CalendarHelper calendarHelper;
 
     public static Intent getListLeadsIntent(Context context, String baseUrl, String dbName, String schemaName, String applicationId, int id, ArrayList<String> empNames) {
         Intent intent = new Intent(context, ListLeadsActivity.class);
@@ -145,6 +153,17 @@ public class ListLeadsActivity extends AppCompatActivity implements Adapter.Prog
                     Type type = new TypeToken<List<LeadDetail>>() {
                     }.getType();
                     details = new Gson().fromJson(jsonArray, type);
+                    if (isAdmin) {
+                        addEvent(new CalendarHelper.CalendarCallback() {
+                            @Override
+                            public void callback(Boolean wasEventInserted, String eventInsertionString) {
+                                if (wasEventInserted != null) {
+                                    ShowToast.showToast(ListLeadsActivity.this, eventInsertionString);
+                                }
+                            }
+                        });
+                        calendarHelper.insertEventDirectly(ListLeadsActivity.this, REQUEST_CODE_CALENDAR_WRITE, details);
+                    }
                     adapter = new Adapter(details, ListLeadsActivity.this, isAdmin);
                     recyclerView.setAdapter(adapter);
                 }
@@ -155,6 +174,12 @@ public class ListLeadsActivity extends AppCompatActivity implements Adapter.Prog
                 }
             });
         }
+    }
+
+    public void addEvent(CalendarHelper.CalendarCallback calendarCallback) {
+        calendarHelper = new CalendarHelper()
+                .setContext(this)
+                .setCalendarCallback(calendarCallback);
     }
 
     @Override
@@ -516,5 +541,34 @@ public class ListLeadsActivity extends AppCompatActivity implements Adapter.Prog
                 getAuthString(empId, null);
             }
         }, countdown);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_CODE_CALENDAR_WRITE:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED)
+                    calendarHelper.insertEventDirectly(ListLeadsActivity.this, REQUEST_CODE_CALENDAR_WRITE, details);
+                else {
+                    ShowToast.showToast(this, "The Leads will not be added to your Calendar");
+                }
+                break;
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_setting, menu);
+        return isAdmin;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.settings) {
+            startActivity(new Intent(this, SettingsActivity.class));
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

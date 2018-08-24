@@ -2,6 +2,7 @@ package com.wings2aspirations.genericleadcreation.activity;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -29,6 +30,7 @@ import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -52,6 +54,7 @@ import com.wings2aspirations.genericleadcreation.network.ApiClient;
 import com.wings2aspirations.genericleadcreation.network.ApiInterface;
 import com.wings2aspirations.genericleadcreation.reciever.GpsStatusListener;
 import com.wings2aspirations.genericleadcreation.reciever.LocationUpdatesBroadcastReceiver;
+import com.wings2aspirations.genericleadcreation.repository.CalendarHelper;
 import com.wings2aspirations.genericleadcreation.repository.ShowToast;
 import com.wings2aspirations.genericleadcreation.repository.Utility;
 
@@ -60,6 +63,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
 
@@ -83,10 +88,14 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
     public static final int REQUEST_CODE_LOCATION_PERMISSION = 2;
     public static final int REQUEST_CODE_STORAGE_CAMERA = 3;
     public static final int REQUEST_CODE_STORAGE = 4;
+    private static final int REQUEST_CODE_CALENDAR_WRITE = 123;
 
     public static final int TAKE_PHOTO_CODE = 1;
     public static final int REQUEST_CHECK_SETTINGS = 4;
 
+    private CalendarHelper calendarHelper;
+
+    private AlertDialog saveAlertDialog;
     /*private GoogleMap mMap;
     private CustomMapFragment mSupportMapFragment;*/
     private NestedScrollView nestedScrollView;
@@ -111,7 +120,7 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
     private TextInputEditText customerRemarksEt;
     private TextInputEditText leadRemarksEt;
     private TextInputEditText nextFollowUpDateEt;
-    private TextInputEditText nextFollowUpTimeEt;
+    private TextInputEditText nextFollowUpTimeEt, snoozeTimeEt;
     private RadioGroup callTypeRg;
     private RadioButton callTypeHotRb;
     private RadioButton callTypeColdRb;
@@ -119,6 +128,8 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
     private FloatingActionButton cameraBt;
     private TextView fileNameTv;
     private FloatingActionButton saveBt;
+
+    private Spinner timeUnitSp;
 
     private GoogleApiClient mGoogleApiClient;
 
@@ -233,54 +244,44 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
         } else if (v == cameraBt) {
             checkStorageCameraPermission();
         } else if (v == saveBt) {
-            if (checkValidation()) {
-                JsonObject jsonObject = new JsonObject();
-                jsonObject.addProperty("COMPANY_NAME", customerNameEt.getText().toString());
-                jsonObject.addProperty("CONTACT_PERSON", contactPersonEt.getText().toString());
-                jsonObject.addProperty("EMAIL", emailAddressEt.getText().toString());
-                jsonObject.addProperty("MOBILE_NO", mobileNoEt.getText().toString());
-                jsonObject.addProperty("ADDRESS", addressEt.getText().toString());
-                jsonObject.addProperty("PIN_CODE", pinCodeEt.getText().toString());
-                if (!TextUtils.isEmpty(customerRemarksEt.getText()))
-                    jsonObject.addProperty("CUSTOMER_REMARKS", customerRemarksEt.getText().toString());
-                if (!TextUtils.isEmpty(leadRemarksEt.getText()))
-                    jsonObject.addProperty("LEAD_REMARKS", leadRemarksEt.getText().toString());
-                jsonObject.addProperty("NEXT_FOLLOW_UP_DATE", nextFollowUpDateEt.getText().toString());
-                jsonObject.addProperty("NEXT_FOLLOW_UP_TIME", nextFollowUpTimeEt.getText().toString());
-                jsonObject.addProperty("LATITUDE", location.getLatitude());
-                jsonObject.addProperty("LONGITUDE", location.getLongitude());
-                jsonObject.addProperty("CALL_TYPE", selectedRadioButtonValue);
-                jsonObject.addProperty("EMP_ID", empId);
-                jsonObject.addProperty("EMP_NAME", empName);
-                jsonObject.addProperty("DATE_VC", ListLeadsActivity.simpleDateFormat.format(new Date()));
-                if (updateId >= 0) {
-                    jsonObject.addProperty("ID", updateId);
-                } else {
-                    showProgress();
-                    Call<JsonObject> call;
-                    if (part == null)
-                        call = apiInterface.insertLead(jsonObject);
-                    else
-                        call = apiInterface.insertLead(jsonObject, part);
-                    call.enqueue(new Callback<JsonObject>() {
-                        @Override
-                        public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                            hideProgress();
-                            if (!response.isSuccessful()) {
-                                ShowToast.showToast(AddUpdateLeadActivity.this, "Response Insuccessful");
-                                return;
-                            }
-                            ShowToast.showToast(AddUpdateLeadActivity.this, "Success");
-                            finish();
-                        }
-
-                        @Override
-                        public void onFailure(Call<JsonObject> call, Throwable t) {
-                            hideProgress();
-                            ShowToast.showToast(AddUpdateLeadActivity.this, t.getMessage());
-                        }
-                    });
+            if (!checkValidation())
+                return;
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+            try {
+                Date date = simpleDateFormat.parse(nextFollowUpDateEt.getText().toString() + " " + nextFollowUpTimeEt.getText().toString());
+                long millis = 0;
+                int snoozeTime = Integer.parseInt(snoozeTimeEt.getText().toString());
+                switch (timeUnitSp.getSelectedItemPosition()) {
+                    case 0:
+                        millis = snoozeTime * 604800000;
+                        break;
+                    case 1:
+                        millis = snoozeTime * 86400000;
+                        break;
+                    case 2:
+                        millis = snoozeTime * 3600000;
+                        break;
+                    case 3:
+                        millis = snoozeTime * 60000;
+                        break;
+                    case 4:
+                        millis = snoozeTime * 1000;
+                        break;
                 }
+                addEvent(new Date(date.getTime() - millis), date, "Follow up with " + customerNameEt.getText().toString(),
+                        contactPersonEt.getText().toString() + ", " + mobileNoEt.getText().toString() + " , " + leadRemarksEt.getText().toString(),
+                        addressEt.getText().toString(), emailAddressEt.getText().toString(), new CalendarHelper.CalendarCallback() {
+                            @Override
+                            public void callback(Boolean wasEventInserted, String eventInsertionString) {
+                                if (wasEventInserted != null) {
+                                    ShowToast.showToast(AddUpdateLeadActivity.this, eventInsertionString);
+                                    saveLead();
+                                }
+                            }
+                        });
+                calendarHelper.insertEventDirectly(this, REQUEST_CODE_CALENDAR_WRITE);
+            } catch (ParseException e) {
+                e.printStackTrace();
             }
         } else if (v == nextFollowUpDateEt) {
             Utility.showDatePickerDialog(this, nextFollowUpDateEt, null, null, new Date());
@@ -295,6 +296,65 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
 
     public void hideProgress() {
         progressLayout.setVisibility(View.GONE);
+    }
+
+    public void addEvent(Date fromDate, Date toDate, String title, String description, String location, String emails, CalendarHelper.CalendarCallback calendarCallback) {
+        calendarHelper = new CalendarHelper()
+                .setContext(this)
+                .setDates(fromDate, toDate)
+                .setTitleAndDescription(title, description)
+                .setLocationAndEmails(location, emails)
+                .setCalendarCallback(calendarCallback);
+    }
+
+    public void saveLead() {
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("COMPANY_NAME", customerNameEt.getText().toString());
+        jsonObject.addProperty("CONTACT_PERSON", contactPersonEt.getText().toString());
+        jsonObject.addProperty("EMAIL", emailAddressEt.getText().toString());
+        jsonObject.addProperty("MOBILE_NO", mobileNoEt.getText().toString());
+        jsonObject.addProperty("ADDRESS", addressEt.getText().toString());
+        jsonObject.addProperty("PIN_CODE", pinCodeEt.getText().toString());
+        if (!TextUtils.isEmpty(customerRemarksEt.getText()))
+            jsonObject.addProperty("CUSTOMER_REMARKS", customerRemarksEt.getText().toString());
+        if (!TextUtils.isEmpty(leadRemarksEt.getText()))
+            jsonObject.addProperty("LEAD_REMARKS", leadRemarksEt.getText().toString());
+        jsonObject.addProperty("NEXT_FOLLOW_UP_DATE", nextFollowUpDateEt.getText().toString());
+        jsonObject.addProperty("NEXT_FOLLOW_UP_TIME", nextFollowUpTimeEt.getText().toString());
+        jsonObject.addProperty("LATITUDE", location.getLatitude());
+        jsonObject.addProperty("LONGITUDE", location.getLongitude());
+        jsonObject.addProperty("CALL_TYPE", selectedRadioButtonValue);
+        jsonObject.addProperty("EMP_ID", empId);
+        jsonObject.addProperty("EMP_NAME", empName);
+        jsonObject.addProperty("DATE_VC", ListLeadsActivity.simpleDateFormat.format(new Date()));
+        if (updateId >= 0) {
+            jsonObject.addProperty("ID", updateId);
+        } else {
+            showProgress();
+            Call<JsonObject> call;
+            if (part == null)
+                call = apiInterface.insertLead(jsonObject);
+            else
+                call = apiInterface.insertLead(jsonObject, part);
+            call.enqueue(new Callback<JsonObject>() {
+                @Override
+                public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                    hideProgress();
+                    if (!response.isSuccessful()) {
+                        ShowToast.showToast(AddUpdateLeadActivity.this, "Response Insuccessful");
+                        return;
+                    }
+                    ShowToast.showToast(AddUpdateLeadActivity.this, "Success");
+                    finish();
+                }
+
+                @Override
+                public void onFailure(Call<JsonObject> call, Throwable t) {
+                    hideProgress();
+                    ShowToast.showToast(AddUpdateLeadActivity.this, t.getMessage());
+                }
+            });
+        }
     }
 
     public void disableViews() {
@@ -629,6 +689,15 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
                 downloadFile(leadDetailForDownload, responseBodyForDownload);
                 leadDetailForDownload = null;
                 responseBodyForDownload = null;
+                break;
+            case REQUEST_CODE_CALENDAR_WRITE:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED)
+                    calendarHelper.insertEventDirectly(this, REQUEST_CODE_CALENDAR_WRITE);
+                else {
+                    ShowToast.showToast(this, "This lead will not be added to your Calendar");
+                    saveLead();
+                }
+                break;
         }
     }
 

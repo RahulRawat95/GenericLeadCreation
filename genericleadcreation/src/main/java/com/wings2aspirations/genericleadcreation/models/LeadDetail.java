@@ -1,13 +1,20 @@
 package com.wings2aspirations.genericleadcreation.models;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.wings2aspirations.genericleadcreation.R;
 import com.wings2aspirations.genericleadcreation.activity.ListLeadsActivity;
+import com.wings2aspirations.genericleadcreation.repository.CalendarHelper;
 
 import java.text.ParseException;
+import java.util.Calendar;
 import java.util.Date;
 
-public class LeadDetail {
+public class LeadDetail implements CalendarHelper.CalendarInstance{
     @SerializedName("ID")
     @Expose
     private int ID;
@@ -224,5 +231,50 @@ public class LeadDetail {
                 EMP_NAME,
                 DATE_VC};
         return columnData;
+    }
+
+    @Override
+    public long getFromDate(Context context) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(getDate());
+        calendar.add(Calendar.DATE, -1);
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+
+        try {
+            String values[] = sharedPreferences.getString(context.getString(R.string.key_remind_at_time), "18:00").split(":");
+
+            calendar.set(Calendar.HOUR, Integer.parseInt(values[0]));
+            calendar.set(Calendar.MINUTE, Integer.parseInt(values[1]));
+        } catch (Exception e) {
+            calendar.set(Calendar.HOUR, 18);
+            calendar.set(Calendar.MINUTE, 0);
+        }
+        return calendar.getTimeInMillis();
+    }
+
+    @Override
+    public long getToDate(Context context) {
+        return getFromDate(context) + 900000;
+    }
+
+    @Override
+    public String getTitle() {
+        return "Follow up with " + COMPANY_NAME;
+    }
+
+    @Override
+    public String getDescription() {
+        return CONTACT_PERSON + ", " + MOBILE_NO + " , " + LEAD_REMARKS;
+    }
+
+    @Override
+    public String getLocation() {
+        return ADDRESS;
+    }
+
+    @Override
+    public String getEmails() {
+        return EMAIL;
     }
 }
