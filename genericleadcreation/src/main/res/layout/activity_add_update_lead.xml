@@ -28,17 +28,27 @@
                     android:paddingRight="@dimen/edit_text_padding_top"
                     android:src="@drawable/domain" />
 
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="#cccccc" />
+
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/text_input_bottom_margin"
-                    android:layout_marginTop="@dimen/text_input_margin_top"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:gravity="center_vertical">
 
                     <android.support.design.widget.TextInputEditText
                         android:id="@+id/customer_name_et"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/edit_text_height"
+                        android:gravity="center_vertical"
                         android:hint="@string/customer_name_label"
                         android:inputType="text"
                         android:paddingTop="@dimen/edit_text_padding_top"
@@ -58,17 +68,26 @@
                     android:paddingRight="@dimen/edit_text_padding_top"
                     android:src="@drawable/account" />
 
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="#cccccc" />
+
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_marginBottom="@dimen/text_input_bottom_margin"
-                    android:layout_marginTop="@dimen/text_input_margin_top"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:gravity="center_vertical">
 
                     <android.support.design.widget.TextInputEditText
                         android:id="@+id/contact_person_et"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/edit_text_height"
+                        android:gravity="center_vertical"
                         android:hint="@string/contact_person_label"
                         android:inputType="text"
                         android:paddingTop="@dimen/edit_text_padding_top"
@@ -88,20 +107,29 @@
                     android:paddingRight="@dimen/edit_text_padding_top"
                     android:src="@drawable/email" />
 
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="#cccccc" />
+
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_marginBottom="@dimen/text_input_bottom_margin"
-                    android:layout_marginTop="@dimen/text_input_margin_top"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:gravity="center_vertical">
 
                     <android.support.design.widget.TextInputEditText
                         android:id="@+id/email_address_et"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/edit_text_height"
+                        android:gravity="center_vertical"
                         android:hint="@string/email_address_label"
                         android:inputType="textEmailAddress"
-                        android:paddingTop="@dimen/edit_text_padding_top"
                         android:textSize="@dimen/text_size" />
                 </android.support.design.widget.TextInputLayout>
             </LinearLayout>
@@ -118,18 +146,27 @@
                     android:paddingRight="@dimen/edit_text_padding_top"
                     android:src="@drawable/cellphone" />
 
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="#cccccc" />
+
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/text_input_bottom_margin"
-                    android:layout_marginTop="@dimen/text_input_margin_top"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:gravity="center_vertical">
 
                     <android.support.design.widget.TextInputEditText
                         android:id="@+id/mobile_no_et"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/edit_text_height"
                         android:digits="0123456789"
+                        android:gravity="center_vertical"
                         android:hint="@string/mobile_no_label"
                         android:inputType="phone"
                         android:maxLength="10"
@@ -150,17 +187,26 @@
                     android:paddingRight="@dimen/edit_text_padding_top"
                     android:src="@drawable/map_marker" />
 
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="#cccccc" />
+
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_marginBottom="@dimen/text_input_bottom_margin"
-                    android:layout_marginTop="@dimen/text_input_margin_top"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:gravity="center_vertical">
 
                     <android.support.design.widget.TextInputEditText
                         android:id="@+id/address_et"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="@dimen/edit_text_height"
+                        android:gravity="center_vertical"
                         android:hint="@string/address_label"
                         android:inputType="textMultiLine"
                         android:maxLines="5"
@@ -181,17 +227,26 @@
                     android:paddingRight="@dimen/edit_text_padding_top"
                     android:src="@drawable/textbox_password" />
 
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="#cccccc" />
+
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/text_input_bottom_margin"
-                    android:layout_marginTop="@dimen/text_input_margin_top"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:gravity="center_vertical">
 
                     <android.support.design.widget.TextInputEditText
                         android:id="@+id/pin_code_et"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/edit_text_height"
+                        android:gravity="center_vertical"
                         android:hint="@string/pin_code_label"
                         android:inputType="number"
                         android:maxLength="6"
@@ -212,17 +267,26 @@
                     android:paddingRight="@dimen/edit_text_padding_top"
                     android:src="@drawable/comment" />
 
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="#cccccc" />
+
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_marginBottom="@dimen/text_input_bottom_margin"
-                    android:layout_marginTop="@dimen/text_input_margin_top"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:gravity="center_vertical">
 
                     <android.support.design.widget.TextInputEditText
                         android:id="@+id/customer_remarks_et"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="@dimen/edit_text_height"
+                        android:gravity="center_vertical"
                         android:hint="@string/customer_remarks_label"
                         android:inputType="textMultiLine"
                         android:maxLines="5"
@@ -243,17 +307,26 @@
                     android:paddingRight="@dimen/edit_text_padding_top"
                     android:src="@drawable/comment_text" />
 
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="#cccccc" />
+
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_marginBottom="@dimen/text_input_bottom_margin"
-                    android:layout_marginTop="@dimen/text_input_margin_top"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:gravity="center_vertical">
 
                     <android.support.design.widget.TextInputEditText
                         android:id="@+id/lead_remarks_et"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="@dimen/edit_text_height"
+                        android:gravity="center_vertical"
                         android:hint="@string/lead_remarks_label"
                         android:inputType="textMultiLine"
                         android:maxLines="5"
@@ -266,7 +339,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/text_input_bottom_margin"
-                android:layout_marginTop="@dimen/text_input_margin_top"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -276,22 +348,32 @@
                     android:paddingRight="@dimen/edit_text_padding_top"
                     android:src="@drawable/calendar" />
 
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="#cccccc" />
+
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center_vertical"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:gravity="center_vertical">
 
                     <android.support.design.widget.TextInputEditText
                         android:id="@+id/next_follow_up_date_et"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/edit_text_height"
                         android:focusable="false"
+                        android:gravity="center_vertical"
                         android:hint="@string/next_follow_up_date_label"
                         android:inputType="none"
-                        android:paddingTop="@dimen/edit_text_padding_top"
-                        android:textSize="@dimen/text_size" />
+                        android:paddingTop="@dimen/edit_text_padding_top" />
                 </android.support.design.widget.TextInputLayout>
+
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -301,21 +383,30 @@
                     android:paddingRight="@dimen/edit_text_padding_top"
                     android:src="@drawable/clock" />
 
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="#cccccc" />
+
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center_vertical"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:gravity="center_vertical">
 
                     <android.support.design.widget.TextInputEditText
                         android:id="@+id/next_follow_up_time_et"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/edit_text_height"
                         android:focusable="false"
+                        android:gravity="center_vertical"
                         android:hint="@string/next_follow_up_time_label"
                         android:inputType="none"
-                        android:paddingTop="@dimen/edit_text_padding_top"
-                        android:textSize="@dimen/text_size" />
+                        android:paddingTop="@dimen/edit_text_padding_top" />
                 </android.support.design.widget.TextInputLayout>
 
             </LinearLayout>
@@ -324,7 +415,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/text_input_bottom_margin"
-                android:layout_marginTop="@dimen/text_input_margin_top"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -377,14 +467,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/map_height"
                 android:layout_marginBottom="@dimen/text_input_bottom_margin"
-                android:layout_marginTop="@dimen/text_input_margin_top"
+
                 tools:context=".activity.AddUpdateLeadActivity" />-->
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/text_input_bottom_margin"
-                android:layout_marginTop="@dimen/text_input_margin_top"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
