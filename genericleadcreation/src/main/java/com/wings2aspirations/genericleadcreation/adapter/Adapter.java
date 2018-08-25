@@ -136,7 +136,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> implements
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = AddUpdateLeadActivity.getLeadIntent(context, lead.getEMP_NAME(), lead.getEMP_ID(), lead.getID());
+                    Intent intent = AddUpdateLeadActivity.getLeadIntent(context, lead.getEMP_NAME(), lead.getEMP_ID(), lead.getID(), false);
                     context.startActivity(intent);
                 }
             });

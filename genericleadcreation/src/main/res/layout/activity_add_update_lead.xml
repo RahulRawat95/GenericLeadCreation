@@ -4,10 +4,10 @@
     android:layout_height="match_parent">
 
     <android.support.v4.widget.NestedScrollView
-        android:padding="@dimen/padding_default"
         android:id="@+id/nested_scroll_view_nsv"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:padding="@dimen/padding_default">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -22,23 +22,15 @@
 
                 <ImageView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center_vertical"
                     android:paddingRight="@dimen/edit_text_padding_top"
                     android:src="@drawable/domain" />
 
 
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="10dp"
-                    android:background="#cccccc" />
-
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_marginBottom="@dimen/text_input_bottom_margin"
                     android:layout_weight="1"
                     android:gravity="center_vertical">
@@ -62,18 +54,10 @@
 
                 <ImageView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center_vertical"
                     android:paddingRight="@dimen/edit_text_padding_top"
                     android:src="@drawable/account" />
-
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="10dp"
-                    android:background="#cccccc" />
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="0dp"
@@ -101,19 +85,11 @@
 
                 <ImageView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center_vertical"
                     android:paddingRight="@dimen/edit_text_padding_top"
                     android:src="@drawable/email" />
 
-
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="10dp"
-                    android:background="#cccccc" />
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="0dp"
@@ -140,18 +116,10 @@
 
                 <ImageView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center_vertical"
                     android:paddingRight="@dimen/edit_text_padding_top"
                     android:src="@drawable/cellphone" />
-
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="10dp"
-                    android:background="#cccccc" />
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="0dp"
@@ -181,18 +149,10 @@
 
                 <ImageView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center_vertical"
                     android:paddingRight="@dimen/edit_text_padding_top"
                     android:src="@drawable/map_marker" />
-
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="10dp"
-                    android:background="#cccccc" />
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="0dp"
@@ -221,18 +181,10 @@
 
                 <ImageView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center_vertical"
                     android:paddingRight="@dimen/edit_text_padding_top"
                     android:src="@drawable/textbox_password" />
-
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="10dp"
-                    android:background="#cccccc" />
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="0dp"
@@ -261,18 +213,10 @@
 
                 <ImageView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center_vertical"
                     android:paddingRight="@dimen/edit_text_padding_top"
                     android:src="@drawable/comment" />
-
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="10dp"
-                    android:background="#cccccc" />
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="0dp"
@@ -301,18 +245,10 @@
 
                 <ImageView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center_vertical"
                     android:paddingRight="@dimen/edit_text_padding_top"
                     android:src="@drawable/comment_text" />
-
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="10dp"
-                    android:background="#cccccc" />
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="0dp"
@@ -334,6 +270,7 @@
                 </android.support.design.widget.TextInputLayout>
             </LinearLayout>
 
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -342,18 +279,10 @@
 
                 <ImageView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center_vertical"
                     android:paddingRight="@dimen/edit_text_padding_top"
                     android:src="@drawable/calendar" />
-
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="10dp"
-                    android:background="#cccccc" />
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="0dp"
@@ -373,22 +302,13 @@
                         android:paddingTop="@dimen/edit_text_padding_top" />
                 </android.support.design.widget.TextInputLayout>
 
-
                 <ImageView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center_vertical"
                     android:paddingLeft="@dimen/edit_text_padding_top"
                     android:paddingRight="@dimen/edit_text_padding_top"
                     android:src="@drawable/clock" />
-
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="10dp"
-                    android:background="#cccccc" />
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="0dp"
@@ -418,21 +338,80 @@
 
                 <ImageView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:paddingRight="@dimen/edit_text_padding_top"
+                    android:src="@drawable/calendar" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/date_of_birth_et"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/edit_text_height"
+                        android:focusable="false"
+                        android:gravity="center_vertical"
+                        android:hint="@string/date_of_birth_label"
+                        android:inputType="none"
+                        android:paddingTop="@dimen/edit_text_padding_top" />
+                </android.support.design.widget.TextInputLayout>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:paddingRight="@dimen/edit_text_padding_top"
+                    android:src="@drawable/calendar" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/marriage_aniv_et"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/edit_text_height"
+                        android:focusable="false"
+                        android:gravity="center_vertical"
+                        android:hint="@string/marriage_anniversary_label"
+                        android:inputType="none"
+                        android:paddingTop="@dimen/edit_text_padding_top" />
+                </android.support.design.widget.TextInputLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/text_input_bottom_margin"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center_vertical"
                     android:paddingRight="@dimen/edit_text_padding_top"
                     android:src="@drawable/ic_snooze" />
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1">
 
                     <android.support.design.widget.TextInputEditText
                         android:id="@+id/snooze_time_et"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
                         android:hint="@string/snooze_time_label"
                         android:inputType="number"
                         android:maxLength="4"
@@ -459,7 +438,7 @@
 
                 <ImageView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center_vertical"
                     android:paddingRight="@dimen/edit_text_padding_top"
                     android:src="@drawable/type" />
@@ -472,7 +451,12 @@
                     android:text="@string/call_type_label"
                     android:textSize="@dimen/text_size" />
 
-                <RadioGroup
+                <Spinner
+                    android:id="@+id/lead_status_sp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <!--<RadioGroup
                     android:id="@+id/call_type_rg"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -499,7 +483,36 @@
                         android:layout_weight="1"
                         android:text="@string/call_type_warm_label" />
 
-                </RadioGroup>
+                </RadioGroup>-->
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/text_input_bottom_margin"
+                android:layout_marginTop="@dimen/text_input_margin_top"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:paddingRight="@dimen/edit_text_padding_top"
+                    android:src="@drawable/type" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="@dimen/edit_text_right_margin"
+                    android:gravity="center_vertical"
+                    android:text="@string/product_label"
+                    android:textSize="@dimen/text_size" />
+
+                <Spinner
+                    android:id="@+id/product_sp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
             </LinearLayout>
             <!--<fragment xmlns:tools="http://schemas.android.com/tools"
                 android:id="@+id/map"

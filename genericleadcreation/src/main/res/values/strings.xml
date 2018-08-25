@@ -8,10 +8,13 @@
     <string name="customer_remarks_label">Customer Remarks</string>
     <string name="lead_remarks_label">Lead Remarks</string>
     <string name="next_follow_up_date_label">Next Follow Up Date</string>
+    <string name="date_of_birth_label">Date of Birth</string>
+    <string name="marriage_anniversary_label">Anniversary Date</string>
     <string name="snooze_time_label">Remind Before</string>
     <string name="next_follow_up_time_label">Next Follow Up Time</string>
     <string name="call_type_label">Call Type</string>
     <string name="call_type_hot_label">Hot</string>
+    <string name="product_label">Product Status</string>
     <string name="call_type_cold_label">Cold</string>
     <string name="call_type_warm_label">Warm</string>
     <string name="title_activity_maps">Map</string>

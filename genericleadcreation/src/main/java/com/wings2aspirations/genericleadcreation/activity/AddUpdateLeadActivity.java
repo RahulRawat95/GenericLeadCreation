@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.IntentSender;
@@ -84,6 +85,7 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
     public static final String EXTRA_ARG_UPDATE_PRIMARY_ID = "argsUpdatePrimaryId";
     public static final String EXTRA_ARG_EMPLOYEE_ID = "argsEmployeeId";
     public static final String EXTRA_ARG_EMPLOYEE_NAME = "argsEmployeeName";
+    public static final String EXTRA_ARG_FOLLOW_UP_ID = "argsFollowUpId";
 
     public static final int REQUEST_CODE_LOCATION_PERMISSION = 2;
     public static final int REQUEST_CODE_STORAGE_CAMERA = 3;
@@ -108,6 +110,7 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
     private Location location;
 
     private long updateId = -1;
+    private long followUpId = -1;
 
     private ApiInterface apiInterface;
 
@@ -121,10 +124,11 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
     private TextInputEditText leadRemarksEt;
     private TextInputEditText nextFollowUpDateEt;
     private TextInputEditText nextFollowUpTimeEt, snoozeTimeEt;
-    private RadioGroup callTypeRg;
-    private RadioButton callTypeHotRb;
-    private RadioButton callTypeColdRb;
-    private RadioButton callTypeWarmRb;
+    //private RadioGroup callTypeRg;
+    //private RadioButton callTypeHotRb;
+    //private RadioButton callTypeColdRb;
+    //private RadioButton callTypeWarmRb;
+    private Spinner productSp, statusSp;
     private FloatingActionButton cameraBt;
     private TextView fileNameTv;
     private FloatingActionButton saveBt;
@@ -156,11 +160,11 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
         return intent;
     }
 
-    public static Intent getLeadIntent(Context context, String name, int empId, int id) {
+    public static Intent getLeadIntent(Context context, String name, int empId, int id, boolean followUp) {
         Intent intent = new Intent(context, AddUpdateLeadActivity.class);
         intent.putExtra(EXTRA_ARG_EMPLOYEE_NAME, name);
         intent.putExtra(EXTRA_ARG_EMPLOYEE_ID, empId);
-        intent.putExtra(EXTRA_ARG_UPDATE_PRIMARY_ID, id);
+        intent.putExtra(followUp ? EXTRA_ARG_FOLLOW_UP_ID : EXTRA_ARG_UPDATE_PRIMARY_ID, id);
         return intent;
     }
 
@@ -205,7 +209,14 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
         fileNameTv = (TextView) findViewById(R.id.file_name_tv);
         saveBt = (FloatingActionButton) findViewById(R.id.save_bt);
 
+        productSp = findViewById(R.id.product_sp);
+        statusSp = findViewById(R.id.lead_status_sp);
+
         progressLayout = findViewById(R.id.progress_bar);
+
+        nextFollowUpDateEt.setHint(ListLeadsActivity.simpleDateFormat.format(new Date()));
+
+        timeUnitSp.setSelection(2);
 
         callTypeHotRb.setOnClickListener(this);
         callTypeColdRb.setOnClickListener(this);
@@ -327,6 +338,8 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
         jsonObject.addProperty("EMP_ID", empId);
         jsonObject.addProperty("EMP_NAME", empName);
         jsonObject.addProperty("DATE_VC", ListLeadsActivity.simpleDateFormat.format(new Date()));
+        jsonObject.addProperty("PRODUCT_VC", productSp.getSelectedItem());
+        jsonObject.addProperty("PARENT_ID", followUpId);
         if (updateId >= 0) {
             jsonObject.addProperty("ID", updateId);
         } else {
@@ -383,6 +396,24 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_update_lead);
+
+        saveAlertDialog = new AlertDialog.Builder(this)
+                .setMessage("Do you want to Exit without saving the Data")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        AddUpdateLeadActivity.super.onBackPressed();
+                        dialog.dismiss();
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        saveBt.callOnClick();
+                        dialog.dismiss();
+                    }
+                })
+                .create();
 
         if (!getIntent().hasExtra(EXTRA_ARG_EMPLOYEE_ID)) {
             ShowToast.showToast(this, "Please Specify Employee Id");
@@ -490,6 +521,41 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
                                 }
                             }
                         });
+                    }
+
+                    @Override
+                    public void onFailure(Call<LeadDetail> call, Throwable t) {
+                        hideProgress();
+                    }
+                });
+            }
+        }
+
+        if (getIntent().hasExtra(EXTRA_ARG_FOLLOW_UP_ID)) {
+            isAdmin = false;
+            followUpId = getIntent().getIntExtra(EXTRA_ARG_UPDATE_PRIMARY_ID, -1);
+            if (followUpId <= 0) {
+                ShowToast.showToast(this, "Follow Up id is <= 0");
+                finish();
+                return;
+            }
+            if (followUpId > 0) {
+                showProgress();
+                apiInterface.getLeadById(followUpId).enqueue(new Callback<LeadDetail>() {
+                    @Override
+                    public void onResponse(Call<LeadDetail> call, Response<LeadDetail> response) {
+                        hideProgress();
+                        if (!response.isSuccessful()) {
+                            return;
+                        }
+                        final LeadDetail leadDetail = response.body();
+                        customerNameEt.setText(leadDetail.getCOMPANY_NAME());
+                        contactPersonEt.setText(leadDetail.getCONTACT_PERSON());
+                        emailAddressEt.setText(leadDetail.getEMAIL());
+                        mobileNoEt.setText(leadDetail.getMOBILE_NO());
+                        addressEt.setText(leadDetail.getADDRESS());
+                        pinCodeEt.setText(leadDetail.getPIN_CODE());
+
                     }
 
                     @Override
@@ -922,5 +988,26 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
 
     private void focusView(TextInputEditText textInputEditText) {
         textInputEditText.getParent().requestChildFocus(textInputEditText, textInputEditText);
+    }
+
+    private boolean doesNotNeedSaving() {
+        return isEmpty(customerNameEt) &&
+                isEmpty(contactPersonEt) &&
+                isEmpty(emailAddressEt) &&
+                isEmpty(mobileNoEt) &&
+                isEmpty(addressEt) &&
+                isEmpty(pinCodeEt) &&
+                isEmpty(nextFollowUpDateEt) &&
+                isEmpty(nextFollowUpTimeEt) &&
+                TextUtils.isEmpty(selectedRadioButtonValue);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (doesNotNeedSaving() || isAdmin) {
+            super.onBackPressed();
+        } else {
+            saveAlertDialog.show();
+        }
     }
 }
