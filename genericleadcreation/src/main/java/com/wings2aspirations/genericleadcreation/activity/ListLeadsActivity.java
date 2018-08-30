@@ -15,6 +15,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -184,21 +185,14 @@ public class ListLeadsActivity extends AppCompatActivity implements Adapter.Prog
 
     private void refineDetalisList() {
         refineDetails = new ArrayList<>();
-        int isSameFound;
+        SparseArray<LeadDetail> sparseArray = new SparseArray<>();
+        LeadDetail leadDetail;
         for (int i = 0; i < details.size(); i++) {
-            if (refineDetails.size() == 0) {
-                refineDetails.add(details.get(i));
-            } else {
-                isSameFound = -1;
-                for (int j = 0; j < refineDetails.size(); j++) {
-                    if (refineDetails.get(j).getCHILD_FOLLOW_UP_ID() == details.get(i).getCHILD_FOLLOW_UP_ID())
-                        isSameFound = j;
-                }
-                if (isSameFound != -1)
-                    refineDetails.set(isSameFound, details.get(i));
-                else
-                    refineDetails.add(details.get(i));
-            }
+            leadDetail = details.get(i);
+            sparseArray.put(leadDetail.getCHILD_FOLLOW_UP_ID(), leadDetail);
+        }
+        for(int i=0;i<sparseArray.size();i++){
+            refineDetails.add(sparseArray.get(sparseArray.keyAt(i)));
         }
 
 
@@ -446,21 +440,6 @@ public class ListLeadsActivity extends AppCompatActivity implements Adapter.Prog
                     Intent intent = AddUpdateLeadActivity.getLeadIntent(ListLeadsActivity.this, empName, empId);
                     startActivity(intent);
                 }
-            }
-        });
-
-        apiInterface.getCityList().enqueue(new Callback<List<City>>() {
-            @Override
-            public void onResponse(Call<List<City>> call, Response<List<City>> response) {
-                if (!response.isSuccessful()) {
-                    return;
-                }
-                Constants.setCities(response.body());
-            }
-
-            @Override
-            public void onFailure(Call<List<City>> call, Throwable t) {
-
             }
         });
     }

@@ -78,6 +78,9 @@ public class LeadDetail implements CalendarHelper.CalendarInstance {
     @SerializedName("MARRIAGE_DATE_VC")
     @Expose
     private String MARRIAGE_DATE_VC;
+    @SerializedName("CITY_NAME_VC")
+    @Expose
+    private String CITY_NAME_VC;
 
 
     public int getID() {
@@ -248,7 +251,13 @@ public class LeadDetail implements CalendarHelper.CalendarInstance {
         this.MARRIAGE_DATE_VC = MARRIAGE_DATE_VC;
     }
 
+    public String getCITY_NAME_VC() {
+        return CITY_NAME_VC;
+    }
 
+    public void setCITY_NAME_VC(String CITY_NAME_VC) {
+        this.CITY_NAME_VC = CITY_NAME_VC;
+    }
 
     private Date date;
 

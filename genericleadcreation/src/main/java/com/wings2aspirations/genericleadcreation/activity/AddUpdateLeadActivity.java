@@ -417,6 +417,7 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
         jsonObject.addProperty("PARENT_ID", followUpId);
         jsonObject.addProperty("DATE_OF_BIRTH_VC", dobDateEt.getText().toString());
         jsonObject.addProperty("MARRIAGE_DATE_VC", marriageDateEt.getText().toString());
+        jsonObject.addProperty("CITY_NAME_VC", cityTv.getText().toString());
         if (updateId >= 0) {
             jsonObject.addProperty("ID", updateId);
         } else {
@@ -559,8 +560,8 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
                         leadRemarksEt.setText(leadDetail.getLEAD_REMARKS());
                         nextFollowUpDateEt.setText(leadDetail.getNEXT_FOLLOW_UP_DATE());
                         nextFollowUpTimeEt.setText(leadDetail.getNEXT_FOLLOW_UP_TIME());
-                        switch (leadDetail.getCALL_TYPE()) {
-                           /* case "Hot":
+                        /*switch (leadDetail.getCALL_TYPE()) {
+                           *//* case "Hot":
                                 callTypeHotRb.setChecked(true);
                                 break;
                             case "Cold":
@@ -568,8 +569,11 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
                                 break;
                             case "Warm":
                                 callTypeWarmRb.setChecked(true);
-                                break;*/
-                        }
+                                break;*//*
+                        }*/
+                        productSp.setText(leadDetail.getPRODUCT_VC());
+                        statusSp.setText(leadDetail.getCALL_TYPE());
+                        cityTv.setText(leadDetail.getCITY_NAME_VC());
                         fileNameTv.setText("Buisness Card.jpg");
                         fileNameTv.setOnClickListener(new View.OnClickListener() {
 
@@ -635,6 +639,7 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
                         pinCodeEt.setText(leadDetail.getPIN_CODE());
                         dobDateEt.setText(leadDetail.getDATE_OF_BIRTH_VC());
                         marriageDateEt.setText(leadDetail.getMARRIAGE_DATE_VC());
+                        cityTv.setText(leadDetail.getCITY_NAME_VC());
 
                     }
 
@@ -1097,6 +1102,7 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
         pinCodeEt.setError(null);
         nextFollowUpDateEt.setError(null);
         nextFollowUpTimeEt.setError(null);
+        cityTv.setError(null);
 
         if (isEmpty(customerNameEt)) {
             customerNameEt.setError("Required");
@@ -1130,7 +1136,11 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
             nextFollowUpTimeEt.setError("Required");
             return false;
         }
-        if (TextUtils.isEmpty(statusSp.getText().toString())) {
+        if (TextUtils.isEmpty(cityTv.getText())) {
+            cityTv.setError("Required");
+            return false;
+        }
+        if (TextUtils.isEmpty(statusSp.getText())) {
             ShowToast.showToast(AddUpdateLeadActivity.this, R.string.select_call_type_error);
             return false;
         }
@@ -1177,8 +1187,9 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
                 isEmpty(pinCodeEt) &&
                 isEmpty(nextFollowUpDateEt) &&
                 isEmpty(nextFollowUpTimeEt) &&
-                TextUtils.isEmpty(statusSp.getText().toString()) &&
-                TextUtils.isEmpty(productSp.getText().toString());
+                TextUtils.isEmpty(statusSp.getText()) &&
+                TextUtils.isEmpty(productSp.getText())&&
+                TextUtils.isEmpty(cityTv.getText());
     }
 
     @Override
