@@ -23,8 +23,8 @@ import java.util.List;
 public class OptionItemAdapter extends RecyclerView.Adapter<OptionItemAdapter.OptionItemViewHolder> implements Filterable {
 
     private Context context;
-    private List<ItemModel> itemModels;
-    private List<ItemModel> itemModelsFiltered;
+    private List<? extends ItemModel> itemModels;
+    private List<? extends ItemModel> itemModelsFiltered;
     private ItemClickCallBack itemClickCallBack;
 
 
@@ -32,7 +32,7 @@ public class OptionItemAdapter extends RecyclerView.Adapter<OptionItemAdapter.Op
         public void callBack(ItemModel itemModel);
     }
 
-    public OptionItemAdapter(Context context, List<ItemModel> itemModels, ItemClickCallBack itemClickCallBack) {
+    public OptionItemAdapter(Context context, List<? extends ItemModel> itemModels, ItemClickCallBack itemClickCallBack) {
         this.context = context;
         this.itemModels = itemModels;
         this.itemModelsFiltered = itemModels;

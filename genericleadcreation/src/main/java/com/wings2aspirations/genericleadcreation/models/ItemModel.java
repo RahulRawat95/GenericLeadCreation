@@ -3,7 +3,7 @@ package com.wings2aspirations.genericleadcreation.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class ItemModel {
+public class ItemModel{
     @SerializedName("ITEM_ID")
     @Expose
     private Integer iTEMID;

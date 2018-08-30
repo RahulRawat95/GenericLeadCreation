@@ -25,7 +25,9 @@ import java.util.List;
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
 public class ShowOptionSelectionDialog {
-
+    public static final int TYPE_PRODUCT = 0;
+    public static final int TYPE_STATUS = 1;
+    public static final int TYPE_CITY = 2;
 
     public static AlertDialog showOptionItemListDialog;
     public static BottomSheetDialog globalMessageDialog;
@@ -34,8 +36,7 @@ public class ShowOptionSelectionDialog {
         void callBack(String optionSelected);
     }
 
-
-    public static void showDialog(final Context mContext, final boolean isProduct, List<ItemModel> itemModelList, final OptionSelectionCallBack optionSelectionCallBack) {
+    public static void showDialog(final Context mContext, final int dialogType, List<? extends ItemModel> itemModelList, final OptionSelectionCallBack optionSelectionCallBack) {
         //creating alertDialog builder
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext, R.style.DialogTheme);
         //creating layoutInflater instance to inflate a layout for the alert dialog
@@ -57,12 +58,20 @@ public class ShowOptionSelectionDialog {
         RelativeLayout showListContainer = optionListView.findViewById(R.id.showListContainer);
         LinearLayout addNewItemContainer = optionListView.findViewById(R.id.addNewItemContainer);
 
-        EditText add_new_item_et = optionListView.findViewById(R.id.add_new_item_et);
+        final EditText add_new_item_et = optionListView.findViewById(R.id.add_new_item_et);
         TextView add_new_item_tv = optionListView.findViewById(R.id.add_new_item_tv);
 
-        if (isProduct)
-            itemTagTV.setText("Product List");
-        else itemTagTV.setText("Status List");
+        switch (dialogType) {
+            case TYPE_PRODUCT:
+                itemTagTV.setText("Product List");
+                break;
+            case TYPE_STATUS:
+                itemTagTV.setText("Status List");
+                break;
+            case TYPE_CITY:
+                itemTagTV.setText("City List");
+                break;
+        }
 
         RecyclerView itemListRV = optionListView.findViewById(R.id.item_list_rv);
 
@@ -97,9 +106,17 @@ public class ShowOptionSelectionDialog {
             });
         } else {
             itemListRV.setVisibility(View.GONE);
-            if (isProduct)
-                no_item_found.setText("No product found");
-            else no_item_found.setText("No status found");
+            switch (dialogType) {
+                case TYPE_PRODUCT:
+                    no_item_found.setText("No product found");
+                    break;
+                case TYPE_STATUS:
+                    no_item_found.setText("No status found");
+                    break;
+                case TYPE_CITY:
+                    no_item_found.setText("No City Found");
+                    break;
+            }
 
             showListContainer.setVisibility(View.GONE);
             no_item_found.setVisibility(View.VISIBLE);
@@ -115,9 +132,17 @@ public class ShowOptionSelectionDialog {
         fab_add_item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (isProduct)
-                    add_new_item_tag.setText("Add New Product");
-                else add_new_item_tag.setText("Add New Status");
+                switch (dialogType) {
+                    case TYPE_PRODUCT:
+                        add_new_item_tag.setText("Add New Product");
+                        break;
+                    case TYPE_STATUS:
+                        add_new_item_tag.setText("Add New Status");
+                        break;
+                    case TYPE_CITY:
+                        add_new_item_tag.setText("Add New City");
+                        break;
+                }
 
             }
         });

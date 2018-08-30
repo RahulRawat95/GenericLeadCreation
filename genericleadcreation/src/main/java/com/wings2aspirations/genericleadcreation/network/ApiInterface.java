@@ -3,7 +3,10 @@ package com.wings2aspirations.genericleadcreation.network;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.wings2aspirations.genericleadcreation.models.AuthorisationToken;
+import com.wings2aspirations.genericleadcreation.models.City;
 import com.wings2aspirations.genericleadcreation.models.LeadDetail;
+
+import java.util.List;
 
 import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
@@ -54,5 +57,8 @@ public interface ApiInterface {
 
     @GET("/getTrialLeadById/")
     Call<JsonArray> getTrialLeadById(@Query("CHILD_FOLLOW_UP_ID") long CHILD_FOLLOW_UP_ID);
+
+    @GET("/getCities/")
+    Call<List<City>> getCityList();
 
 }

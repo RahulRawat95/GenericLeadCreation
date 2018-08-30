@@ -59,6 +59,7 @@ import com.wings2aspirations.genericleadcreation.network.ApiInterface;
 import com.wings2aspirations.genericleadcreation.reciever.GpsStatusListener;
 import com.wings2aspirations.genericleadcreation.reciever.LocationUpdatesBroadcastReceiver;
 import com.wings2aspirations.genericleadcreation.repository.CalendarHelper;
+import com.wings2aspirations.genericleadcreation.repository.Constants;
 import com.wings2aspirations.genericleadcreation.repository.ShowOptionSelectionDialog;
 import com.wings2aspirations.genericleadcreation.repository.ShowToast;
 import com.wings2aspirations.genericleadcreation.repository.Utility;
@@ -84,6 +85,10 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static com.wings2aspirations.genericleadcreation.repository.ShowOptionSelectionDialog.TYPE_CITY;
+import static com.wings2aspirations.genericleadcreation.repository.ShowOptionSelectionDialog.TYPE_PRODUCT;
+import static com.wings2aspirations.genericleadcreation.repository.ShowOptionSelectionDialog.TYPE_STATUS;
 
 public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapReadyCallback,
         View.OnClickListener,
@@ -138,7 +143,7 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
     //private RadioButton callTypeHotRb;
     //private RadioButton callTypeColdRb;
     //private RadioButton callTypeWarmRb;
-    private TextView productSp, statusSp;
+    private TextView productSp, statusSp, cityTv;
     private FloatingActionButton cameraBt;
     private TextView fileNameTv;
     private FloatingActionButton saveBt;
@@ -224,6 +229,8 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
         fileNameTv = (TextView) findViewById(R.id.file_name_tv);
         saveBt = (FloatingActionButton) findViewById(R.id.save_bt);
 
+        cityTv = findViewById(R.id.city_tv);
+
         snoozeTimeEt = findViewById(R.id.snooze_time_et);
 
         productSp = findViewById(R.id.product_sp);
@@ -235,7 +242,7 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
 
         Calendar calendar = Calendar.getInstance();
         nextFollowUpTimeEt.setHint(calendar.get(Calendar.HOUR_OF_DAY) + ":" + calendar.get(Calendar.MINUTE));
-//todo
+
         timeUnitSp = findViewById(R.id.snooze_time_sp);
         timeUnitSp.setSelection(2);
 
@@ -249,6 +256,12 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
 
         dobDateEt.setOnClickListener(this);
         marriageDateEt.setOnClickListener(this);
+
+        productSp.setOnClickListener(this);
+
+        statusSp.setOnClickListener(this);
+
+        cityTv.setOnClickListener(this);
 
         leadRemarksEt.setOnTouchListener(touchListener);
         customerRemarksEt.setOnTouchListener(touchListener);
@@ -334,6 +347,12 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
             Utility.showDatePickerDialog(this, dobDateEt, null, Calendar.getInstance().getTime(), new Date());
         } else if (v == marriageDateEt) {
             Utility.showDatePickerDialog(this, marriageDateEt, null, null, new Date());
+        } else if (v == productSp) {
+            callShowOptionList(TYPE_PRODUCT, itemModelsListProduct);
+        } else if (v == statusSp) {
+            callShowOptionList(TYPE_STATUS, itemModelsListStatus);
+        } else if (v == cityTv) {
+            callShowOptionList(TYPE_CITY, Constants.getCities());
         }
     }
 
@@ -660,38 +679,23 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
             }
 
         getProductList();
-
-        productSp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                callShowOptionList(true);
-            }
-        });
-
-        statusSp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                callShowOptionList(false);
-            }
-        });
     }
 
-    private void callShowOptionList(final boolean fromProduct) {
-
-        List<ItemModel> itemModelsList = new ArrayList<ItemModel>();
-        if (fromProduct)
-            itemModelsList = itemModelsListProduct;
-        else
-            itemModelsList = itemModelsListStatus;
-
-        ShowOptionSelectionDialog.showDialog(AddUpdateLeadActivity.this, fromProduct, itemModelsList, new ShowOptionSelectionDialog.OptionSelectionCallBack() {
+    private void callShowOptionList(final int type, List<? extends ItemModel> itemModelsList) {
+        ShowOptionSelectionDialog.showDialog(AddUpdateLeadActivity.this, type, itemModelsList, new ShowOptionSelectionDialog.OptionSelectionCallBack() {
             @Override
             public void callBack(String optionSelected) {
-                if (fromProduct)
-                    productSp.setText(optionSelected);
-                else
-                    statusSp.setText(optionSelected);
-
+                switch (type) {
+                    case TYPE_PRODUCT:
+                        productSp.setText(optionSelected);
+                        break;
+                    case TYPE_STATUS:
+                        statusSp.setText(optionSelected);
+                        break;
+                    case TYPE_CITY:
+                        cityTv.setText(optionSelected);
+                        break;
+                }
             }
         });
     }

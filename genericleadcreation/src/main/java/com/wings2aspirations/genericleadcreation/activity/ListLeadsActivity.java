@@ -33,10 +33,12 @@ import com.google.gson.reflect.TypeToken;
 import com.wings2aspirations.genericleadcreation.R;
 import com.wings2aspirations.genericleadcreation.adapter.Adapter;
 import com.wings2aspirations.genericleadcreation.models.AuthorisationToken;
+import com.wings2aspirations.genericleadcreation.models.City;
 import com.wings2aspirations.genericleadcreation.models.LeadDetail;
 import com.wings2aspirations.genericleadcreation.network.ApiClient;
 import com.wings2aspirations.genericleadcreation.network.ApiInterface;
 import com.wings2aspirations.genericleadcreation.repository.CalendarHelper;
+import com.wings2aspirations.genericleadcreation.repository.Constants;
 import com.wings2aspirations.genericleadcreation.repository.ExcelCreator;
 import com.wings2aspirations.genericleadcreation.repository.ShowToast;
 import com.wings2aspirations.genericleadcreation.repository.Utility;
@@ -444,6 +446,21 @@ public class ListLeadsActivity extends AppCompatActivity implements Adapter.Prog
                     Intent intent = AddUpdateLeadActivity.getLeadIntent(ListLeadsActivity.this, empName, empId);
                     startActivity(intent);
                 }
+            }
+        });
+
+        apiInterface.getCityList().enqueue(new Callback<List<City>>() {
+            @Override
+            public void onResponse(Call<List<City>> call, Response<List<City>> response) {
+                if (!response.isSuccessful()) {
+                    return;
+                }
+                Constants.setCities(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<List<City>> call, Throwable t) {
+
             }
         });
     }
