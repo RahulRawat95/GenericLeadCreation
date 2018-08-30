@@ -66,6 +66,19 @@ public class LeadDetail implements CalendarHelper.CalendarInstance {
     @SerializedName("DATE_VC")
     @Expose
     private String DATE_VC;
+    @SerializedName("CHILD_FOLLOW_UP_ID")
+    @Expose
+    private Integer CHILD_FOLLOW_UP_ID;
+    @SerializedName("PRODUCT_VC")
+    @Expose
+    private String PRODUCT_VC;
+    @SerializedName("DATE_OF_BIRTH_VC")
+    @Expose
+    private String DATE_OF_BIRTH_VC;
+    @SerializedName("MARRIAGE_DATE_VC")
+    @Expose
+    private String MARRIAGE_DATE_VC;
+
 
     public int getID() {
         return ID;
@@ -202,6 +215,40 @@ public class LeadDetail implements CalendarHelper.CalendarInstance {
     public void setDATE_VC(String DATE_VC) {
         this.DATE_VC = DATE_VC;
     }
+
+    public Integer getCHILD_FOLLOW_UP_ID() {
+        return CHILD_FOLLOW_UP_ID;
+    }
+
+    public void setCHILD_FOLLOW_UP_ID(Integer CHILD_FOLLOW_UP_ID) {
+        this.CHILD_FOLLOW_UP_ID = CHILD_FOLLOW_UP_ID;
+    }
+
+    public String getPRODUCT_VC() {
+        return PRODUCT_VC;
+    }
+
+    public void setPRODUCT_VC(String PRODUCT_VC) {
+        this.PRODUCT_VC = PRODUCT_VC;
+    }
+
+    public String getDATE_OF_BIRTH_VC() {
+        return DATE_OF_BIRTH_VC;
+    }
+
+    public void setDATE_OF_BIRTH_VC(String DATE_OF_BIRTH_VC) {
+        this.DATE_OF_BIRTH_VC = DATE_OF_BIRTH_VC;
+    }
+
+    public String getMARRIAGE_DATE_VC() {
+        return MARRIAGE_DATE_VC;
+    }
+
+    public void setMARRIAGE_DATE_VC(String MARRIAGE_DATE_VC) {
+        this.MARRIAGE_DATE_VC = MARRIAGE_DATE_VC;
+    }
+
+
 
     private Date date;
 

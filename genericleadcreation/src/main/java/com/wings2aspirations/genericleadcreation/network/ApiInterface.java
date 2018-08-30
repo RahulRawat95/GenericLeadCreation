@@ -44,4 +44,15 @@ public interface ApiInterface {
 
     @GET("/getAuthToken/")
     Call<AuthorisationToken> getAuthToken(@Query("ID") int id);
+
+
+    @GET("/getProductList/")
+    Call<JsonArray> getProductList();
+
+    @GET("/getStatusList/")
+    Call<JsonArray> getStatusList();
+
+    @GET("/getTrialLeadById/")
+    Call<JsonArray> getTrialLeadById(@Query("CHILD_FOLLOW_UP_ID") long CHILD_FOLLOW_UP_ID);
+
 }

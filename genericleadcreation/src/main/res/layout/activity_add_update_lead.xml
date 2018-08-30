@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -270,6 +271,10 @@
                 </android.support.design.widget.TextInputLayout>
             </LinearLayout>
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Next Follow Up :" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -297,9 +302,8 @@
                         android:layout_height="@dimen/edit_text_height"
                         android:focusable="false"
                         android:gravity="center_vertical"
-                        android:hint="@string/next_follow_up_date_label"
                         android:inputType="none"
-                        android:paddingTop="@dimen/edit_text_padding_top" />
+                        android:padding="@dimen/edit_text_padding_top" />
                 </android.support.design.widget.TextInputLayout>
 
                 <ImageView
@@ -323,9 +327,8 @@
                         android:layout_height="@dimen/edit_text_height"
                         android:focusable="false"
                         android:gravity="center_vertical"
-                        android:hint="@string/next_follow_up_time_label"
                         android:inputType="none"
-                        android:paddingTop="@dimen/edit_text_padding_top" />
+                        android:padding="@dimen/edit_text_padding_top" />
                 </android.support.design.widget.TextInputLayout>
 
             </LinearLayout>
@@ -360,6 +363,13 @@
                         android:inputType="none"
                         android:paddingTop="@dimen/edit_text_padding_top" />
                 </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/text_input_bottom_margin"
+                android:orientation="horizontal">
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -434,27 +444,30 @@
                 android:layout_height="match_parent"
                 android:layout_marginBottom="@dimen/text_input_bottom_margin"
                 android:layout_marginTop="@dimen/text_input_margin_top"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
-                <ImageView
+                <!--<ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_gravity="center_vertical"
                     android:paddingRight="@dimen/edit_text_padding_top"
-                    android:src="@drawable/type" />
+                    android:src="@drawable/type" />-->
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginRight="@dimen/edit_text_right_margin"
                     android:gravity="center_vertical"
-                    android:text="@string/call_type_label"
-                    android:textSize="@dimen/text_size" />
+                    android:text="@string/call_type_label" />
 
-                <Spinner
+                <TextView
                     android:id="@+id/lead_status_sp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="match_parent"
+                    android:background="@drawable/edit_text_style"
+                    android:gravity="center_vertical"
+                    android:padding="10dp"
+                    android:textColor="@android:color/black" />
 
                 <!--<RadioGroup
                     android:id="@+id/call_type_rg"
@@ -491,27 +504,30 @@
                 android:layout_height="match_parent"
                 android:layout_marginBottom="@dimen/text_input_bottom_margin"
                 android:layout_marginTop="@dimen/text_input_margin_top"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center_vertical"
-                    android:paddingRight="@dimen/edit_text_padding_top"
-                    android:src="@drawable/type" />
+                <!--   <ImageView
+                       android:layout_width="wrap_content"
+                       android:layout_height="match_parent"
+                       android:layout_gravity="center_vertical"
+                       android:paddingRight="@dimen/edit_text_padding_top"
+                       android:src="@drawable/type" />-->
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginRight="@dimen/edit_text_right_margin"
                     android:gravity="center_vertical"
-                    android:text="@string/product_label"
-                    android:textSize="@dimen/text_size" />
+                    android:text="@string/product_label" />
 
-                <Spinner
+                <TextView
                     android:id="@+id/product_sp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="match_parent"
+                    android:background="@drawable/edit_text_style"
+                    android:gravity="center_vertical"
+                    android:padding="10dp"
+                    android:textColor="@android:color/black" />
 
             </LinearLayout>
             <!--<fragment xmlns:tools="http://schemas.android.com/tools"

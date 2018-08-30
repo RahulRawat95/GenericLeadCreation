@@ -26,10 +26,9 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -48,14 +47,19 @@ import com.google.android.gms.location.LocationSettingsResponse;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 import com.wings2aspirations.genericleadcreation.R;
 import com.wings2aspirations.genericleadcreation.models.LeadDetail;
+import com.wings2aspirations.genericleadcreation.models.ItemModel;
 import com.wings2aspirations.genericleadcreation.network.ApiClient;
 import com.wings2aspirations.genericleadcreation.network.ApiInterface;
 import com.wings2aspirations.genericleadcreation.reciever.GpsStatusListener;
 import com.wings2aspirations.genericleadcreation.reciever.LocationUpdatesBroadcastReceiver;
 import com.wings2aspirations.genericleadcreation.repository.CalendarHelper;
+import com.wings2aspirations.genericleadcreation.repository.ShowOptionSelectionDialog;
 import com.wings2aspirations.genericleadcreation.repository.ShowToast;
 import com.wings2aspirations.genericleadcreation.repository.Utility;
 
@@ -64,9 +68,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.Type;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 import okhttp3.MediaType;
@@ -124,11 +132,13 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
     private TextInputEditText leadRemarksEt;
     private TextInputEditText nextFollowUpDateEt;
     private TextInputEditText nextFollowUpTimeEt, snoozeTimeEt;
+    private TextInputEditText dobDateEt;
+    private TextInputEditText marriageDateEt;
     //private RadioGroup callTypeRg;
     //private RadioButton callTypeHotRb;
     //private RadioButton callTypeColdRb;
     //private RadioButton callTypeWarmRb;
-    private Spinner productSp, statusSp;
+    private TextView productSp, statusSp;
     private FloatingActionButton cameraBt;
     private TextView fileNameTv;
     private FloatingActionButton saveBt;
@@ -152,6 +162,9 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
 
     private LeadDetail leadDetailForDownload;
     private ResponseBody responseBodyForDownload;
+
+    private List<ItemModel> itemModelsListProduct;
+    private List<ItemModel> itemModelsListStatus;
 
     public static Intent getLeadIntent(Context context, String name, int id) {
         Intent intent = new Intent(context, AddUpdateLeadActivity.class);
@@ -201,13 +214,17 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
         leadRemarksEt = (TextInputEditText) findViewById(R.id.lead_remarks_et);
         nextFollowUpDateEt = (TextInputEditText) findViewById(R.id.next_follow_up_date_et);
         nextFollowUpTimeEt = (TextInputEditText) findViewById(R.id.next_follow_up_time_et);
-        callTypeRg = (RadioGroup) findViewById(R.id.call_type_rg);
+        dobDateEt = (TextInputEditText) findViewById(R.id.date_of_birth_et);
+        marriageDateEt = (TextInputEditText) findViewById(R.id.marriage_aniv_et);
+        /*callTypeRg = (RadioGroup) findViewById(R.id.call_type_rg);
         callTypeHotRb = (RadioButton) findViewById(R.id.call_type_hot_rb);
         callTypeColdRb = (RadioButton) findViewById(R.id.call_type_cold_rb);
-        callTypeWarmRb = (RadioButton) findViewById(R.id.call_type_warm_rb);
+        callTypeWarmRb = (RadioButton) findViewById(R.id.call_type_warm_rb);*/
         cameraBt = (FloatingActionButton) findViewById(R.id.camera_bt);
         fileNameTv = (TextView) findViewById(R.id.file_name_tv);
         saveBt = (FloatingActionButton) findViewById(R.id.save_bt);
+
+        snoozeTimeEt = findViewById(R.id.snooze_time_et);
 
         productSp = findViewById(R.id.product_sp);
         statusSp = findViewById(R.id.lead_status_sp);
@@ -216,19 +233,29 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
 
         nextFollowUpDateEt.setHint(ListLeadsActivity.simpleDateFormat.format(new Date()));
 
+        Calendar calendar = Calendar.getInstance();
+        nextFollowUpTimeEt.setHint(calendar.get(Calendar.HOUR_OF_DAY) + ":" + calendar.get(Calendar.MINUTE));
+//todo
+        timeUnitSp = findViewById(R.id.snooze_time_sp);
         timeUnitSp.setSelection(2);
 
-        callTypeHotRb.setOnClickListener(this);
+        /*callTypeHotRb.setOnClickListener(this);
         callTypeColdRb.setOnClickListener(this);
-        callTypeWarmRb.setOnClickListener(this);
+        callTypeWarmRb.setOnClickListener(this);*/
         cameraBt.setOnClickListener(this);
         saveBt.setOnClickListener(this);
         nextFollowUpDateEt.setOnClickListener(this);
         nextFollowUpTimeEt.setOnClickListener(this);
 
+        dobDateEt.setOnClickListener(this);
+        marriageDateEt.setOnClickListener(this);
+
         leadRemarksEt.setOnTouchListener(touchListener);
         customerRemarksEt.setOnTouchListener(touchListener);
         addressEt.setOnTouchListener(touchListener);
+
+        itemModelsListProduct = new ArrayList<>();
+        itemModelsListStatus = new ArrayList<>();
     }
 
     View.OnTouchListener touchListener = new View.OnTouchListener() {
@@ -246,17 +273,22 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
 
     @Override
     public void onClick(View v) {
-        if (v == callTypeHotRb) {
+        /*if (v == callTypeHotRb) {
             selectedRadioButtonValue = "Hot";
         } else if (v == callTypeColdRb) {
             selectedRadioButtonValue = "Cold";
         } else if (v == callTypeWarmRb) {
             selectedRadioButtonValue = "Warm";
-        } else if (v == cameraBt) {
+        } else*/
+        if (v == cameraBt) {
             checkStorageCameraPermission();
         } else if (v == saveBt) {
             if (!checkValidation())
                 return;
+            if (!checkDateValidation()) {
+                ShowToast.showToast(AddUpdateLeadActivity.this, "Invalid Dob and marriage date");
+                return;
+            }
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm");
             try {
                 Date date = simpleDateFormat.parse(nextFollowUpDateEt.getText().toString() + " " + nextFollowUpTimeEt.getText().toString());
@@ -298,7 +330,30 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
             Utility.showDatePickerDialog(this, nextFollowUpDateEt, null, null, new Date());
         } else if (v == nextFollowUpTimeEt) {
             Utility.showTimePicker(this, nextFollowUpTimeEt);
+        } else if (v == dobDateEt) {
+            Utility.showDatePickerDialog(this, dobDateEt, null, Calendar.getInstance().getTime(), new Date());
+        } else if (v == marriageDateEt) {
+            Utility.showDatePickerDialog(this, marriageDateEt, null, null, new Date());
         }
+    }
+
+    private boolean checkDateValidation() {
+        Date dobDateEntered = null, marrigeDateEntered = null;
+        try {
+            dobDateEntered = ListLeadsActivity.simpleDateFormat.parse(dobDateEt.getText().toString());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            marrigeDateEntered = ListLeadsActivity.simpleDateFormat.parse(marriageDateEt.getText().toString());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        if (!marrigeDateEntered.after(dobDateEntered))
+            return false;
+        return true;
     }
 
     public void showProgress() {
@@ -334,12 +389,15 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
         jsonObject.addProperty("NEXT_FOLLOW_UP_TIME", nextFollowUpTimeEt.getText().toString());
         jsonObject.addProperty("LATITUDE", location.getLatitude());
         jsonObject.addProperty("LONGITUDE", location.getLongitude());
-        jsonObject.addProperty("CALL_TYPE", selectedRadioButtonValue);
+        jsonObject.addProperty("CALL_TYPE", statusSp.getText().toString());
         jsonObject.addProperty("EMP_ID", empId);
         jsonObject.addProperty("EMP_NAME", empName);
         jsonObject.addProperty("DATE_VC", ListLeadsActivity.simpleDateFormat.format(new Date()));
-        jsonObject.addProperty("PRODUCT_VC", productSp.getSelectedItem());
+        Log.e("AlucarD", productSp.getText().toString());
+        jsonObject.addProperty("PRODUCT_VC", productSp.getText().toString());
         jsonObject.addProperty("PARENT_ID", followUpId);
+        jsonObject.addProperty("DATE_OF_BIRTH_VC", dobDateEt.getText().toString());
+        jsonObject.addProperty("MARRIAGE_DATE_VC", marriageDateEt.getText().toString());
         if (updateId >= 0) {
             jsonObject.addProperty("ID", updateId);
         } else {
@@ -381,10 +439,10 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
         leadRemarksEt.setEnabled(false);
         nextFollowUpDateEt.setEnabled(false);
         nextFollowUpTimeEt.setEnabled(false);
-        callTypeRg.setEnabled(false);
+      /*  callTypeRg.setEnabled(false);
         callTypeHotRb.setEnabled(false);
         callTypeColdRb.setEnabled(false);
-        callTypeWarmRb.setEnabled(false);
+        callTypeWarmRb.setEnabled(false);*/
         cameraBt.setEnabled(false);
 
         saveBt.setEnabled(false);
@@ -440,6 +498,7 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
 
         apiInterface = ApiClient.getClient().create(ApiInterface.class);
 
+
         gpsStatusListener = new GpsStatusListener(new GpsStatusListener.GpsStatusCallback() {
             @Override
             public void isConnected(boolean isConnected) {
@@ -482,7 +541,7 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
                         nextFollowUpDateEt.setText(leadDetail.getNEXT_FOLLOW_UP_DATE());
                         nextFollowUpTimeEt.setText(leadDetail.getNEXT_FOLLOW_UP_TIME());
                         switch (leadDetail.getCALL_TYPE()) {
-                            case "Hot":
+                           /* case "Hot":
                                 callTypeHotRb.setChecked(true);
                                 break;
                             case "Cold":
@@ -490,7 +549,7 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
                                 break;
                             case "Warm":
                                 callTypeWarmRb.setChecked(true);
-                                break;
+                                break;*/
                         }
                         fileNameTv.setText("Buisness Card.jpg");
                         fileNameTv.setOnClickListener(new View.OnClickListener() {
@@ -533,7 +592,7 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
 
         if (getIntent().hasExtra(EXTRA_ARG_FOLLOW_UP_ID)) {
             isAdmin = false;
-            followUpId = getIntent().getIntExtra(EXTRA_ARG_UPDATE_PRIMARY_ID, -1);
+            followUpId = getIntent().getIntExtra(EXTRA_ARG_FOLLOW_UP_ID, -1);
             if (followUpId <= 0) {
                 ShowToast.showToast(this, "Follow Up id is <= 0");
                 finish();
@@ -555,6 +614,8 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
                         mobileNoEt.setText(leadDetail.getMOBILE_NO());
                         addressEt.setText(leadDetail.getADDRESS());
                         pinCodeEt.setText(leadDetail.getPIN_CODE());
+                        dobDateEt.setText(leadDetail.getDATE_OF_BIRTH_VC());
+                        marriageDateEt.setText(leadDetail.getMARRIAGE_DATE_VC());
 
                     }
 
@@ -597,6 +658,115 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
             } else {
                 buildGoogleApiClient();
             }
+
+        getProductList();
+
+        productSp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                callShowOptionList(true);
+            }
+        });
+
+        statusSp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                callShowOptionList(false);
+            }
+        });
+    }
+
+    private void callShowOptionList(final boolean fromProduct) {
+
+        List<ItemModel> itemModelsList = new ArrayList<ItemModel>();
+        if (fromProduct)
+            itemModelsList = itemModelsListProduct;
+        else
+            itemModelsList = itemModelsListStatus;
+
+        ShowOptionSelectionDialog.showDialog(AddUpdateLeadActivity.this, fromProduct, itemModelsList, new ShowOptionSelectionDialog.OptionSelectionCallBack() {
+            @Override
+            public void callBack(String optionSelected) {
+                if (fromProduct)
+                    productSp.setText(optionSelected);
+                else
+                    statusSp.setText(optionSelected);
+
+            }
+        });
+    }
+
+    private void getProductList() {
+        showProgress();
+        productSp.setEnabled(false);
+        Call<JsonArray> call = apiInterface.getProductList();
+
+        Log.e("AlucarD", call.request().url().toString());
+        call.enqueue(new Callback<JsonArray>() {
+            @Override
+            public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
+
+                hideProgress();
+
+                if (response.isSuccessful()) {
+
+                    productSp.setEnabled(true);
+
+                    JsonArray jsonArray = response.body();
+                    Type type = new TypeToken<List<ItemModel>>() {
+                    }.getType();
+
+                    itemModelsListProduct = new Gson().fromJson(jsonArray, type);
+
+                } else {
+                    ShowToast.showToast(AddUpdateLeadActivity.this, "Failed to get Products");
+                }
+
+                getStatusList();
+            }
+
+            @Override
+            public void onFailure(Call<JsonArray> call, Throwable t) {
+                hideProgress();
+                ShowToast.showToast(AddUpdateLeadActivity.this, "In Failure to get Products");
+            }
+        });
+    }
+
+    private void getStatusList() {
+        statusSp.setEnabled(false);
+        Call<JsonArray> call = apiInterface.getStatusList();
+
+        Log.e("AlucarD", call.request().url().toString());
+        call.enqueue(new Callback<JsonArray>() {
+            @Override
+            public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
+
+                hideProgress();
+
+                if (response.isSuccessful()) {
+
+                    statusSp.setEnabled(true);
+
+                    JsonArray jsonArray = response.body();
+                    Type type = new TypeToken<List<ItemModel>>() {
+                    }.getType();
+
+                    itemModelsListStatus = new Gson().fromJson(jsonArray, type);
+
+                } else {
+                    ShowToast.showToast(AddUpdateLeadActivity.this, "Failed to get Products");
+                }
+
+
+            }
+
+            @Override
+            public void onFailure(Call<JsonArray> call, Throwable t) {
+                hideProgress();
+                ShowToast.showToast(AddUpdateLeadActivity.this, "In Failure to get Products");
+            }
+        });
     }
 
     private File downloadFile(LeadDetail leadDetail, ResponseBody response) {
@@ -956,8 +1126,12 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
             nextFollowUpTimeEt.setError("Required");
             return false;
         }
-        if (TextUtils.isEmpty(selectedRadioButtonValue)) {
+        if (TextUtils.isEmpty(statusSp.getText().toString())) {
             ShowToast.showToast(AddUpdateLeadActivity.this, R.string.select_call_type_error);
+            return false;
+        }
+        if (TextUtils.isEmpty(productSp.getText().toString())) {
+            ShowToast.showToast(AddUpdateLeadActivity.this, R.string.select_product_error);
             return false;
         }
         if (mobileNoEt.getText().length() != 10) {
@@ -999,7 +1173,8 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
                 isEmpty(pinCodeEt) &&
                 isEmpty(nextFollowUpDateEt) &&
                 isEmpty(nextFollowUpTimeEt) &&
-                TextUtils.isEmpty(selectedRadioButtonValue);
+                TextUtils.isEmpty(statusSp.getText().toString()) &&
+                TextUtils.isEmpty(productSp.getText().toString());
     }
 
     @Override

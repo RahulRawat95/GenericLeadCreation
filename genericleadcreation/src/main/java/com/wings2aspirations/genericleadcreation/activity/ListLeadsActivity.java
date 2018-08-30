@@ -80,6 +80,7 @@ public class ListLeadsActivity extends AppCompatActivity implements Adapter.Prog
     private RelativeLayout progressLayout;
 
     private List<LeadDetail> details;
+    private List<LeadDetail> refineDetails;
 
     private int empId;
     private String empName;
@@ -165,8 +166,10 @@ public class ListLeadsActivity extends AppCompatActivity implements Adapter.Prog
                         });
                         calendarHelper.insertEventDirectly(ListLeadsActivity.this, REQUEST_CODE_CALENDAR_WRITE, details);
                     }
-                    adapter = new Adapter(details, ListLeadsActivity.this, isAdmin);
-                    recyclerView.setAdapter(adapter);
+
+
+                    refineDetalisList();
+
                 }
 
                 @Override
@@ -175,6 +178,40 @@ public class ListLeadsActivity extends AppCompatActivity implements Adapter.Prog
                 }
             });
         }
+    }
+
+    private void refineDetalisList() {
+        refineDetails = new ArrayList<>();
+        int isSameFound;
+        for (int i = 0; i < details.size(); i++) {
+            if (refineDetails.size() == 0) {
+                refineDetails.add(details.get(i));
+            } else {
+                isSameFound = -1;
+                for (int j = 0; j < refineDetails.size(); j++) {
+                    if (refineDetails.get(j).getCHILD_FOLLOW_UP_ID() == details.get(i).getCHILD_FOLLOW_UP_ID())
+                        isSameFound = j;
+                }
+                if (isSameFound != -1)
+                    refineDetails.set(isSameFound, details.get(i));
+                else
+                    refineDetails.add(details.get(i));
+            }
+        }
+
+
+        adapter = new Adapter(refineDetails, ListLeadsActivity.this, isAdmin, new Adapter.LeadOnClickCallBack() {
+            @Override
+            public void callback(LeadDetail leadDetail) {
+                Intent trialIntent = new Intent(ListLeadsActivity.this, TrailActivity.class);
+                trialIntent.putExtra("CHILD_FOLLOW_UP_ID", leadDetail.getCHILD_FOLLOW_UP_ID());
+                trialIntent.putExtra("ID", leadDetail.getID());
+                trialIntent.putExtra("emp_name", leadDetail.getEMP_NAME());
+                trialIntent.putExtra("emp_id", leadDetail.getEMP_ID());
+                startActivity(trialIntent);
+            }
+        });
+        recyclerView.setAdapter(adapter);
     }
 
     public void addEvent(CalendarHelper.CalendarCallback calendarCallback) {
@@ -267,7 +304,12 @@ public class ListLeadsActivity extends AppCompatActivity implements Adapter.Prog
         fromDateEt = findViewById(R.id.from_date_et);
         toDateEt = findViewById(R.id.to_date_et);
 
-        adapter = new Adapter(new ArrayList<LeadDetail>(), ListLeadsActivity.this, isAdmin);
+        adapter = new Adapter(new ArrayList<LeadDetail>(), ListLeadsActivity.this, isAdmin, new Adapter.LeadOnClickCallBack() {
+            @Override
+            public void callback(LeadDetail leadDetail) {
+
+            }
+        });
         recyclerView.setAdapter(adapter);
 
         spinner = findViewById(R.id.spinner);

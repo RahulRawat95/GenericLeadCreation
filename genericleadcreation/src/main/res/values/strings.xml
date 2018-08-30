@@ -14,7 +14,7 @@
     <string name="next_follow_up_time_label">Next Follow Up Time</string>
     <string name="call_type_label">Call Type</string>
     <string name="call_type_hot_label">Hot</string>
-    <string name="product_label">Product Status</string>
+    <string name="product_label">Products</string>
     <string name="call_type_cold_label">Cold</string>
     <string name="call_type_warm_label">Warm</string>
     <string name="title_activity_maps">Map</string>
@@ -23,6 +23,9 @@
     <string name="specify_base_url_message">Please Specify Base Url</string>
     <string name="delete_lead_message">Are you sure you want to Delete Message?</string>
     <string name="select_call_type_error">Please Select Call Type</string>
+    <string name="select_product_error">Please Select Product</string>
+    <string name="date">Date</string>
+    <string name="time">Time</string>
 
     <string name="title_activity_settings">Settings</string>
 

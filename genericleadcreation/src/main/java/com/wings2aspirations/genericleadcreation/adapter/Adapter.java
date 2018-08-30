@@ -46,6 +46,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> implements
     private boolean isAdmin;
 
     private Date fromDate, toDate;
+    private LeadOnClickCallBack leadOnClickCallBack;
 
     public interface ProgressCallback {
         void showProgress();
@@ -53,12 +54,17 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> implements
         void hideProgress();
     }
 
-    public Adapter(List<LeadDetail> leadDetails, ListLeadsActivity context, boolean isAdmin) {
+    public interface LeadOnClickCallBack {
+        void callback(LeadDetail leadDetail);
+    }
+
+    public Adapter(List<LeadDetail> leadDetails, ListLeadsActivity context, boolean isAdmin, LeadOnClickCallBack leadOnClickCallBack) {
         this.leadDetails = leadDetails;
         this.filteredLeadDetails = leadDetails;
         this.context = context;
         this.progressCallback = context;
         this.isAdmin = isAdmin;
+        this.leadOnClickCallBack = leadOnClickCallBack;
         apiInterface = ApiClient.getClient().create(ApiInterface.class);
         alertDialog = new AlertDialog.Builder(context)
                 .setMessage(R.string.delete_lead_message)
@@ -206,7 +212,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> implements
         return filteredLeadDetails.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView empName;
         private TextView date;
         private TextView compName;
@@ -226,6 +232,13 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> implements
             emailId = (TextView) itemView.findViewById(R.id.email_id);
             status = (TextView) itemView.findViewById(R.id.status);
             followUpDate = (TextView) itemView.findViewById(R.id.follow_up_date);
+
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            leadOnClickCallBack.callback(filteredLeadDetails.get(getAdapterPosition()));
         }
     }
 }
