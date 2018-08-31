@@ -27,6 +27,8 @@
     <string name="select_product_error">Please Select Product</string>
     <string name="date">Date</string>
     <string name="time">Time</string>
+    <string name="lead_report_label">Lead Report</string>
+    <string name="meeting_report_label">Meeting Report</string>
 
     <string name="title_activity_settings">Settings</string>
 
@@ -42,4 +44,11 @@
     <string name="summary_remind_at_time">Puts your Lead Follow Ups in your Calendar A day before at time specified</string>
     <string name="title_remind_at_time">Remind At</string>
     <string name="default_value_remind_at_time">6</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
 </resources>

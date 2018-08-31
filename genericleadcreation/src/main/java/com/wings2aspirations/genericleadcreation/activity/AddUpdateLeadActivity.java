@@ -408,16 +408,16 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
         jsonObject.addProperty("NEXT_FOLLOW_UP_TIME", nextFollowUpTimeEt.getText().toString());
         jsonObject.addProperty("LATITUDE", location.getLatitude());
         jsonObject.addProperty("LONGITUDE", location.getLongitude());
-        jsonObject.addProperty("CALL_TYPE", statusSp.getText().toString());
+        jsonObject.addProperty("CALL_TYPE_ID", (int) statusSp.getTag());
         jsonObject.addProperty("EMP_ID", empId);
         jsonObject.addProperty("EMP_NAME", empName);
         jsonObject.addProperty("DATE_VC", ListLeadsActivity.simpleDateFormat.format(new Date()));
         Log.e("AlucarD", productSp.getText().toString());
-        jsonObject.addProperty("PRODUCT_VC", productSp.getText().toString());
+        jsonObject.addProperty("PRODUCT_ID", (int) productSp.getTag());
         jsonObject.addProperty("PARENT_ID", followUpId);
         jsonObject.addProperty("DATE_OF_BIRTH_VC", dobDateEt.getText().toString());
         jsonObject.addProperty("MARRIAGE_DATE_VC", marriageDateEt.getText().toString());
-        jsonObject.addProperty("CITY_NAME_VC", cityTv.getText().toString());
+        jsonObject.addProperty("CITY_ID", (int) cityTv.getTag());
         if (updateId >= 0) {
             jsonObject.addProperty("ID", updateId);
         } else {
@@ -561,7 +561,7 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
                         nextFollowUpDateEt.setText(leadDetail.getNEXT_FOLLOW_UP_DATE());
                         nextFollowUpTimeEt.setText(leadDetail.getNEXT_FOLLOW_UP_TIME());
                         /*switch (leadDetail.getCALL_TYPE()) {
-                           *//* case "Hot":
+                         *//* case "Hot":
                                 callTypeHotRb.setChecked(true);
                                 break;
                             case "Cold":
@@ -689,16 +689,19 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
     private void callShowOptionList(final int type, List<? extends ItemModel> itemModelsList) {
         ShowOptionSelectionDialog.showDialog(AddUpdateLeadActivity.this, type, itemModelsList, new ShowOptionSelectionDialog.OptionSelectionCallBack() {
             @Override
-            public void callBack(String optionSelected) {
+            public void callBack(ItemModel optionSelected) {
                 switch (type) {
                     case TYPE_PRODUCT:
-                        productSp.setText(optionSelected);
+                        productSp.setText(optionSelected.getITEMNAME());
+                        productSp.setTag(optionSelected.getITEMID());
                         break;
                     case TYPE_STATUS:
-                        statusSp.setText(optionSelected);
+                        statusSp.setText(optionSelected.getITEMNAME());
+                        statusSp.setTag(optionSelected.getITEMID());
                         break;
                     case TYPE_CITY:
-                        cityTv.setText(optionSelected);
+                        cityTv.setText(optionSelected.getITEMNAME());
+                        cityTv.setTag(optionSelected.getITEMID());
                         break;
                 }
             }
@@ -1188,7 +1191,7 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
                 isEmpty(nextFollowUpDateEt) &&
                 isEmpty(nextFollowUpTimeEt) &&
                 TextUtils.isEmpty(statusSp.getText()) &&
-                TextUtils.isEmpty(productSp.getText())&&
+                TextUtils.isEmpty(productSp.getText()) &&
                 TextUtils.isEmpty(cityTv.getText());
     }
 

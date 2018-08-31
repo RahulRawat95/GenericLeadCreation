@@ -24,14 +24,22 @@
                 android:resource="@xml/provider_paths" />
         </provider>
 
-        <activity android:name=".activity.AddUpdateLeadActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity.ListLeadsActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity.SettingsActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity.TrailActivity"
+        <activity
+            android:name=".activity.AddUpdateLeadActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ListLeadsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.SettingsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.TrailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.MainActivity"
+            android:label="@string/title_activity_main"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

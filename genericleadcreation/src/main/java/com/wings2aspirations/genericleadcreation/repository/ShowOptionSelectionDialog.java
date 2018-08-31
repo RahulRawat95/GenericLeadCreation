@@ -33,7 +33,7 @@ public class ShowOptionSelectionDialog {
     public static BottomSheetDialog globalMessageDialog;
 
     public interface OptionSelectionCallBack {
-        void callBack(String optionSelected);
+        void callBack(ItemModel optionSelected);
     }
 
     public static void showDialog(final Context mContext, final int dialogType, List<? extends ItemModel> itemModelList, final OptionSelectionCallBack optionSelectionCallBack) {
@@ -81,7 +81,7 @@ public class ShowOptionSelectionDialog {
             final OptionItemAdapter optionItemAdapter = new OptionItemAdapter(mContext, itemModelList, new OptionItemAdapter.ItemClickCallBack() {
                 @Override
                 public void callBack(ItemModel itemModel) {
-                    optionSelectionCallBack.callBack(itemModel.getITEMNAME());
+                    optionSelectionCallBack.callBack(itemModel);
                     showOptionItemListDialog.dismiss();
                 }
             });

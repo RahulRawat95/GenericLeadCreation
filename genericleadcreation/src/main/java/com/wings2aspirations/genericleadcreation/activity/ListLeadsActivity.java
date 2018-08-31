@@ -231,8 +231,6 @@ public class ListLeadsActivity extends AppCompatActivity implements Adapter.Prog
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_leads);
 
-        PreferenceManager.getDefaultSharedPreferences(this).edit().putString(getString(R.string.key_remind_at_time), "18:00").commit();
-
         if (!getIntent().hasExtra(EXTRA_DB_NAME)) {
             ShowToast.showToast(this, "No Db name specified");
             finish();

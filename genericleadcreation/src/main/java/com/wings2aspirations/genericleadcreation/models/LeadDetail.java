@@ -8,6 +8,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.wings2aspirations.genericleadcreation.R;
 import com.wings2aspirations.genericleadcreation.activity.ListLeadsActivity;
+import com.wings2aspirations.genericleadcreation.activity.MainActivity;
 import com.wings2aspirations.genericleadcreation.repository.CalendarHelper;
 
 import java.text.ParseException;
@@ -81,7 +82,15 @@ public class LeadDetail implements CalendarHelper.CalendarInstance {
     @SerializedName("CITY_NAME_VC")
     @Expose
     private String CITY_NAME_VC;
-
+    @SerializedName("PRODUCT_ID")
+    @Expose
+    private int PRODUCT_ID;
+    @SerializedName("CALL_TYPE_ID")
+    @Expose
+    private int STATUS_ID;
+    @SerializedName("CITY_ID")
+    @Expose
+    private int CITY_ID;
 
     public int getID() {
         return ID;
@@ -264,12 +273,25 @@ public class LeadDetail implements CalendarHelper.CalendarInstance {
     public Date getDate() {
         if (date == null) {
             try {
-                date = ListLeadsActivity.simpleDateFormat.parse(DATE_VC);
+                date = MainActivity.simpleDateFormat.parse(DATE_VC);
             } catch (ParseException e) {
                 date = new Date();
             }
         }
         return date;
+    }
+
+    private Date followUpDate;
+
+    public Date getFollowUpDate() {
+        if (followUpDate == null) {
+            try {
+                followUpDate = MainActivity.simpleDateFormat.parse(NEXT_FOLLOW_UP_DATE);
+            } catch (ParseException e) {
+                followUpDate = new Date();
+            }
+        }
+        return followUpDate;
     }
 
     public String[] getColumnData() {
@@ -337,5 +359,37 @@ public class LeadDetail implements CalendarHelper.CalendarInstance {
     @Override
     public String getSyncId() {
         return "2013912" + String.valueOf(ID);
+    }
+
+    public int getPRODUCT_ID() {
+        return PRODUCT_ID;
+    }
+
+    public void setPRODUCT_ID(int PRODUCT_ID) {
+        this.PRODUCT_ID = PRODUCT_ID;
+    }
+
+    public int getSTATUS_ID() {
+        return STATUS_ID;
+    }
+
+    public void setSTATUS_ID(int STATUS_ID) {
+        this.STATUS_ID = STATUS_ID;
+    }
+
+    public int getCITY_ID() {
+        return CITY_ID;
+    }
+
+    public void setCITY_ID(int CITY_ID) {
+        this.CITY_ID = CITY_ID;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public void setFollowUpDate(Date followUpDate) {
+        this.followUpDate = followUpDate;
     }
 }
