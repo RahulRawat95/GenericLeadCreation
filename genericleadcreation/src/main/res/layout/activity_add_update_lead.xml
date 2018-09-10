@@ -570,7 +570,7 @@
                 android:layout_height="@dimen/map_height"
                 android:layout_marginBottom="@dimen/text_input_bottom_margin"
 
-                tools:context=".activity.AddUpdateLeadActivity" />-->
+                tools:context=".activity.AddUpdateLeadFragment" />-->
 
             <LinearLayout
                 android:layout_width="match_parent"

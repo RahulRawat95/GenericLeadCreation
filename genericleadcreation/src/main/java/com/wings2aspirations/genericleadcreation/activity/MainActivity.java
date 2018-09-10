@@ -25,6 +25,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.reflect.TypeToken;
 import com.wings2aspirations.genericleadcreation.R;
 import com.wings2aspirations.genericleadcreation.fragment.LeadMeetingReportFragment;
+import com.wings2aspirations.genericleadcreation.fragment.ListLeadsFragment;
 import com.wings2aspirations.genericleadcreation.models.AuthorisationToken;
 import com.wings2aspirations.genericleadcreation.models.City;
 import com.wings2aspirations.genericleadcreation.models.ItemModel;
@@ -66,6 +67,8 @@ public class MainActivity extends AppCompatActivity
 
     private ArrayList<ItemModel> itemModelsListProduct;
     private ArrayList<ItemModel> itemModelsListStatus;
+
+    private ArrayList<String> empNames;
 
     public static Intent getListLeadsIntent(Context context, String baseUrl, String dbName, String schemaName, String applicationId, int id, ArrayList<String> empNames) {
         Intent intent = new Intent(context, MainActivity.class);
@@ -200,6 +203,15 @@ public class MainActivity extends AppCompatActivity
             }
         }
 
+        Fragment fragment;
+        if (isAdmin)
+            fragment = ListLeadsFragment.newInstance(ApiClient.BASE_URL, ApiClient.getDbName(), ApiClient.getSchemaName(), ApiClient.applicationId, empId, empNames);
+        else
+            fragment = ListLeadsFragment.newInstance(ApiClient.BASE_URL, ApiClient.getDbName(), ApiClient.getSchemaName(), ApiClient.applicationId, empId, empName);
+
+        if (fragment != null)
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_frame, fragment, fragment.getClass().getSimpleName()).commit();
+
         simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
         if (isAdmin) {
@@ -208,6 +220,7 @@ public class MainActivity extends AppCompatActivity
                 finish();
                 return;
             }
+            empNames = (ArrayList<String>) getIntent().getExtras().getSerializable(EXTRA_EMP_NAMES);
         }
 
         ApiClient.setId(getIntent().getIntExtra(EXTRA_ARG_EMPLOYEE_ID, -1));
@@ -247,22 +260,6 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        return false;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-
-        return super.onOptionsItemSelected(item);
-    }
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -275,6 +272,11 @@ public class MainActivity extends AppCompatActivity
             fragment = LeadMeetingReportFragment.newInstance(true, empId, isAdmin);
         } else if (id == R.id.action_meeting_report) {
             fragment = LeadMeetingReportFragment.newInstance(false, empId, isAdmin);
+        } else if (id == R.id.action_list_leads) {
+            if (isAdmin)
+                fragment = ListLeadsFragment.newInstance(ApiClient.BASE_URL, ApiClient.getDbName(), ApiClient.getSchemaName(), ApiClient.applicationId, empId, empNames);
+            else
+                fragment = ListLeadsFragment.newInstance(ApiClient.BASE_URL, ApiClient.getDbName(), ApiClient.getSchemaName(), ApiClient.applicationId, empId, empName);
         }
 
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_frame, fragment, fragment.getClass().getSimpleName()).commit();
@@ -336,5 +338,20 @@ public class MainActivity extends AppCompatActivity
                 itemModelsListProduct = new ArrayList<>();
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_setting, menu);
+        return isAdmin;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.settings) {
+            startActivity(new Intent(this, SettingsActivity.class));
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

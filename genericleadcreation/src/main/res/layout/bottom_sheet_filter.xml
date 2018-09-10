@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -18,10 +19,10 @@
 
     <LinearLayout
         android:id="@+id/ll_buttons"
-        android:layout_gravity="bottom"
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
         android:orientation="horizontal"
         android:weightSum="2">
 
@@ -31,8 +32,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@android:color/white"
-            android:src="@drawable/refresh"
-            android:tint="@android:color/black" />
+            android:tint="@android:color/black"
+            app:srcCompat="@drawable/refresh" />
 
         <ImageButton
             android:id="@+id/imgbtn_apply"
@@ -40,8 +41,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@android:color/white"
-            android:src="@drawable/done"
-            android:tint="@android:color/black" />
+            android:tint="@android:color/black"
+            app:srcCompat="@drawable/done" />
 
     </LinearLayout>
 

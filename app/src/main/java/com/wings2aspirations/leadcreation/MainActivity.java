@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<String> strings = new ArrayList<>();
         strings.add("rahul");
         strings.add("rawat");
-        Intent intent = com.wings2aspirations.genericleadcreation.activity.MainActivity.getListLeadsIntent(this, "http://192.168.1.14:8080/", "w2aDealerDb", "dbo", BuildConfig.APPLICATION_ID, 1, "rawat");
+        Intent intent = com.wings2aspirations.genericleadcreation.activity.MainActivity.getListLeadsIntent(this, "http://192.168.1.19:8080/", "w2aDealerDb", "dbo", BuildConfig.APPLICATION_ID, 2033, "rawat");
         startActivity(intent);
         finish();
     }

@@ -165,6 +165,8 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
 
     private File file = null;
 
+    private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+
     private LeadDetail leadDetailForDownload;
     private ResponseBody responseBodyForDownload;
 
@@ -238,7 +240,7 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
 
         progressLayout = findViewById(R.id.progress_bar);
 
-        nextFollowUpDateEt.setHint(ListLeadsActivity.simpleDateFormat.format(new Date()));
+        nextFollowUpDateEt.setHint(simpleDateFormat.format(new Date()));
 
         Calendar calendar = Calendar.getInstance();
         nextFollowUpTimeEt.setHint(calendar.get(Calendar.HOUR_OF_DAY) + ":" + calendar.get(Calendar.MINUTE));
@@ -359,13 +361,13 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
     private boolean checkDateValidation() {
         Date dobDateEntered = null, marrigeDateEntered = null;
         try {
-            dobDateEntered = ListLeadsActivity.simpleDateFormat.parse(dobDateEt.getText().toString());
+            dobDateEntered = simpleDateFormat.parse(dobDateEt.getText().toString());
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
         try {
-            marrigeDateEntered = ListLeadsActivity.simpleDateFormat.parse(marriageDateEt.getText().toString());
+            marrigeDateEntered = simpleDateFormat.parse(marriageDateEt.getText().toString());
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -411,7 +413,7 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
         jsonObject.addProperty("CALL_TYPE_ID", (int) statusSp.getTag());
         jsonObject.addProperty("EMP_ID", empId);
         jsonObject.addProperty("EMP_NAME", empName);
-        jsonObject.addProperty("DATE_VC", ListLeadsActivity.simpleDateFormat.format(new Date()));
+        jsonObject.addProperty("DATE_VC", simpleDateFormat.format(new Date()));
         Log.e("AlucarD", productSp.getText().toString());
         jsonObject.addProperty("PRODUCT_ID", (int) productSp.getTag());
         jsonObject.addProperty("PARENT_ID", followUpId);
