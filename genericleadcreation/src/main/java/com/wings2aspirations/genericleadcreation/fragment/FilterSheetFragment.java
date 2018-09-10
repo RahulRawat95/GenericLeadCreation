@@ -10,6 +10,7 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 
 import com.wings2aspirations.genericleadcreation.R;
 import com.wings2aspirations.genericleadcreation.adapter.FilterPagerAdapter;
@@ -24,6 +25,8 @@ public class FilterSheetFragment extends BottomSheetDialogFragment {
 
     private ArrayList<? extends ItemModel>[] itemModels;
     private HashSet<Integer>[] hashSets;
+
+    private ImageButton checkButton, refreshButton;
 
     public interface Callback {
         void callback();
@@ -66,6 +69,8 @@ public class FilterSheetFragment extends BottomSheetDialogFragment {
         View view = inflater.inflate(R.layout.bottom_sheet_filter, container, false);
         tabLayout = view.findViewById(R.id.tab_layout);
         viewPager = view.findViewById(R.id.view_pager);
+        checkButton = view.findViewById(R.id.imgbtn_apply);
+        refreshButton = view.findViewById(R.id.imgbtn_refresh);
         return view;
     }
 
@@ -73,6 +78,20 @@ public class FilterSheetFragment extends BottomSheetDialogFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         viewPager.setAdapter(new FilterPagerAdapter(getChildFragmentManager(), itemModels, hashSets));
         tabLayout.setupWithViewPager(viewPager);
+        checkButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onDestroyView();
+            }
+        });
+        refreshButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                for (int i = 0; i < hashSets.length; i++)
+                    hashSets[i].clear();
+                onDestroyView();
+            }
+        });
     }
 
     @Override
