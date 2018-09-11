@@ -81,7 +81,7 @@ public class FilterSheetFragment extends BottomSheetDialogFragment {
         checkButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onDestroyView();
+                dismiss();
             }
         });
         refreshButton.setOnClickListener(new View.OnClickListener() {
@@ -89,7 +89,7 @@ public class FilterSheetFragment extends BottomSheetDialogFragment {
             public void onClick(View v) {
                 for (int i = 0; i < hashSets.length; i++)
                     hashSets[i].clear();
-                onDestroyView();
+                dismiss();
             }
         });
     }
