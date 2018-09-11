@@ -198,15 +198,6 @@ public class MainActivity extends AppCompatActivity
             }
         }
 
-        Fragment fragment;
-        if (isAdmin)
-            fragment = ListLeadsFragment.newInstance(ApiClient.BASE_URL, ApiClient.getDbName(), ApiClient.getSchemaName(), ApiClient.applicationId, empId, empNames);
-        else
-            fragment = ListLeadsFragment.newInstance(ApiClient.BASE_URL, ApiClient.getDbName(), ApiClient.getSchemaName(), ApiClient.applicationId, empId, empName);
-
-        if (fragment != null)
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_frame, fragment, fragment.getClass().getSimpleName()).commit();
-
         simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
         if (isAdmin) {
@@ -217,6 +208,15 @@ public class MainActivity extends AppCompatActivity
             }
             empNames = (ArrayList<String>) getIntent().getExtras().getSerializable(EXTRA_EMP_NAMES);
         }
+
+        Fragment fragment;
+        if (isAdmin)
+            fragment = ListLeadsFragment.newInstance(ApiClient.BASE_URL, ApiClient.getDbName(), ApiClient.getSchemaName(), ApiClient.applicationId, empId, empNames);
+        else
+            fragment = ListLeadsFragment.newInstance(ApiClient.BASE_URL, ApiClient.getDbName(), ApiClient.getSchemaName(), ApiClient.applicationId, empId, empName);
+
+        if (fragment != null)
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_frame, fragment, fragment.getClass().getSimpleName()).commit();
 
         ApiClient.setId(getIntent().getIntExtra(EXTRA_ARG_EMPLOYEE_ID, -1));
         ApiClient.setBaseUrl(getIntent().getStringExtra(EXTRA_BASE_URL));
