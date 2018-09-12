@@ -2,13 +2,14 @@ package com.wings2aspirations.genericleadcreation.repository;
 
 import com.wings2aspirations.genericleadcreation.models.City;
 import com.wings2aspirations.genericleadcreation.models.ItemModel;
+import com.wings2aspirations.genericleadcreation.models.ProductListModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Constants {
     private static ArrayList<City> cities;
-    private static ArrayList<ItemModel> products;
+    private static ArrayList<ProductListModel> products;
     private static ArrayList<ItemModel> statuses;
 
     public static ArrayList<City> getCities() {
@@ -19,11 +20,11 @@ public class Constants {
         Constants.cities = cities;
     }
 
-    public static ArrayList<ItemModel> getProducts() {
-        return products == null ? new ArrayList<ItemModel>() : products;
+    public static ArrayList<ProductListModel> getProducts() {
+        return products == null ? new ArrayList<ProductListModel>() : products;
     }
 
-    public static void setProducts(ArrayList<ItemModel> products) {
+    public static void setProducts(ArrayList<ProductListModel> products) {
         Constants.products = products;
     }
 

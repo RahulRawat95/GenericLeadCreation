@@ -26,6 +26,7 @@ import com.wings2aspirations.genericleadcreation.fragment.ListLeadsFragment;
 import com.wings2aspirations.genericleadcreation.models.AuthorisationToken;
 import com.wings2aspirations.genericleadcreation.models.City;
 import com.wings2aspirations.genericleadcreation.models.ItemModel;
+import com.wings2aspirations.genericleadcreation.models.ProductListModel;
 import com.wings2aspirations.genericleadcreation.network.ApiClient;
 import com.wings2aspirations.genericleadcreation.network.ApiInterface;
 import com.wings2aspirations.genericleadcreation.repository.Constants;
@@ -61,7 +62,7 @@ public class MainActivity extends AppCompatActivity
     private boolean isAdmin;
     public static SimpleDateFormat simpleDateFormat;
 
-    private ArrayList<ItemModel> itemModelsListProduct;
+    private ArrayList<ProductListModel> itemModelsListProduct;
     private ArrayList<ItemModel> itemModelsListStatus;
 
     private ArrayList<String> empNames;
@@ -188,6 +189,7 @@ public class MainActivity extends AppCompatActivity
         }
 
         if (!getIntent().hasExtra(EXTRA_ARG_EMPLOYEE_NAME)) {
+            empId = getIntent().getIntExtra(EXTRA_ARG_EMPLOYEE_ID, -1);
             isUserAdmin(true);
         } else {
             empId = getIntent().getIntExtra(EXTRA_ARG_EMPLOYEE_ID, -1);
@@ -255,6 +257,11 @@ public class MainActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
+            try {
+                getSupportFragmentManager().getFragments().get(0);
+            } catch (Exception e) {
+                finish();
+            }
         }
     }
 
@@ -318,7 +325,7 @@ public class MainActivity extends AppCompatActivity
             public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
                 if (response.isSuccessful()) {
                     JsonArray jsonArray = response.body();
-                    Type type = new TypeToken<ArrayList<ItemModel>>() {
+                    Type type = new TypeToken<ArrayList<ProductListModel>>() {
                     }.getType();
                     itemModelsListProduct = new Gson().fromJson(jsonArray, type);
                     Constants.setProducts(itemModelsListProduct);

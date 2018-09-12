@@ -57,4 +57,6 @@ public class ProductListModel extends ItemModel{
     public String getITEMNAME() {
         return pRODUCTNAMEVC;
     }
+
+
 }
