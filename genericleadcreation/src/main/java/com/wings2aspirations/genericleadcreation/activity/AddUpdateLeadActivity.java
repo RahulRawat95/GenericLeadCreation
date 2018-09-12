@@ -577,9 +577,19 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
                                 callTypeWarmRb.setChecked(true);
                                 break;*//*
                         }*/
-                        productSp.setText(leadDetail.getPRODUCT_VC());
                         statusSp.setText(leadDetail.getCALL_TYPE());
+                        statusSp.setTag(leadDetail.getCALL_TYPE_ID());
+
+                        productSp.setText(leadDetail.getPRODUCT_NAME_VC());
+                        productSp.setTag(leadDetail.getPRODUCT_ID());
+
+                        unit_sp.setText(leadDetail.getUNIT_VC());
+                        unit_sp.setTag(leadDetail.getUNIT_ID());
+
+
                         cityTv.setText(leadDetail.getCITY_NAME_VC());
+                        cityTv.setTag(leadDetail.getCITY_ID());
+
                         fileNameTv.setText("Buisness Card.jpg");
                         fileNameTv.setOnClickListener(new View.OnClickListener() {
 
@@ -646,6 +656,16 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
                         dobDateEt.setText(leadDetail.getDATE_OF_BIRTH_VC());
                         marriageDateEt.setText(leadDetail.getMARRIAGE_DATE_VC());
                         cityTv.setText(leadDetail.getCITY_NAME_VC());
+                        cityTv.setTag(leadDetail.getCITY_ID());
+
+                        statusSp.setText(leadDetail.getCALL_TYPE());
+                        statusSp.setTag(leadDetail.getCALL_TYPE_ID());
+
+                        productSp.setText(leadDetail.getPRODUCT_NAME_VC());
+                        productSp.setTag(leadDetail.getPRODUCT_ID());
+
+                        unit_sp.setText(leadDetail.getUNIT_VC());
+                        unit_sp.setTag(leadDetail.getUNIT_ID());
 
                     }
 

@@ -124,6 +124,13 @@ public class LeadMeetingReportFragment extends Fragment implements LeadMeetRepor
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+
+        try{
+            ((MainActivity) getActivity()).setActionBarTitle("Lead Meeting");
+        }catch (Exception e){
+
+        }
+
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         fromDateEt.setOnClickListener(new View.OnClickListener() {
             Date selectedTooDate = null;//creating local variable while click action occurring

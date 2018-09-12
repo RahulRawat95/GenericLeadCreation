@@ -16,9 +16,6 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class LeadDetail implements CalendarHelper.CalendarInstance {
-    @SerializedName("ID")
-    @Expose
-    private int ID;
     @SerializedName("COMPANY_NAME")
     @Expose
     private String COMPANY_NAME;
@@ -43,24 +40,27 @@ public class LeadDetail implements CalendarHelper.CalendarInstance {
     @SerializedName("LEAD_REMARKS")
     @Expose
     private String LEAD_REMARKS;
+    @SerializedName("LATITUDE")
+    @Expose
+    private String LATITUDE;
     @SerializedName("NEXT_FOLLOW_UP_DATE")
     @Expose
     private String NEXT_FOLLOW_UP_DATE;
     @SerializedName("NEXT_FOLLOW_UP_TIME")
     @Expose
     private String NEXT_FOLLOW_UP_TIME;
-    @SerializedName("LATITUDE")
-    @Expose
-    private Double LATITUDE;
     @SerializedName("LONGITUDE")
     @Expose
-    private Double LONGITUDE;
-    @SerializedName("CALL_TYPE")
+    private String LONGITUDE;
+    @SerializedName("CALL_TYPE_ID")
     @Expose
-    private String CALL_TYPE;
+    private Integer CALL_TYPE_ID;
+    @SerializedName("ID")
+    @Expose
+    private Integer ID;
     @SerializedName("EMP_ID")
     @Expose
-    private int EMP_ID;
+    private Integer EMP_ID;
     @SerializedName("EMP_NAME")
     @Expose
     private String EMP_NAME;
@@ -70,35 +70,33 @@ public class LeadDetail implements CalendarHelper.CalendarInstance {
     @SerializedName("CHILD_FOLLOW_UP_ID")
     @Expose
     private Integer CHILD_FOLLOW_UP_ID;
-    @SerializedName("PRODUCT_VC")
+    @SerializedName("PRODUCT_ID")
     @Expose
-    private String PRODUCT_VC;
+    private Integer PRODUCT_ID;
     @SerializedName("DATE_OF_BIRTH_VC")
     @Expose
     private String DATE_OF_BIRTH_VC;
     @SerializedName("MARRIAGE_DATE_VC")
     @Expose
     private String MARRIAGE_DATE_VC;
+    @SerializedName("CITY_ID")
+    @Expose
+    private Integer CITY_ID;
+    @SerializedName("PRODUCT_NAME_VC")
+    @Expose
+    private String PRODUCT_NAME_VC;
+    @SerializedName("UNIT_ID")
+    @Expose
+    private Integer UNIT_ID;
+    @SerializedName("UNIT_VC")
+    @Expose
+    private String UNIT_VC;
+    @SerializedName("CALL_TYPE")
+    @Expose
+    private String CALL_TYPE;
     @SerializedName("CITY_NAME_VC")
     @Expose
     private String CITY_NAME_VC;
-    @SerializedName("PRODUCT_ID")
-    @Expose
-    private int PRODUCT_ID;
-    @SerializedName("CALL_TYPE_ID")
-    @Expose
-    private int STATUS_ID;
-    @SerializedName("CITY_ID")
-    @Expose
-    private int CITY_ID;
-
-    public int getID() {
-        return ID;
-    }
-
-    public void setID(int ID) {
-        this.ID = ID;
-    }
 
     public String getCOMPANY_NAME() {
         return COMPANY_NAME;
@@ -164,6 +162,14 @@ public class LeadDetail implements CalendarHelper.CalendarInstance {
         this.LEAD_REMARKS = LEAD_REMARKS;
     }
 
+    public String getLATITUDE() {
+        return LATITUDE;
+    }
+
+    public void setLATITUDE(String LATITUDE) {
+        this.LATITUDE = LATITUDE;
+    }
+
     public String getNEXT_FOLLOW_UP_DATE() {
         return NEXT_FOLLOW_UP_DATE;
     }
@@ -180,35 +186,35 @@ public class LeadDetail implements CalendarHelper.CalendarInstance {
         this.NEXT_FOLLOW_UP_TIME = NEXT_FOLLOW_UP_TIME;
     }
 
-    public Double getLATITUDE() {
-        return LATITUDE;
-    }
-
-    public void setLATITUDE(Double LATITUDE) {
-        this.LATITUDE = LATITUDE;
-    }
-
-    public Double getLONGITUDE() {
+    public String getLONGITUDE() {
         return LONGITUDE;
     }
 
-    public void setLONGITUDE(Double LONGITUDE) {
+    public void setLONGITUDE(String LONGITUDE) {
         this.LONGITUDE = LONGITUDE;
     }
 
-    public String getCALL_TYPE() {
-        return CALL_TYPE;
+    public Integer getCALL_TYPE_ID() {
+        return CALL_TYPE_ID;
     }
 
-    public void setCALL_TYPE(String CALL_TYPE) {
-        this.CALL_TYPE = CALL_TYPE;
+    public void setCALL_TYPE_ID(Integer CALL_TYPE_ID) {
+        this.CALL_TYPE_ID = CALL_TYPE_ID;
     }
 
-    public int getEMP_ID() {
+    public Integer getID() {
+        return ID;
+    }
+
+    public void setID(Integer ID) {
+        this.ID = ID;
+    }
+
+    public Integer getEMP_ID() {
         return EMP_ID;
     }
 
-    public void setEMP_ID(int EMP_ID) {
+    public void setEMP_ID(Integer EMP_ID) {
         this.EMP_ID = EMP_ID;
     }
 
@@ -236,12 +242,8 @@ public class LeadDetail implements CalendarHelper.CalendarInstance {
         this.CHILD_FOLLOW_UP_ID = CHILD_FOLLOW_UP_ID;
     }
 
-    public String getPRODUCT_VC() {
-        return PRODUCT_VC;
-    }
-
-    public void setPRODUCT_VC(String PRODUCT_VC) {
-        this.PRODUCT_VC = PRODUCT_VC;
+    public void setPRODUCT_ID(Integer PRODUCT_ID) {
+        this.PRODUCT_ID = PRODUCT_ID;
     }
 
     public String getDATE_OF_BIRTH_VC() {
@@ -258,6 +260,42 @@ public class LeadDetail implements CalendarHelper.CalendarInstance {
 
     public void setMARRIAGE_DATE_VC(String MARRIAGE_DATE_VC) {
         this.MARRIAGE_DATE_VC = MARRIAGE_DATE_VC;
+    }
+
+    public void setCITY_ID(Integer CITY_ID) {
+        this.CITY_ID = CITY_ID;
+    }
+
+    public String getPRODUCT_NAME_VC() {
+        return PRODUCT_NAME_VC;
+    }
+
+    public void setPRODUCT_NAME_VC(String PRODUCT_NAME_VC) {
+        this.PRODUCT_NAME_VC = PRODUCT_NAME_VC;
+    }
+
+    public Integer getUNIT_ID() {
+        return UNIT_ID;
+    }
+
+    public void setUNIT_ID(Integer UNIT_ID) {
+        this.UNIT_ID = UNIT_ID;
+    }
+
+    public String getUNIT_VC() {
+        return UNIT_VC;
+    }
+
+    public void setUNIT_VC(String UNIT_VC) {
+        this.UNIT_VC = UNIT_VC;
+    }
+
+    public String getCALL_TYPE() {
+        return CALL_TYPE;
+    }
+
+    public void setCALL_TYPE(String CALL_TYPE) {
+        this.CALL_TYPE = CALL_TYPE;
     }
 
     public String getCITY_NAME_VC() {
@@ -370,11 +408,11 @@ public class LeadDetail implements CalendarHelper.CalendarInstance {
     }
 
     public int getSTATUS_ID() {
-        return STATUS_ID;
+        return CALL_TYPE_ID;
     }
 
     public void setSTATUS_ID(int STATUS_ID) {
-        this.STATUS_ID = STATUS_ID;
+        this.CALL_TYPE_ID = STATUS_ID;
     }
 
     public int getCITY_ID() {

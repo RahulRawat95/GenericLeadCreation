@@ -13,6 +13,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -218,7 +219,7 @@ public class MainActivity extends AppCompatActivity
             fragment = ListLeadsFragment.newInstance(ApiClient.BASE_URL, ApiClient.getDbName(), ApiClient.getSchemaName(), ApiClient.applicationId, empId, empName);
 
         if (fragment != null)
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_frame, fragment, fragment.getClass().getSimpleName()).commit();
+            addFragmentToBackStack(fragment);
 
         ApiClient.setId(getIntent().getIntExtra(EXTRA_ARG_EMPLOYEE_ID, -1));
         ApiClient.setBaseUrl(getIntent().getStringExtra(EXTRA_BASE_URL));
@@ -276,7 +277,7 @@ public class MainActivity extends AppCompatActivity
                 fragment = ListLeadsFragment.newInstance(ApiClient.BASE_URL, ApiClient.getDbName(), ApiClient.getSchemaName(), ApiClient.applicationId, empId, empName);
         }
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_frame, fragment, fragment.getClass().getSimpleName()).commit();
+        addFragmentToBackStack(fragment);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.view_lead_drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -350,5 +351,46 @@ public class MainActivity extends AppCompatActivity
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+
+    public void addFragmentToBackStack(Fragment fragment) {
+        addFragmentToBackStack(fragment, fragment.getClass().getSimpleName());
+    }
+
+    public void addFragmentToBackStack(Fragment fragment, String tag) {
+        Fragment f = getSupportFragmentManager().findFragmentById(R.id.fragment_frame);
+        if (f != null && f.getClass() == fragment.getClass()) {
+            // Pop last fragment if a request was made to add a fragment to back stack
+            // that was already being displayed.
+            getSupportFragmentManager().popBackStackImmediate();
+        }
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_frame, fragment, tag)
+                .addToBackStack(null)
+                .commit();
+        setDrawerOpen(false);
+    }
+
+    public void setDrawerOpen(boolean shouldOpen) {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.view_lead_drawer_layout);
+        if (drawer != null) {
+            if (shouldOpen) {
+                if (!drawer.isDrawerOpen(Gravity.START)) {
+                    drawer.openDrawer(Gravity.START);
+                }
+            } else {
+                if (drawer.isDrawerOpen(Gravity.START)) {
+                    drawer.closeDrawer(Gravity.START);
+                }
+            }
+        }
+    }
+
+    public void setActionBarTitle(String pageTitle) {
+        try {
+            getSupportActionBar().setTitle(pageTitle);
+        } catch (Exception e) {
+        }
     }
 }

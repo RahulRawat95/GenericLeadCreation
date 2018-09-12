@@ -30,6 +30,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.reflect.TypeToken;
 import com.wings2aspirations.genericleadcreation.R;
 import com.wings2aspirations.genericleadcreation.activity.AddUpdateLeadActivity;
+import com.wings2aspirations.genericleadcreation.activity.MainActivity;
 import com.wings2aspirations.genericleadcreation.adapter.ListLeadsAdapter;
 import com.wings2aspirations.genericleadcreation.models.AuthorisationToken;
 import com.wings2aspirations.genericleadcreation.models.LeadDetail;
@@ -247,6 +248,12 @@ public class ListLeadsFragment extends Fragment implements ListLeadsAdapter.Prog
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+
+        try{
+            ((MainActivity) getActivity()).setActionBarTitle("Lead List");
+        }catch (Exception e){
+
+        }
         getLeadsList();
         adapter = new ListLeadsAdapter(getActivity(),new ArrayList<LeadDetail>(), ListLeadsFragment.this, isAdmin, new ListLeadsAdapter.LeadOnClickCallBack() {
             @Override

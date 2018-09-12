@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.google.android.gms.maps.SupportMapFragment;
+import com.wings2aspirations.genericleadcreation.activity.MainActivity;
 
 public class CustomMapFragment extends SupportMapFragment {
 
@@ -23,6 +24,8 @@ public class CustomMapFragment extends SupportMapFragment {
         frameLayout.setBackgroundColor(getResources().getColor(android.R.color.transparent));
         ((ViewGroup) layout).addView(frameLayout,
                 new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+
+
 
         return layout;
     }
