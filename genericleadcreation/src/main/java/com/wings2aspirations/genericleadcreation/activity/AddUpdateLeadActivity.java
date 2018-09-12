@@ -54,6 +54,7 @@ import com.google.gson.reflect.TypeToken;
 import com.wings2aspirations.genericleadcreation.R;
 import com.wings2aspirations.genericleadcreation.models.LeadDetail;
 import com.wings2aspirations.genericleadcreation.models.ItemModel;
+import com.wings2aspirations.genericleadcreation.models.ProductListModel;
 import com.wings2aspirations.genericleadcreation.network.ApiClient;
 import com.wings2aspirations.genericleadcreation.network.ApiInterface;
 import com.wings2aspirations.genericleadcreation.reciever.GpsStatusListener;
@@ -89,6 +90,7 @@ import retrofit2.Response;
 import static com.wings2aspirations.genericleadcreation.repository.ShowOptionSelectionDialog.TYPE_CITY;
 import static com.wings2aspirations.genericleadcreation.repository.ShowOptionSelectionDialog.TYPE_PRODUCT;
 import static com.wings2aspirations.genericleadcreation.repository.ShowOptionSelectionDialog.TYPE_STATUS;
+import static com.wings2aspirations.genericleadcreation.repository.ShowOptionSelectionDialog.TYPE_UNIT;
 
 public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapReadyCallback,
         View.OnClickListener,
@@ -116,7 +118,7 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
     private NestedScrollView nestedScrollView;
 
     private LocationRequest locationRequest;
-    private RelativeLayout progressLayout;
+    private static RelativeLayout progressLayout;
 
     private MultipartBody.Part part;
 
@@ -143,7 +145,7 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
     //private RadioButton callTypeHotRb;
     //private RadioButton callTypeColdRb;
     //private RadioButton callTypeWarmRb;
-    private TextView productSp, statusSp, cityTv;
+    private TextView productSp, statusSp, unit_sp, cityTv;
     private FloatingActionButton cameraBt;
     private TextView fileNameTv;
     private FloatingActionButton saveBt;
@@ -170,8 +172,9 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
     private LeadDetail leadDetailForDownload;
     private ResponseBody responseBodyForDownload;
 
-    private List<ItemModel> itemModelsListProduct;
-    private List<ItemModel> itemModelsListStatus;
+    public static List<ProductListModel> itemModelsListProduct;
+    public static List<ItemModel> itemModelsListStatus;
+    public static List<ItemModel> itemModelsListUnits;
 
     public static Intent getLeadIntent(Context context, String name, int id) {
         Intent intent = new Intent(context, AddUpdateLeadActivity.class);
@@ -237,7 +240,7 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
 
         productSp = findViewById(R.id.product_sp);
         statusSp = findViewById(R.id.lead_status_sp);
-
+        unit_sp = findViewById(R.id.unit_sp);
         progressLayout = findViewById(R.id.progress_bar);
 
         nextFollowUpDateEt.setHint(simpleDateFormat.format(new Date()));
@@ -262,6 +265,7 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
         productSp.setOnClickListener(this);
 
         statusSp.setOnClickListener(this);
+
 
         cityTv.setOnClickListener(this);
 
@@ -350,11 +354,11 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
         } else if (v == marriageDateEt) {
             Utility.showDatePickerDialog(this, marriageDateEt, null, null, new Date());
         } else if (v == productSp) {
-            callShowOptionList(TYPE_PRODUCT, itemModelsListProduct);
+            callShowOptionList(TYPE_PRODUCT, itemModelsListProduct, true);
         } else if (v == statusSp) {
-            callShowOptionList(TYPE_STATUS, itemModelsListStatus);
+            callShowOptionList(TYPE_STATUS, itemModelsListStatus, true);
         } else if (v == cityTv) {
-            callShowOptionList(TYPE_CITY, Constants.getCities());
+            callShowOptionList(TYPE_CITY, Constants.getCities(), false);
         }
     }
 
@@ -377,11 +381,11 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
         return true;
     }
 
-    public void showProgress() {
+    public static void showProgress() {
         progressLayout.setVisibility(View.VISIBLE);
     }
 
-    public void hideProgress() {
+    public static void hideProgress() {
         progressLayout.setVisibility(View.GONE);
     }
 
@@ -688,14 +692,30 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
         getProductList();
     }
 
-    private void callShowOptionList(final int type, List<? extends ItemModel> itemModelsList) {
-        ShowOptionSelectionDialog.showDialog(AddUpdateLeadActivity.this, type, itemModelsList, new ShowOptionSelectionDialog.OptionSelectionCallBack() {
+    private void callShowOptionList(final int type, List<? extends ItemModel> itemModelsList, boolean canAdd) {
+        ShowOptionSelectionDialog.showDialog(AddUpdateLeadActivity.this, type, canAdd, itemModelsList, new ShowOptionSelectionDialog.OptionSelectionCallBack() {
             @Override
             public void callBack(ItemModel optionSelected) {
                 switch (type) {
                     case TYPE_PRODUCT:
                         productSp.setText(optionSelected.getITEMNAME());
                         productSp.setTag(optionSelected.getITEMID());
+
+                        int selectedProductUnitId = 0;
+
+                        for (int i = 0; i < itemModelsListProduct.size(); i++) {
+                            if (itemModelsListProduct.get(i).getPRODUCTID() == optionSelected.getITEMID()) {
+                                selectedProductUnitId = itemModelsListProduct.get(i).getUNITID();
+                                break;
+                            }
+                        }
+
+                        for (int i = 0; i < itemModelsListUnits.size(); i++) {
+                            if (itemModelsListUnits.get(i).getITEMID() == selectedProductUnitId) {
+                                unit_sp.setText(itemModelsListUnits.get(i).getITEMNAME());
+                                break;
+                            }
+                        }
                         break;
                     case TYPE_STATUS:
                         statusSp.setText(optionSelected.getITEMNAME());
@@ -727,7 +747,7 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
                     productSp.setEnabled(true);
 
                     JsonArray jsonArray = response.body();
-                    Type type = new TypeToken<List<ItemModel>>() {
+                    Type type = new TypeToken<List<ProductListModel>>() {
                     }.getType();
 
                     itemModelsListProduct = new Gson().fromJson(jsonArray, type);
@@ -767,6 +787,46 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
                     }.getType();
 
                     itemModelsListStatus = new Gson().fromJson(jsonArray, type);
+
+                    getUnitList();
+
+                } else {
+                    ShowToast.showToast(AddUpdateLeadActivity.this, "Failed to get Products");
+                }
+
+
+            }
+
+            @Override
+            public void onFailure(Call<JsonArray> call, Throwable t) {
+                hideProgress();
+                ShowToast.showToast(AddUpdateLeadActivity.this, "In Failure to get Products");
+            }
+        });
+    }
+
+    private void getUnitList() {
+
+        unit_sp.setEnabled(false);
+        Call<JsonArray> call = apiInterface.getUnits();
+
+        Log.e("AlucarD", call.request().url().toString());
+        call.enqueue(new Callback<JsonArray>() {
+            @Override
+            public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
+
+                hideProgress();
+
+                if (response.isSuccessful()) {
+
+                    unit_sp.setEnabled(true);
+
+                    JsonArray jsonArray = response.body();
+                    Type type = new TypeToken<List<ItemModel>>() {
+                    }.getType();
+
+                    itemModelsListUnits = new Gson().fromJson(jsonArray, type);
+
 
                 } else {
                     ShowToast.showToast(AddUpdateLeadActivity.this, "Failed to get Products");

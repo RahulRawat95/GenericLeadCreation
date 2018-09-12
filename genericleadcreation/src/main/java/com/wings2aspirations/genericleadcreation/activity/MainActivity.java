@@ -178,6 +178,8 @@ public class MainActivity extends AppCompatActivity
             return;
         }
 
+        ApiClient.setBaseUrl(getIntent().getStringExtra(EXTRA_BASE_URL));
+
         if (!getIntent().hasExtra(EXTRA_ARG_EMPLOYEE_ID)) {
             ShowToast.showToast(this, "Please Specify ID");
             finish();

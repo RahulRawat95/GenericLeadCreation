@@ -88,7 +88,6 @@
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentRight="true"
                 android:layout_margin="10dp"
-                android:visibility="gone"
                 android:src="@android:drawable/ic_input_add" />
         </RelativeLayout>
 
@@ -102,46 +101,7 @@
             android:textSize="20sp"
             android:visibility="gone" />
 
-        <LinearLayout
-            android:id="@+id/addNewItemContainer"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="right"
-            android:orientation="vertical"
-            android:visibility="gone"
-            android:padding="5dp">
-
-            <TextView
-                android:id="@+id/add_new_item_tag"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:text="Add New Item" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#cccccc" />
-
-            <EditText
-                android:id="@+id/add_new_item_et"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/edit_text_style"
-                android:padding="5dp"
-                android:layout_marginTop="10dp"/>
-
-            <TextView
-                android:id="@+id/add_new_item_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:background="#cccccc"
-                android:padding="10dp"
-                android:text="ADD"
-                android:textColor="@android:color/black"
-                android:textSize="20sp" />
-
-        </LinearLayout>
     </LinearLayout>
+
+    <include layout="@layout/progress_background" />
 </RelativeLayout>

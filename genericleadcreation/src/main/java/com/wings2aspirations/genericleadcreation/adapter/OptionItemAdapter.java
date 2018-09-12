@@ -32,6 +32,14 @@ public class OptionItemAdapter extends RecyclerView.Adapter<OptionItemAdapter.Op
         public void callBack(ItemModel itemModel);
     }
 
+    public void setItemList(List<? extends ItemModel> itemModels) {
+        this.itemModels = itemModels;
+        this.itemModelsFiltered = itemModels;
+
+        notifyDataSetChanged();
+    }
+
+
     public OptionItemAdapter(Context context, List<? extends ItemModel> itemModels, ItemClickCallBack itemClickCallBack) {
         this.context = context;
         this.itemModels = itemModels;
