@@ -42,7 +42,7 @@
                         android:layout_height="@dimen/edit_text_height"
                         android:gravity="center_vertical"
                         android:hint="@string/customer_name_label"
-                        android:inputType="text"
+                        android:inputType="textCapWords"
                         android:paddingTop="@dimen/edit_text_padding_top"
                         android:textSize="@dimen/text_size" />
                 </android.support.design.widget.TextInputLayout>
@@ -73,7 +73,7 @@
                         android:layout_height="@dimen/edit_text_height"
                         android:gravity="center_vertical"
                         android:hint="@string/contact_person_label"
-                        android:inputType="text"
+                        android:inputType="textCapWords"
                         android:paddingTop="@dimen/edit_text_padding_top"
                         android:textSize="@dimen/text_size" />
                 </android.support.design.widget.TextInputLayout>
