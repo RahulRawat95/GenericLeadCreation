@@ -137,7 +137,7 @@ public class ListLeadsFragment extends Fragment implements ListLeadsAdapter.Prog
     @Override
     public void onResume() {
         super.onResume();
-        if (isAdded())
+        if (isAdded() && details == null)
             getLeadsList();
     }
 
@@ -201,7 +201,7 @@ public class ListLeadsFragment extends Fragment implements ListLeadsAdapter.Prog
         }
 
 
-        adapter = new ListLeadsAdapter(getActivity(),refineDetails, ListLeadsFragment.this, isAdmin, new ListLeadsAdapter.LeadOnClickCallBack() {
+        adapter = new ListLeadsAdapter(getActivity(), refineDetails, ListLeadsFragment.this, isAdmin, new ListLeadsAdapter.LeadOnClickCallBack() {
             @Override
             public void callback(LeadDetail leadDetail) {
                 TrailFragment fragment = TrailFragment.newInstance(leadDetail.getCHILD_FOLLOW_UP_ID(), leadDetail.getID(), leadDetail.getEMP_NAME(), leadDetail.getEMP_ID());
@@ -249,13 +249,13 @@ public class ListLeadsFragment extends Fragment implements ListLeadsAdapter.Prog
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 
-        try{
+        try {
             ((MainActivity) getActivity()).setActionBarTitle("Lead List");
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
         getLeadsList();
-        adapter = new ListLeadsAdapter(getActivity(),new ArrayList<LeadDetail>(), ListLeadsFragment.this, isAdmin, new ListLeadsAdapter.LeadOnClickCallBack() {
+        adapter = new ListLeadsAdapter(getActivity(), new ArrayList<LeadDetail>(), ListLeadsFragment.this, isAdmin, new ListLeadsAdapter.LeadOnClickCallBack() {
             @Override
             public void callback(LeadDetail leadDetail) {
 
