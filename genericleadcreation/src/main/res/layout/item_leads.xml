@@ -20,23 +20,57 @@
             android:paddingBottom="@dimen/label_padding_default"
             android:paddingTop="@dimen/label_padding_default">
 
-            <TextView
-                android:id="@+id/comp_name"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:paddingLeft="@dimen/label_padding_default"
-                android:paddingRight="@dimen/label_padding_default"
-                android:text="Company Name" />
 
-            <TextView
-                android:id="@+id/email_id"
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:paddingLeft="@dimen/label_padding_default"
-                android:paddingRight="@dimen/label_padding_default"
-                android:text="a@a.a" />
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/label_padding_default"
+                    android:paddingRight="@dimen/label_padding_default"
+                    android:text="Company Name"
+                    android:textSize="11sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/comp_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingLeft="@dimen/label_padding_default"
+                    android:paddingRight="@dimen/label_padding_default"
+                    android:text="Company Name" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/label_padding_default"
+                    android:paddingRight="@dimen/label_padding_default"
+                    android:text="Email Id"
+                    android:textSize="11sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/email_id"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingLeft="@dimen/label_padding_default"
+                    android:paddingRight="@dimen/label_padding_default"
+                    android:text="a@a.a" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
@@ -47,24 +81,57 @@
             android:paddingBottom="@dimen/label_padding_default"
             android:paddingTop="@dimen/label_padding_default">
 
-            <TextView
-                android:id="@+id/cust_name"
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:paddingLeft="@dimen/label_padding_default"
-                android:paddingRight="@dimen/label_padding_default"
-                android:text="Customer Name" />
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/mob_no"
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/label_padding_default"
+                    android:paddingRight="@dimen/label_padding_default"
+                    android:text="Customer Name"
+                    android:textSize="11sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/cust_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingLeft="@dimen/label_padding_default"
+                    android:paddingRight="@dimen/label_padding_default"
+                    android:text="Customer Name" />
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:paddingLeft="@dimen/label_padding_default"
-                android:paddingRight="@dimen/label_padding_default"
-                android:text="9899100101" />
+                android:orientation="vertical">
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/label_padding_default"
+                    android:paddingRight="@dimen/label_padding_default"
+                    android:text="Mobile Number"
+                    android:textSize="11sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/mob_no"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingLeft="@dimen/label_padding_default"
+                    android:paddingRight="@dimen/label_padding_default"
+                    android:text="9899100101" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
@@ -117,7 +184,7 @@
                 android:layout_weight="1"
                 android:paddingLeft="@dimen/label_padding_default"
                 android:paddingRight="@dimen/label_padding_default"
-                android:text="hot cold warm" />
+                android:text="hot" />
 
         </LinearLayout>
 
