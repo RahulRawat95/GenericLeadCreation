@@ -14,9 +14,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ArrayList<String> strings = new ArrayList<>();
-        strings.add("rahul");
-        strings.add("rawat");
-        Intent intent = com.wings2aspirations.genericleadcreation.activity.MainActivity.getListLeadsIntent(this, "http://13.126.198.143:10004/", "attendanceAppDB", "Mukul1062", BuildConfig.APPLICATION_ID, 2, "Lokesh");
+        strings.add("Lalit");
+        strings.add("Lokesh");
+        Intent intent = com.wings2aspirations.genericleadcreation.activity.MainActivity.getListLeadsIntent(this, "http://13.126.198.143:10004/", "attendanceAppDB", "Mukul1062", BuildConfig.APPLICATION_ID, 2, strings);
         startActivity(intent);
         finish();
     }

@@ -352,7 +352,7 @@ public class LeadDetail implements CalendarHelper.CalendarInstance {
     @Override
     public long getFromDate(Context context) {
         Calendar calendar = Calendar.getInstance();
-        calendar.setTime(getDate());
+        calendar.setTime(getFollowUpDate());
         calendar.add(Calendar.DATE, -1);
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);

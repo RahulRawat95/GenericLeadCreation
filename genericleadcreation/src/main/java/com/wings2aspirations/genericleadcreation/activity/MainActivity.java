@@ -68,6 +68,7 @@ public class MainActivity extends AppCompatActivity
     private ArrayList<String> empNames;
 
     public static Intent getListLeadsIntent(Context context, String baseUrl, String dbName, String schemaName, String applicationId, int id, ArrayList<String> empNames) {
+        empNames.add(0, "Select");
         Intent intent = new Intent(context, MainActivity.class);
         intent.putExtra(EXTRA_BASE_URL, baseUrl);
         intent.putExtra(EXTRA_ARG_EMPLOYEE_ID, id);
@@ -274,9 +275,9 @@ public class MainActivity extends AppCompatActivity
         Fragment fragment = null;
 
         if (id == R.id.action_lead_report) {
-            fragment = LeadMeetingReportFragment.newInstance(true, empId, isAdmin);
+            fragment = LeadMeetingReportFragment.newInstance(true, empId, isAdmin, empNames);
         } else if (id == R.id.action_meeting_report) {
-            fragment = LeadMeetingReportFragment.newInstance(false, empId, isAdmin);
+            fragment = LeadMeetingReportFragment.newInstance(false, empId, isAdmin, empNames);
         } else if (id == R.id.action_list_leads) {
             if (isAdmin)
                 fragment = ListLeadsFragment.newInstance(ApiClient.BASE_URL, ApiClient.getDbName(), ApiClient.getSchemaName(), ApiClient.applicationId, empId, empNames);

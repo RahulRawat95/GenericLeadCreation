@@ -16,8 +16,11 @@ import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -56,6 +59,7 @@ public class LeadMeetingReportFragment extends Fragment implements LeadMeetRepor
     private static final String ARG_IS_LEAD_REPORT = "argIsLeadReport";
     private static final String ARG_EMP_ID = "argEmployeeId";
     private static final String ARG_IS_ADMIN = "argIsAdmin";
+    public static final String ARG_EMP_NAMES = "employeeNames";
 
     private boolean isLeadReport;
 
@@ -68,23 +72,27 @@ public class LeadMeetingReportFragment extends Fragment implements LeadMeetRepor
     private RecyclerView recyclerView;
     private ApiInterface apiInterface;
     private List<LeadDetail> details;
+    private ArrayList<String> empNames;
     private List<LeadDetail> refineDetails;
 
     private HashSet<Integer> productHash, statusHash, cityHash;
 
     private FilterSheetFragment filterSheetFragment;
+    private Spinner spinner;
 
+    private String selectedEmpName = "";
     private int empId;
     private boolean isAdmin;
 
     private HashSet<Integer>[] hashSets;
     private ArrayList<ItemModel>[] itemModels;
 
-    public static LeadMeetingReportFragment newInstance(boolean isLeadReport, int empId, boolean isAdmin) {
+    public static LeadMeetingReportFragment newInstance(boolean isLeadReport, int empId, boolean isAdmin, ArrayList<String> empNames) {
         Bundle args = new Bundle();
         args.putBoolean(ARG_IS_LEAD_REPORT, isLeadReport);
         args.putInt(ARG_EMP_ID, empId);
         args.putBoolean(ARG_IS_ADMIN, isAdmin);
+        args.putSerializable(ARG_EMP_NAMES, empNames);
 
         LeadMeetingReportFragment fragment = new LeadMeetingReportFragment();
         fragment.setArguments(args);
@@ -96,6 +104,7 @@ public class LeadMeetingReportFragment extends Fragment implements LeadMeetRepor
         isLeadReport = args.getBoolean(ARG_IS_LEAD_REPORT);
         empId = args.getInt(ARG_EMP_ID);
         isAdmin = args.getBoolean(ARG_IS_ADMIN);
+        empNames = (ArrayList<String>) args.getSerializable(ARG_EMP_NAMES);
     }
 
     @Override
@@ -119,16 +128,43 @@ public class LeadMeetingReportFragment extends Fragment implements LeadMeetRepor
         recyclerView = view.findViewById(R.id.recycler_view);
         progressLayout = view.findViewById(R.id.progress_bar);
         leadFilterFab = view.findViewById(R.id.lead_filter_fab);
+        spinner = view.findViewById(R.id.spinner);
         return view;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
-        try{
-            ((MainActivity) getActivity()).setActionBarTitle("Lead Meeting");
-        }catch (Exception e){
+        try {
+            ((MainActivity) getActivity()).setActionBarTitle((isLeadReport ? "Lead" : "Meeting") + " Report");
+        } catch (Exception e) {
 
+        }
+
+        if (isAdmin) {
+            spinner.setAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_dropdown_item_1line, empNames));
+
+            spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    if (position == 0) {
+                        selectedEmpName = "";
+                    } else {
+                        selectedEmpName = (String) parent.getItemAtPosition(position);
+                    }
+                    try {
+                        adapter.getFilter().filter(selectedEmpName);
+                    } catch (Exception e) {
+                    }
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
+        } else {
+            spinner.setVisibility(View.GONE);
         }
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -165,7 +201,7 @@ public class LeadMeetingReportFragment extends Fragment implements LeadMeetRepor
                 try {
                     //creating fromDate variable for executing query as date set on the editText
                     fromDate = MainActivity.simpleDateFormat.parse(fromDateEt.getText().toString());
-                    adapter.setDate(fromDate, toDate, "");
+                    adapter.setDate(fromDate, toDate, selectedEmpName);
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -210,7 +246,7 @@ public class LeadMeetingReportFragment extends Fragment implements LeadMeetRepor
                 try {
                     //creating toDate variable for executing query as date set on the editText
                     toDate = MainActivity.simpleDateFormat.parse(toDateEt.getText().toString());
-                    adapter.setDate(fromDate, toDate, "");
+                    adapter.setDate(fromDate, toDate, selectedEmpName);
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -233,7 +269,7 @@ public class LeadMeetingReportFragment extends Fragment implements LeadMeetRepor
                     @Override
                     public void callback() {
                         if (adapter != null)
-                            adapter.getFilter().filter("");
+                            adapter.getFilter().filter(selectedEmpName);
                     }
                 });
                 filterSheetFragment.show(getActivity().getSupportFragmentManager(), "Filter");

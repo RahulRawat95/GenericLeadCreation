@@ -464,7 +464,6 @@ public class ListLeadsFragment extends Fragment implements ListLeadsAdapter.Prog
                 return;
             }
             empNames = (ArrayList<String>) args.getSerializable(EXTRA_EMP_NAMES);
-            empNames.add(0, "Select");
         }
     }
 

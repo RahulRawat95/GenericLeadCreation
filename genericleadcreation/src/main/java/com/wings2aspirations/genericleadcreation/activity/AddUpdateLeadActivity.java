@@ -465,6 +465,13 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
         leadRemarksEt.setEnabled(false);
         nextFollowUpDateEt.setEnabled(false);
         nextFollowUpTimeEt.setEnabled(false);
+        productSp.setEnabled(false);
+        productSp.setOnClickListener(null);
+        statusSp.setEnabled(false);
+        statusSp.setOnClickListener(null);
+        cityTv.setEnabled(false);
+        snoozeTimeEt.setEnabled(false);
+        timeUnitSp.setEnabled(false);
       /*  callTypeRg.setEnabled(false);
         callTypeHotRb.setEnabled(false);
         callTypeColdRb.setEnabled(false);
