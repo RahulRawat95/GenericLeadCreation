@@ -94,7 +94,8 @@ public class OptionItemAdapter extends RecyclerView.Adapter<OptionItemAdapter.Op
         @Override
         public void onClick(View view) {
 
-            itemClickCallBack.callBack(itemModelsFiltered.get(getAdapterPosition()));
+            if (itemClickCallBack != null)
+                itemClickCallBack.callBack(itemModelsFiltered.get(getAdapterPosition()));
         }
     }
 

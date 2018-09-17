@@ -87,7 +87,7 @@ public class ShowOptionSelectionDialog {
         if (!canAdd)
             fab_add_item.setVisibility(View.GONE);
 
-        RelativeLayout showListContainer = optionListView.findViewById(R.id.showListContainer);
+        LinearLayout showListContainer = optionListView.findViewById(R.id.showListContainer);
 
 
         switch (dialogType) {
@@ -256,7 +256,7 @@ public class ShowOptionSelectionDialog {
     }
 
     private static void callAddDetailsApi(final Context mContext, String NAME_VC, final int WHICH_TO_ADD) {
-
+/*
         ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
         Call<JsonObject> call = apiInterface.insertStatusUnit(NAME_VC, WHICH_TO_ADD);
 
@@ -288,7 +288,7 @@ public class ShowOptionSelectionDialog {
             public void onFailure(Call<JsonObject> call, Throwable t) {
                 hideProgress();
             }
-        });
+        });*/
 
     }
 
@@ -393,7 +393,7 @@ public class ShowOptionSelectionDialog {
     }
 
 
-    private static boolean emptyFieldValidation(List<View> validateViewList) {
+    public static boolean emptyFieldValidation(List<View> validateViewList) {
 
         boolean isAllValid = true;
 

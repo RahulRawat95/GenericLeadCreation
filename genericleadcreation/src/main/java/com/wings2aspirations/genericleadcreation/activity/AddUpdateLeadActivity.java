@@ -354,9 +354,9 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
         } else if (v == marriageDateEt) {
             Utility.showDatePickerDialog(this, marriageDateEt, null, null, new Date());
         } else if (v == productSp) {
-            callShowOptionList(TYPE_PRODUCT, itemModelsListProduct, true);
+            callShowOptionList(TYPE_PRODUCT, itemModelsListProduct, false);
         } else if (v == statusSp) {
-            callShowOptionList(TYPE_STATUS, itemModelsListStatus, true);
+            callShowOptionList(TYPE_STATUS, itemModelsListStatus, false);
         } else if (v == cityTv) {
             callShowOptionList(TYPE_CITY, Constants.getCities(), false);
         }

@@ -23,6 +23,7 @@ import com.google.gson.reflect.TypeToken;
 import com.wings2aspirations.genericleadcreation.R;
 import com.wings2aspirations.genericleadcreation.fragment.LeadMeetingReportFragment;
 import com.wings2aspirations.genericleadcreation.fragment.ListLeadsFragment;
+import com.wings2aspirations.genericleadcreation.fragment.ProductStatusFragment;
 import com.wings2aspirations.genericleadcreation.models.AuthorisationToken;
 import com.wings2aspirations.genericleadcreation.models.City;
 import com.wings2aspirations.genericleadcreation.models.ItemModel;
@@ -30,11 +31,13 @@ import com.wings2aspirations.genericleadcreation.models.ProductListModel;
 import com.wings2aspirations.genericleadcreation.network.ApiClient;
 import com.wings2aspirations.genericleadcreation.network.ApiInterface;
 import com.wings2aspirations.genericleadcreation.repository.Constants;
+import com.wings2aspirations.genericleadcreation.repository.ShowOptionSelectionDialog;
 import com.wings2aspirations.genericleadcreation.repository.ShowToast;
 
 import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -44,6 +47,9 @@ import retrofit2.Response;
 
 import static com.wings2aspirations.genericleadcreation.activity.AddUpdateLeadActivity.EXTRA_ARG_EMPLOYEE_ID;
 import static com.wings2aspirations.genericleadcreation.activity.AddUpdateLeadActivity.EXTRA_ARG_EMPLOYEE_NAME;
+import static com.wings2aspirations.genericleadcreation.repository.ShowOptionSelectionDialog.TYPE_CITY;
+import static com.wings2aspirations.genericleadcreation.repository.ShowOptionSelectionDialog.TYPE_PRODUCT;
+import static com.wings2aspirations.genericleadcreation.repository.ShowOptionSelectionDialog.TYPE_STATUS;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -64,6 +70,7 @@ public class MainActivity extends AppCompatActivity
 
     private ArrayList<ProductListModel> itemModelsListProduct;
     private ArrayList<ItemModel> itemModelsListStatus;
+    public List<ItemModel> itemModelsListUnits;
 
     private ArrayList<String> empNames;
 
@@ -266,6 +273,24 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+
+    private void callShowOptionList(final int type, List<? extends ItemModel> itemModelsList, boolean canAdd) {
+        ShowOptionSelectionDialog.showDialog(MainActivity.this, type, canAdd, itemModelsList, new ShowOptionSelectionDialog.OptionSelectionCallBack() {
+            @Override
+            public void callBack(ItemModel optionSelected) {
+                switch (type) {
+                    case TYPE_PRODUCT:
+
+
+                        break;
+                    case TYPE_STATUS:
+
+                        break;
+                }
+            }
+        });
+    }
+
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -274,7 +299,11 @@ public class MainActivity extends AppCompatActivity
 
         Fragment fragment = null;
 
-        if (id == R.id.action_lead_report) {
+        if (id == R.id.action_create_status) {
+            fragment = ProductStatusFragment.newInstance(false);
+        } else if (id == R.id.action_create_product) {
+            fragment = ProductStatusFragment.newInstance(true);
+        } else if (id == R.id.action_lead_report) {
             fragment = LeadMeetingReportFragment.newInstance(true, empId, isAdmin, empNames);
         } else if (id == R.id.action_meeting_report) {
             fragment = LeadMeetingReportFragment.newInstance(false, empId, isAdmin, empNames);
