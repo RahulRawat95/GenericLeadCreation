@@ -66,7 +66,7 @@ public class ShowOptionSelectionDialog {
         void callBack(ItemModel optionSelected);
     }
 
-    
+
 
     public static void showDialog(final Context mContext, final int dialogType, boolean canAdd, List<? extends ItemModel> itemModelList, final OptionSelectionCallBack optionSelectionCallBack) {
         //creating alertDialog builder
