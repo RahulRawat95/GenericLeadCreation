@@ -52,8 +52,9 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.wings2aspirations.genericleadcreation.R;
-import com.wings2aspirations.genericleadcreation.models.LeadDetail;
+import com.wings2aspirations.genericleadcreation.models.City;
 import com.wings2aspirations.genericleadcreation.models.ItemModel;
+import com.wings2aspirations.genericleadcreation.models.LeadDetail;
 import com.wings2aspirations.genericleadcreation.models.ProductListModel;
 import com.wings2aspirations.genericleadcreation.network.ApiClient;
 import com.wings2aspirations.genericleadcreation.network.ApiInterface;
@@ -89,8 +90,8 @@ import retrofit2.Response;
 
 import static com.wings2aspirations.genericleadcreation.repository.ShowOptionSelectionDialog.TYPE_CITY;
 import static com.wings2aspirations.genericleadcreation.repository.ShowOptionSelectionDialog.TYPE_PRODUCT;
+import static com.wings2aspirations.genericleadcreation.repository.ShowOptionSelectionDialog.TYPE_STATE;
 import static com.wings2aspirations.genericleadcreation.repository.ShowOptionSelectionDialog.TYPE_STATUS;
-import static com.wings2aspirations.genericleadcreation.repository.ShowOptionSelectionDialog.TYPE_UNIT;
 
 public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapReadyCallback,
         View.OnClickListener,
@@ -113,6 +114,7 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
     private CalendarHelper calendarHelper;
 
     private AlertDialog saveAlertDialog;
+    private ArrayList<City> cities;
     /*private GoogleMap mMap;
     private CustomMapFragment mSupportMapFragment;*/
     private NestedScrollView nestedScrollView;
@@ -145,7 +147,7 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
     //private RadioButton callTypeHotRb;
     //private RadioButton callTypeColdRb;
     //private RadioButton callTypeWarmRb;
-    private TextView productSp, statusSp, unit_sp, cityTv;
+    private TextView productSp, statusSp, unit_sp, cityTv, stateTv;
     private FloatingActionButton cameraBt;
     private TextView fileNameTv;
     private FloatingActionButton saveBt;
@@ -234,7 +236,9 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
         fileNameTv = (TextView) findViewById(R.id.file_name_tv);
         saveBt = (FloatingActionButton) findViewById(R.id.save_bt);
 
+        stateTv = findViewById(R.id.state_tv);
         cityTv = findViewById(R.id.city_tv);
+        cityTv.setEnabled(false);
 
         snoozeTimeEt = findViewById(R.id.snooze_time_et);
 
@@ -266,7 +270,7 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
 
         statusSp.setOnClickListener(this);
 
-
+        stateTv.setOnClickListener(this);
         cityTv.setOnClickListener(this);
 
         leadRemarksEt.setOnTouchListener(touchListener);
@@ -358,7 +362,9 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
         } else if (v == statusSp) {
             callShowOptionList(TYPE_STATUS, itemModelsListStatus, true);
         } else if (v == cityTv) {
-            callShowOptionList(TYPE_CITY, Constants.getCities(), false);
+            callShowOptionList(TYPE_CITY, cities, false);
+        } else if (v == stateTv) {
+            callShowOptionList(TYPE_STATE, Constants.getStates(), false);
         }
     }
 
@@ -424,6 +430,7 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
         jsonObject.addProperty("DATE_OF_BIRTH_VC", dobDateEt.getText().toString());
         jsonObject.addProperty("MARRIAGE_DATE_VC", marriageDateEt.getText().toString());
         jsonObject.addProperty("CITY_ID", (int) cityTv.getTag());
+        jsonObject.addProperty("STATE_ID", (int) stateTv.getTag());
         if (updateId >= 0) {
             jsonObject.addProperty("ID", updateId);
         } else {
@@ -597,6 +604,9 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
                         cityTv.setText(leadDetail.getCITY_NAME_VC());
                         cityTv.setTag(leadDetail.getCITY_ID());
 
+                        stateTv.setText(leadDetail.getSTATE_NAME_VC());
+                        stateTv.setTag(leadDetail.getSTATE_ID());
+
                         fileNameTv.setText("Buisness Card.jpg");
                         fileNameTv.setOnClickListener(new View.OnClickListener() {
 
@@ -751,6 +761,29 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
                     case TYPE_CITY:
                         cityTv.setText(optionSelected.getITEMNAME());
                         cityTv.setTag(optionSelected.getITEMID());
+                        break;
+                    case TYPE_STATE:
+                        stateTv.setText(optionSelected.getITEMNAME());
+                        stateTv.setTag(optionSelected.getITEMID());
+
+                        showProgress();
+                        apiInterface.getCityList(optionSelected.getITEMID()).enqueue(new Callback<ArrayList<City>>() {
+                            @Override
+                            public void onResponse(Call<ArrayList<City>> call, Response<ArrayList<City>> response) {
+                                hideProgress();
+                                if (!response.isSuccessful()) {
+                                    return;
+                                }
+                                cityTv.setEnabled(true);
+                                cities = response.body();
+                            }
+
+                            @Override
+                            public void onFailure(Call<ArrayList<City>> call, Throwable t) {
+                                hideProgress();
+                                cityTv.setEnabled(true);
+                            }
+                        });
                         break;
                 }
             }
@@ -1226,6 +1259,10 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
         }
         if (isEmpty(nextFollowUpTimeEt)) {
             nextFollowUpTimeEt.setError("Required");
+            return false;
+        }
+        if (TextUtils.isEmpty(stateTv.getText())) {
+            stateTv.setError("Required");
             return false;
         }
         if (TextUtils.isEmpty(cityTv.getText())) {

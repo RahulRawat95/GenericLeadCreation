@@ -53,6 +53,7 @@ public class ShowOptionSelectionDialog {
     public static final int TYPE_STATUS = 1;
     public static final int TYPE_CITY = 2;
     public static final int TYPE_UNIT = 3;
+    public static final int TYPE_STATE = 4;
 
     public static AlertDialog showOptionItemListDialog;
     public static BottomSheetDialog globalMessageDialog;
@@ -103,6 +104,9 @@ public class ShowOptionSelectionDialog {
             case TYPE_UNIT:
                 itemTagTV.setText("Unit List");
                 break;
+            case TYPE_STATE:
+                itemTagTV.setText("State List");
+                break;
         }
 
         RecyclerView itemListRV = optionListView.findViewById(R.id.item_list_rv);
@@ -151,6 +155,9 @@ public class ShowOptionSelectionDialog {
                     break;
                 case TYPE_UNIT:
                     no_item_found.setText("No Unit Found");
+                    break;
+                case TYPE_STATE:
+                    no_item_found.setText("No State Found");
                     break;
             }
 

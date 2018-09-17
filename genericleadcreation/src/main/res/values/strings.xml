@@ -17,6 +17,7 @@
     <string name="product_label">Products</string>
     <string name="unit_label">Unit</string>
     <string name="city_label">City</string>
+    <string name="state_label">State</string>
     <string name="call_type_cold_label">Cold</string>
     <string name="call_type_warm_label">Warm</string>
     <string name="title_activity_maps">Map</string>

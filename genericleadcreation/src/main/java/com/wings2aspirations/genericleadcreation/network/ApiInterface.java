@@ -74,8 +74,11 @@ public interface ApiInterface {
     Call<JsonArray> getUnits();
 
     @GET("/getStates/")
-    Call<List<State>> getStates();
+    Call<ArrayList<State>> getStates();
 
     @GET("/getCities/")
-    Call<List<City>> getCityList(@Query("id") int id);
+    Call<ArrayList<City>> getCityList(@Query("id") int id);
+
+    @GET("/getCityForFilter/")
+    Call<ArrayList<City>> getCityListForFilter(@Query("userId") int userId);
 }
