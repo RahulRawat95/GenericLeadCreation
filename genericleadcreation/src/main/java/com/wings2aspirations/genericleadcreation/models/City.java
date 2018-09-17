@@ -7,6 +7,8 @@ public class City extends ItemModel {
     private long id;
     @SerializedName("CITY_NAME_VC")
     private String cityName;
+    @SerializedName("STATE_ID")
+    private long stateId;
 
     public long getId() {
         return id;
@@ -32,5 +34,13 @@ public class City extends ItemModel {
     @Override
     public String getITEMNAME() {
         return cityName;
+    }
+
+    public long getStateId() {
+        return stateId;
+    }
+
+    public void setStateId(long stateId) {
+        this.stateId = stateId;
     }
 }
