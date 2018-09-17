@@ -28,6 +28,7 @@ import com.wings2aspirations.genericleadcreation.models.AuthorisationToken;
 import com.wings2aspirations.genericleadcreation.models.City;
 import com.wings2aspirations.genericleadcreation.models.ItemModel;
 import com.wings2aspirations.genericleadcreation.models.ProductListModel;
+import com.wings2aspirations.genericleadcreation.models.State;
 import com.wings2aspirations.genericleadcreation.network.ApiClient;
 import com.wings2aspirations.genericleadcreation.network.ApiInterface;
 import com.wings2aspirations.genericleadcreation.repository.Constants;
@@ -245,7 +246,8 @@ public class MainActivity extends AppCompatActivity
         getAuthString(empId, new ListLeadsActivity.ListLeadCallback() {
             @Override
             public void callback() {
-                apiInterface.getCityList().enqueue(new Callback<ArrayList<City>>() {
+                int localId = isAdmin ? 0 : empId;
+                apiInterface.getCityListForFilter(localId).enqueue(new Callback<ArrayList<City>>() {
                     @Override
                     public void onResponse(Call<ArrayList<City>> call, Response<ArrayList<City>> response) {
                         if (!response.isSuccessful()) {
@@ -256,6 +258,20 @@ public class MainActivity extends AppCompatActivity
 
                     @Override
                     public void onFailure(Call<ArrayList<City>> call, Throwable t) {
+
+                    }
+                });
+                apiInterface.getStates().enqueue(new Callback<ArrayList<State>>() {
+                    @Override
+                    public void onResponse(Call<ArrayList<State>> call, Response<ArrayList<State>> response) {
+                        if (!response.isSuccessful()) {
+                            return;
+                        }
+                        Constants.setStates(response.body());
+                    }
+
+                    @Override
+                    public void onFailure(Call<ArrayList<State>> call, Throwable t) {
 
                     }
                 });

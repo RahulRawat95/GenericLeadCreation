@@ -97,6 +97,12 @@ public class LeadDetail implements CalendarHelper.CalendarInstance {
     @SerializedName("CITY_NAME_VC")
     @Expose
     private String CITY_NAME_VC;
+    @SerializedName("STATE_NAME_VC")
+    @Expose
+    private String STATE_NAME_VC;
+    @SerializedName("STATE_ID")
+    @Expose
+    private Integer STATE_ID;
 
     public String getCOMPANY_NAME() {
         return COMPANY_NAME;
@@ -429,5 +435,21 @@ public class LeadDetail implements CalendarHelper.CalendarInstance {
 
     public void setFollowUpDate(Date followUpDate) {
         this.followUpDate = followUpDate;
+    }
+
+    public String getSTATE_NAME_VC() {
+        return STATE_NAME_VC;
+    }
+
+    public void setSTATE_NAME_VC(String STATE_NAME_VC) {
+        this.STATE_NAME_VC = STATE_NAME_VC;
+    }
+
+    public Integer getSTATE_ID() {
+        return STATE_ID;
+    }
+
+    public void setSTATE_ID(Integer STATE_ID) {
+        this.STATE_ID = STATE_ID;
     }
 }
