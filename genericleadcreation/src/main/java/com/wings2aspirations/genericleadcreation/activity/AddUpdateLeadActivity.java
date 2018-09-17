@@ -477,6 +477,7 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
         statusSp.setEnabled(false);
         statusSp.setOnClickListener(null);
         cityTv.setEnabled(false);
+        stateTv.setEnabled(false);
         snoozeTimeEt.setEnabled(false);
         timeUnitSp.setEnabled(false);
       /*  callTypeRg.setEnabled(false);
@@ -600,12 +601,28 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
                         unit_sp.setText(leadDetail.getUNIT_VC());
                         unit_sp.setTag(leadDetail.getUNIT_ID());
 
-
                         cityTv.setText(leadDetail.getCITY_NAME_VC());
                         cityTv.setTag(leadDetail.getCITY_ID());
 
                         stateTv.setText(leadDetail.getSTATE_NAME_VC());
                         stateTv.setTag(leadDetail.getSTATE_ID());
+
+                        showProgress();
+                        apiInterface.getCityList(leadDetail.getSTATE_ID()).enqueue(new Callback<ArrayList<City>>() {
+                            @Override
+                            public void onResponse(Call<ArrayList<City>> call, Response<ArrayList<City>> response) {
+                                hideProgress();
+                                if (!response.isSuccessful()) {
+                                    return;
+                                }
+                                cities = response.body();
+                            }
+
+                            @Override
+                            public void onFailure(Call<ArrayList<City>> call, Throwable t) {
+                                hideProgress();
+                            }
+                        });
 
                         fileNameTv.setText("Buisness Card.jpg");
                         fileNameTv.setOnClickListener(new View.OnClickListener() {
@@ -765,13 +782,14 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
                     case TYPE_STATE:
                         stateTv.setText(optionSelected.getITEMNAME());
                         stateTv.setTag(optionSelected.getITEMID());
-
+                        cityTv.setText("");
                         showProgress();
                         apiInterface.getCityList(optionSelected.getITEMID()).enqueue(new Callback<ArrayList<City>>() {
                             @Override
                             public void onResponse(Call<ArrayList<City>> call, Response<ArrayList<City>> response) {
                                 hideProgress();
                                 if (!response.isSuccessful()) {
+                                    cityTv.setEnabled(false);
                                     return;
                                 }
                                 cityTv.setEnabled(true);
@@ -781,7 +799,7 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
                             @Override
                             public void onFailure(Call<ArrayList<City>> call, Throwable t) {
                                 hideProgress();
-                                cityTv.setEnabled(true);
+                                cityTv.setEnabled(false);
                             }
                         });
                         break;
