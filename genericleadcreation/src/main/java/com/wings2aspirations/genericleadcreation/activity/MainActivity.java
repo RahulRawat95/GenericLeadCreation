@@ -314,15 +314,14 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void getStatusList() {
-        Call<JsonArray> call = apiInterface.getStatusList();
-        call.enqueue(new Callback<JsonArray>() {
+        int localId = isAdmin ? 0 : empId;
+        Call<ArrayList<ItemModel>> call = apiInterface.getStatusForFilter(localId);
+        call.enqueue(new Callback<ArrayList<ItemModel>>() {
             @Override
-            public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
+            public void onResponse(Call<ArrayList<ItemModel>> call, Response<ArrayList<ItemModel>> response) {
                 if (response.isSuccessful()) {
-                    JsonArray jsonArray = response.body();
-                    Type type = new TypeToken<ArrayList<ItemModel>>() {
-                    }.getType();
-                    itemModelsListStatus = new Gson().fromJson(jsonArray, type);
+
+                    itemModelsListStatus = response.body();
                 } else {
                     itemModelsListStatus = new ArrayList<>();
                 }
@@ -330,7 +329,7 @@ public class MainActivity extends AppCompatActivity
             }
 
             @Override
-            public void onFailure(Call<JsonArray> call, Throwable t) {
+            public void onFailure(Call<ArrayList<ItemModel>> call, Throwable t) {
                 itemModelsListProduct = new ArrayList<>();
             }
         });
