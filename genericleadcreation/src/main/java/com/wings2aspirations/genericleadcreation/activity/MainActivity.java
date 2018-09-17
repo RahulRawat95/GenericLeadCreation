@@ -16,6 +16,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -155,6 +157,14 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        View view = navigationView.getHeaderView(0);
+        TextView drawerEmpName = view.findViewById(R.id.emp_name_drawer);
+
+        if (!isAdmin)
+            drawerEmpName.setText(empName);
+        else
+            drawerEmpName.setText("Admin");
 
         Menu menu = navigationView.getMenu();
         if (!isAdmin) {
@@ -349,7 +359,8 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void getStatusList() {
-        Call<JsonArray> call = apiInterface.getStatusList();
+        Call<JsonArray> call = apiInterface.getStatusListByDepartment(empId
+        );
         call.enqueue(new Callback<JsonArray>() {
             @Override
             public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {

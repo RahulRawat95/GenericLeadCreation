@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
         strings.add("Lalit");
         strings.add("Lokesh");
         Intent intent = com.wings2aspirations.genericleadcreation.activity.MainActivity.getListLeadsIntent(this, "http://13.126.198.143:10004/",
-                "attendanceAppDB", "Mukul1062", BuildConfig.APPLICATION_ID, 2, "Lokesh");
+                "attendanceAppDB", "Mukul1062", BuildConfig.APPLICATION_ID, 1, strings);
 
         startActivity(intent);
         finish();
