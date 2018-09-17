@@ -155,6 +155,13 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        Menu menu = navigationView.getMenu();
+        if (!isAdmin) {
+            menu.getItem(0).setVisible(false);
+            menu.getItem(1).setVisible(false);
+        }
+
+
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         if (TextUtils.isEmpty(preferences.getString(getString(R.string.key_remind_at_time), "")))
             preferences.edit().putString(getString(R.string.key_remind_at_time), "18:00").commit();

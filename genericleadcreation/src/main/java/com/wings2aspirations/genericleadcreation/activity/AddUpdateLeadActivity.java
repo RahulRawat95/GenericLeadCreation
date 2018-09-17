@@ -796,7 +796,7 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
 
     private void getStatusList() {
         statusSp.setEnabled(false);
-        Call<JsonArray> call = apiInterface.getStatusList();
+        Call<JsonArray> call = apiInterface.getStatusListByDepartment(empId);
 
         Log.e("AlucarD", call.request().url().toString());
         call.enqueue(new Callback<JsonArray>() {
@@ -818,7 +818,7 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
                     getUnitList();
 
                 } else {
-                    ShowToast.showToast(AddUpdateLeadActivity.this, "Failed to get Products");
+                    ShowToast.showToast(AddUpdateLeadActivity.this, "Failed to get Status");
                 }
 
 
@@ -856,7 +856,7 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
 
 
                 } else {
-                    ShowToast.showToast(AddUpdateLeadActivity.this, "Failed to get Products");
+                    ShowToast.showToast(AddUpdateLeadActivity.this, "Failed to get Units");
                 }
 
 

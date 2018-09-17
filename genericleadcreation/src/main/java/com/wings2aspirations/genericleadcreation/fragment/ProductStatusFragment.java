@@ -36,8 +36,10 @@ import com.google.gson.reflect.TypeToken;
 import com.wings2aspirations.genericleadcreation.R;
 import com.wings2aspirations.genericleadcreation.activity.MainActivity;
 import com.wings2aspirations.genericleadcreation.adapter.OptionItemAdapter;
+import com.wings2aspirations.genericleadcreation.adapter.StatusListAdapter;
 import com.wings2aspirations.genericleadcreation.models.ItemModel;
 import com.wings2aspirations.genericleadcreation.models.ProductListModel;
+import com.wings2aspirations.genericleadcreation.models.StatusModel;
 import com.wings2aspirations.genericleadcreation.network.ApiClient;
 import com.wings2aspirations.genericleadcreation.network.ApiInterface;
 import com.wings2aspirations.genericleadcreation.repository.ShowOptionSelectionDialog;
@@ -52,6 +54,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
+import static com.wings2aspirations.genericleadcreation.repository.ShowOptionSelectionDialog.TYPE_DEPARTMENT;
 import static com.wings2aspirations.genericleadcreation.repository.ShowOptionSelectionDialog.TYPE_STATUS;
 import static com.wings2aspirations.genericleadcreation.repository.ShowOptionSelectionDialog.TYPE_UNIT;
 import static com.wings2aspirations.genericleadcreation.repository.ShowOptionSelectionDialog.MyTextWatcher;
@@ -69,11 +72,13 @@ public class ProductStatusFragment extends Fragment implements View.OnClickListe
     private ApiInterface apiInterface;
     private boolean isProduct;
     public List<ProductListModel> itemModelsListProduct;
-    public List<ItemModel> itemModelsListStatus;
+    public List<StatusModel> itemModelsListStatus;
     public List<ItemModel> itemModelsListDeparment;
     public OptionItemAdapter optionItemAdapter;
     public OptionItemAdapter unitOptionItemAdapter;
     public List<ItemModel> itemModelsListUnits;
+
+    private StatusListAdapter statusListAdapter;
 
     public static ProductStatusFragment newInstance(boolean isProduct) {
 
@@ -344,16 +349,17 @@ public class ProductStatusFragment extends Fragment implements View.OnClickListe
 
                     JsonArray jsonArray = response.body();
                     if (jsonArray != null || jsonArray.size() > 0) {
-                        Type type = new TypeToken<List<ItemModel>>() {
+                        Type type = new TypeToken<List<StatusModel>>() {
                         }.getType();
 
                         itemModelsListStatus = new Gson().fromJson(jsonArray, type);
 
 
-                        if (!isCallAfterAdd)
-                            setAdapterFunction(itemModelsListStatus);
-                        else
-                            optionItemAdapter.setItemList(itemModelsListStatus);
+                        if (!isCallAfterAdd) {
+                            statusListAdapter = new StatusListAdapter(getActivity(), itemModelsListStatus, null);
+                            item_list_rv.setAdapter(statusListAdapter);
+                        } else
+                            statusListAdapter.setItemList(itemModelsListStatus);
                     } else
                         no_item_found.setVisibility(View.VISIBLE);
 
@@ -419,7 +425,7 @@ public class ProductStatusFragment extends Fragment implements View.OnClickListe
         unit_tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showUnitListDialog(true, new UnitSelectionCallBack() {
+                showUnitListDialog(TYPE_UNIT, new UnitSelectionCallBack() {
                     @Override
                     public void callBack(ItemModel itemModel) {
 
@@ -474,7 +480,7 @@ public class ProductStatusFragment extends Fragment implements View.OnClickListe
 
     public AlertDialog showOptionUniListDialog;
 
-    private void showUnitListDialog(boolean isUnit, final UnitSelectionCallBack unitSelectionCallBack) {
+    private void showUnitListDialog(final int isUnit, final UnitSelectionCallBack unitSelectionCallBack) {
 
         //creating alertDialog builder
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.DialogTheme);
@@ -488,10 +494,6 @@ public class ProductStatusFragment extends Fragment implements View.OnClickListe
 
         TextView itemTagTV = optionListView.findViewById(R.id.item_tag);
 
-        if (isUnit)
-            itemTagTV.setText("Unit List");
-        else
-            itemTagTV.setText("Department List");
 
         final TextView no_item_found = optionListView.findViewById(R.id.no_item_found);
 
@@ -508,7 +510,8 @@ public class ProductStatusFragment extends Fragment implements View.OnClickListe
 
         itemListRV.setLayoutManager(linearLayoutManager);
 
-        if (isUnit) {
+        if (isUnit == TYPE_UNIT) {
+            itemTagTV.setText("Unit List");
             if (itemModelsListUnits != null && itemModelsListUnits.size() > 0) {
 
                 setListToShow(itemModelsListUnits, unitSelectionCallBack);
@@ -519,6 +522,7 @@ public class ProductStatusFragment extends Fragment implements View.OnClickListe
                 no_item_found.setVisibility(View.VISIBLE);
             }
         } else {
+            itemTagTV.setText("Department List");
 
 
             if (itemModelsListDeparment != null && itemModelsListDeparment.size() > 0) {
@@ -540,18 +544,25 @@ public class ProductStatusFragment extends Fragment implements View.OnClickListe
             }
         });
 
-        fab_add_item.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showAddSingleFieldDialog(TYPE_UNIT, new AddSingleFieldCallBack() {
+        switch (isUnit) {
+            case TYPE_UNIT:
+                fab_add_item.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void callBack(String NAME_VC, int WHICH_TO_ADD) {
-                        callAddDetailsApi(NAME_VC, WHICH_TO_ADD);
+                    public void onClick(View view) {
+                        showAddSingleFieldDialog(TYPE_UNIT, new AddSingleFieldCallBack() {
+                            @Override
+                            public void callBack(String NAME_VC, int WHICH_TO_ADD) {
+                                callAddDetailsApi(NAME_VC, WHICH_TO_ADD);
+                            }
+                        });
+
                     }
                 });
-
-            }
-        });
+                break;
+            case TYPE_DEPARTMENT:
+                fab_add_item.setVisibility(View.GONE);
+                break;
+        }
         builder.setView(optionListView);
         showOptionUniListDialog = builder.create();
         showOptionUniListDialog.show();
@@ -650,7 +661,7 @@ public class ProductStatusFragment extends Fragment implements View.OnClickListe
                 department_tv.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        showUnitListDialog(false, new UnitSelectionCallBack() {
+                        showUnitListDialog(TYPE_DEPARTMENT, new UnitSelectionCallBack() {
                             @Override
                             public void callBack(ItemModel itemModel) {
                                 department_tv.setText(itemModel.getITEMNAME());

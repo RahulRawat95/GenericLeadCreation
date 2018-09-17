@@ -28,8 +28,10 @@ import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.wings2aspirations.genericleadcreation.R;
 import com.wings2aspirations.genericleadcreation.adapter.OptionItemAdapter;
+import com.wings2aspirations.genericleadcreation.adapter.StatusListAdapter;
 import com.wings2aspirations.genericleadcreation.models.ItemModel;
 import com.wings2aspirations.genericleadcreation.models.ProductListModel;
+import com.wings2aspirations.genericleadcreation.models.StatusModel;
 import com.wings2aspirations.genericleadcreation.network.ApiClient;
 import com.wings2aspirations.genericleadcreation.network.ApiInterface;
 
@@ -53,8 +55,10 @@ public class ShowOptionSelectionDialog {
     public static final int TYPE_STATUS = 1;
     public static final int TYPE_CITY = 2;
     public static final int TYPE_UNIT = 3;
+    public static final int TYPE_DEPARTMENT = 4;
 
     public static AlertDialog showOptionItemListDialog;
+    public static AlertDialog showStatusOptionItemListDialog;
     public static BottomSheetDialog globalMessageDialog;
     public static RelativeLayout progress_bar_show;
 
@@ -63,6 +67,94 @@ public class ShowOptionSelectionDialog {
     public interface OptionSelectionCallBack {
         void callBack(ItemModel optionSelected);
     }
+
+    public interface OptionStatusSelectionCallBack {
+        void callBack(StatusModel optionSelected);
+    }
+
+    private static StatusListAdapter statusListAdapter;
+
+    public static void showStatusDialog(final Context mContext, List<StatusModel> statusModels, final OptionStatusSelectionCallBack optionStatusSelectionCallBack) {
+
+        //creating alertDialog builder
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext, R.style.DialogTheme);
+        //creating layoutInflater instance to inflate a layout for the alert dialog
+        LayoutInflater layoutInflater = (LayoutInflater) mContext.getSystemService(LAYOUT_INFLATER_SERVICE);
+
+        //inflating view
+        View optionListView = layoutInflater.inflate(R.layout.add_new_item_layout, null);
+
+
+        TextView itemTagTV = optionListView.findViewById(R.id.item_tag);
+
+        final TextView no_item_found = optionListView.findViewById(R.id.no_item_found);
+
+        EditText search_option_item = optionListView.findViewById(R.id.search_option_item);
+
+        ImageView close = optionListView.findViewById(R.id.close_dialog);
+        FloatingActionButton fab_add_item = optionListView.findViewById(R.id.fab_add_item);
+        fab_add_item.setVisibility(View.GONE);
+
+        LinearLayout showListContainer = optionListView.findViewById(R.id.showListContainer);
+
+        itemTagTV.setText("Status List");
+
+        RecyclerView itemListRV = optionListView.findViewById(R.id.item_list_rv);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
+
+
+        if (statusModels.size() > 0) {
+            statusListAdapter = new StatusListAdapter(mContext, statusModels, new StatusListAdapter.StatusClickCallBack() {
+                @Override
+                public void statusCallBack(StatusModel statusModel) {
+                    optionStatusSelectionCallBack.callBack(statusModel);
+                    showStatusOptionItemListDialog.dismiss();
+                }
+            });
+            itemListRV.setLayoutManager(linearLayoutManager);
+            itemListRV.setAdapter(statusListAdapter);
+
+            search_option_item.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    statusListAdapter.getFilter().filter(charSequence);
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+
+                }
+            });
+        } else {
+            itemListRV.setVisibility(View.GONE);
+
+            no_item_found.setText("No status found");
+
+
+            showListContainer.setVisibility(View.GONE);
+            no_item_found.setVisibility(View.VISIBLE);
+        }
+
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                statusListAdapter = null;
+                showStatusOptionItemListDialog.dismiss();
+            }
+        });
+
+
+        builder.setView(optionListView);
+        showStatusOptionItemListDialog = builder.create();
+        showStatusOptionItemListDialog.show();
+    }
+
 
     public static void showDialog(final Context mContext, final int dialogType, boolean canAdd, List<? extends ItemModel> itemModelList, final OptionSelectionCallBack optionSelectionCallBack) {
         //creating alertDialog builder

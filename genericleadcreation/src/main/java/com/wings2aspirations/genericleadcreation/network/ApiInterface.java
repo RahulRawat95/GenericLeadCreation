@@ -66,6 +66,9 @@ public interface ApiInterface {
     @GET("/getStatusList/")
     Call<JsonArray> getStatusList();
 
+    @GET("/getStatusListByDepartment")
+    Call<JsonArray> getStatusListByDepartment(@Query("EMPLOYEE_ID") int EMPLOYEE_ID);
+
     @GET("/getTrialLeadById/")
     Call<JsonArray> getTrialLeadById(@Query("CHILD_FOLLOW_UP_ID") long CHILD_FOLLOW_UP_ID);
 
