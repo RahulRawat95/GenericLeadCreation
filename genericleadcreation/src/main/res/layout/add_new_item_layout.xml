@@ -11,11 +11,11 @@
         android:orientation="vertical">
 
         <RelativeLayout
-            android:id="@+id/showListContainer"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <LinearLayout
+                android:id="@+id/showListContainer"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
@@ -81,6 +81,16 @@
                 </android.support.v7.widget.CardView>
             </LinearLayout>
 
+
+            <TextView
+                android:id="@+id/no_item_found"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="No Item Found"
+                android:textSize="20sp"
+                android:visibility="gone" />
+
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/fab_add_item"
                 android:layout_width="wrap_content"
@@ -92,14 +102,6 @@
         </RelativeLayout>
 
 
-        <TextView
-            android:id="@+id/no_item_found"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="No Item Found"
-            android:textSize="20sp"
-            android:visibility="gone" />
 
     </LinearLayout>
 

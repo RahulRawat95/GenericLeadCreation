@@ -358,9 +358,9 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
         } else if (v == marriageDateEt) {
             Utility.showDatePickerDialog(this, marriageDateEt, null, null, new Date());
         } else if (v == productSp) {
-            callShowOptionList(TYPE_PRODUCT, itemModelsListProduct, true);
+            callShowOptionList(TYPE_PRODUCT, itemModelsListProduct, false);
         } else if (v == statusSp) {
-            callShowOptionList(TYPE_STATUS, itemModelsListStatus, true);
+            callShowOptionList(TYPE_STATUS, itemModelsListStatus, false);
         } else if (v == cityTv) {
             callShowOptionList(TYPE_CITY, cities, false);
         } else if (v == stateTv) {
@@ -847,7 +847,7 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
 
     private void getStatusList() {
         statusSp.setEnabled(false);
-        Call<JsonArray> call = apiInterface.getStatusList();
+        Call<JsonArray> call = apiInterface.getStatusListByDepartment(empId);
 
         Log.e("AlucarD", call.request().url().toString());
         call.enqueue(new Callback<JsonArray>() {
@@ -869,7 +869,7 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
                     getUnitList();
 
                 } else {
-                    ShowToast.showToast(AddUpdateLeadActivity.this, "Failed to get Products");
+                    ShowToast.showToast(AddUpdateLeadActivity.this, "Failed to get Status");
                 }
 
 
@@ -907,7 +907,7 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
 
 
                 } else {
-                    ShowToast.showToast(AddUpdateLeadActivity.this, "Failed to get Products");
+                    ShowToast.showToast(AddUpdateLeadActivity.this, "Failed to get Units");
                 }
 
 

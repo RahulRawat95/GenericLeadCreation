@@ -16,6 +16,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -23,6 +25,7 @@ import com.google.gson.reflect.TypeToken;
 import com.wings2aspirations.genericleadcreation.R;
 import com.wings2aspirations.genericleadcreation.fragment.LeadMeetingReportFragment;
 import com.wings2aspirations.genericleadcreation.fragment.ListLeadsFragment;
+import com.wings2aspirations.genericleadcreation.fragment.ProductStatusFragment;
 import com.wings2aspirations.genericleadcreation.models.AuthorisationToken;
 import com.wings2aspirations.genericleadcreation.models.City;
 import com.wings2aspirations.genericleadcreation.models.ItemModel;
@@ -31,6 +34,7 @@ import com.wings2aspirations.genericleadcreation.models.State;
 import com.wings2aspirations.genericleadcreation.network.ApiClient;
 import com.wings2aspirations.genericleadcreation.network.ApiInterface;
 import com.wings2aspirations.genericleadcreation.repository.Constants;
+import com.wings2aspirations.genericleadcreation.repository.ShowOptionSelectionDialog;
 import com.wings2aspirations.genericleadcreation.repository.ShowToast;
 
 import java.lang.reflect.Type;
@@ -46,6 +50,9 @@ import retrofit2.Response;
 
 import static com.wings2aspirations.genericleadcreation.activity.AddUpdateLeadActivity.EXTRA_ARG_EMPLOYEE_ID;
 import static com.wings2aspirations.genericleadcreation.activity.AddUpdateLeadActivity.EXTRA_ARG_EMPLOYEE_NAME;
+import static com.wings2aspirations.genericleadcreation.repository.ShowOptionSelectionDialog.TYPE_CITY;
+import static com.wings2aspirations.genericleadcreation.repository.ShowOptionSelectionDialog.TYPE_PRODUCT;
+import static com.wings2aspirations.genericleadcreation.repository.ShowOptionSelectionDialog.TYPE_STATUS;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -66,6 +73,7 @@ public class MainActivity extends AppCompatActivity
 
     private ArrayList<ProductListModel> itemModelsListProduct;
     private ArrayList<ItemModel> itemModelsListStatus;
+    public List<ItemModel> itemModelsListUnits;
 
     private ArrayList<String> empNames;
 
@@ -149,6 +157,21 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        View view = navigationView.getHeaderView(0);
+        TextView drawerEmpName = view.findViewById(R.id.emp_name_drawer);
+
+        if (!isAdmin)
+            drawerEmpName.setText(empName);
+        else
+            drawerEmpName.setText("Admin");
+
+        Menu menu = navigationView.getMenu();
+        if (!isAdmin) {
+            menu.getItem(0).setVisible(false);
+            menu.getItem(1).setVisible(false);
+        }
+
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         if (TextUtils.isEmpty(preferences.getString(getString(R.string.key_remind_at_time), "")))
@@ -282,6 +305,7 @@ public class MainActivity extends AppCompatActivity
             }
         }
     }
+    
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -291,7 +315,11 @@ public class MainActivity extends AppCompatActivity
 
         Fragment fragment = null;
 
-        if (id == R.id.action_lead_report) {
+        if (id == R.id.action_create_status) {
+            fragment = ProductStatusFragment.newInstance(false);
+        } else if (id == R.id.action_create_product) {
+            fragment = ProductStatusFragment.newInstance(true);
+        } else if (id == R.id.action_lead_report) {
             fragment = LeadMeetingReportFragment.newInstance(true, empId, isAdmin, empNames);
         } else if (id == R.id.action_meeting_report) {
             fragment = LeadMeetingReportFragment.newInstance(false, empId, isAdmin, empNames);
@@ -317,6 +345,7 @@ public class MainActivity extends AppCompatActivity
         int localId = isAdmin ? 0 : empId;
         Call<ArrayList<ItemModel>> call = apiInterface.getStatusForFilter(localId);
         call.enqueue(new Callback<ArrayList<ItemModel>>() {
+
             @Override
             public void onResponse(Call<ArrayList<ItemModel>> call, Response<ArrayList<ItemModel>> response) {
                 if (response.isSuccessful()) {

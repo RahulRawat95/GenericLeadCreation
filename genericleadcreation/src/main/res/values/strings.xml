@@ -17,6 +17,7 @@
     <string name="product_label">Products</string>
     <string name="unit_label">Unit</string>
     <string name="city_label">City</string>
+    <string name="department_label">Department</string>
     <string name="state_label">State</string>
     <string name="call_type_cold_label">Cold</string>
     <string name="call_type_warm_label">Warm</string>
@@ -29,6 +30,8 @@
     <string name="select_product_error">Please Select Product</string>
     <string name="date">Date</string>
     <string name="time">Time</string>
+    <string name="lead_create_status">Create Status</string>
+    <string name="lead_create_product">Create Product</string>
     <string name="lead_report_label">Lead Report</string>
     <string name="meeting_report_label">Meeting Report</string>
     <string name="product_name_label">Product Name</string>

@@ -29,11 +29,35 @@
 
             <TextView
                 android:id="@+id/option_item"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:padding="10dp"
                 android:textColor="@android:color/black" />
+
+
+            <LinearLayout
+                android:id="@+id/departmentContainer"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:visibility="gone"
+                android:orientation="vertical"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Department"
+                    android:textSize="11sp"/>
+
+                <TextView
+                    android:id="@+id/department"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="Department"
+                    android:gravity="center_vertical"
+                    android:textColor="@android:color/black"/>
+            </LinearLayout>
 
         </LinearLayout>
 

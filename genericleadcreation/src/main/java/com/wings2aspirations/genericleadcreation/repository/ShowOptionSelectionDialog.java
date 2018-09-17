@@ -53,9 +53,10 @@ public class ShowOptionSelectionDialog {
     public static final int TYPE_STATUS = 1;
     public static final int TYPE_CITY = 2;
     public static final int TYPE_UNIT = 3;
-    public static final int TYPE_STATE = 4;
-
+    public static final int TYPE_DEPARTMENT = 4;
+    public static final int TYPE_STATE = 5;
     public static AlertDialog showOptionItemListDialog;
+    public static AlertDialog showStatusOptionItemListDialog;
     public static BottomSheetDialog globalMessageDialog;
     public static RelativeLayout progress_bar_show;
 
@@ -64,6 +65,8 @@ public class ShowOptionSelectionDialog {
     public interface OptionSelectionCallBack {
         void callBack(ItemModel optionSelected);
     }
+
+
 
     public static void showDialog(final Context mContext, final int dialogType, boolean canAdd, List<? extends ItemModel> itemModelList, final OptionSelectionCallBack optionSelectionCallBack) {
         //creating alertDialog builder
@@ -88,7 +91,7 @@ public class ShowOptionSelectionDialog {
         if (!canAdd)
             fab_add_item.setVisibility(View.GONE);
 
-        RelativeLayout showListContainer = optionListView.findViewById(R.id.showListContainer);
+        LinearLayout showListContainer = optionListView.findViewById(R.id.showListContainer);
 
 
         switch (dialogType) {
@@ -263,7 +266,7 @@ public class ShowOptionSelectionDialog {
     }
 
     private static void callAddDetailsApi(final Context mContext, String NAME_VC, final int WHICH_TO_ADD) {
-
+/*
         ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
         Call<JsonObject> call = apiInterface.insertStatusUnit(NAME_VC, WHICH_TO_ADD);
 
@@ -295,7 +298,7 @@ public class ShowOptionSelectionDialog {
             public void onFailure(Call<JsonObject> call, Throwable t) {
                 hideProgress();
             }
-        });
+        });*/
 
     }
 
@@ -400,7 +403,7 @@ public class ShowOptionSelectionDialog {
     }
 
 
-    private static boolean emptyFieldValidation(List<View> validateViewList) {
+    public static boolean emptyFieldValidation(List<View> validateViewList) {
 
         boolean isAllValid = true;
 

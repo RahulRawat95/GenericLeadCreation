@@ -39,8 +39,8 @@ public interface ApiInterface {
     @GET("/insertProduct/{PRODUCT_NAME_VC}/{UNIT_ID}/{PRICE_N}")
     Call<JsonObject> insertProduct(@Path("PRODUCT_NAME_VC") String PRODUCT_NAME_VC, @Path("UNIT_ID") int UNIT_ID, @Path("PRICE_N") double PRICE_N);
 
-    @GET("/insertStatusUnit/{NAME_VC}/{WHICH_TO_ADD}")
-    Call<JsonObject> insertStatusUnit(@Path("NAME_VC") String NAME_VC, @Path("WHICH_TO_ADD") int WHICH_TO_ADD);
+    @GET("/insertStatusUnit/{NAME_VC}/{DEPARTMENT_ID}/{WHICH_TO_ADD}")
+    Call<JsonObject> insertStatusUnit(@Path("NAME_VC") String NAME_VC, @Path("DEPARTMENT_ID") int DEPARTMENT_ID, @Path("WHICH_TO_ADD") int WHICH_TO_ADD);
 
     @GET("/insertUnit/{UNIT_VC}")
     Call<JsonObject> insertUnit(@Path("UNIT_VC") String UNIT_VC);
@@ -68,12 +68,17 @@ public interface ApiInterface {
     @GET("/getStatusList/")
     Call<JsonArray> getStatusList();
 
+    @GET("/getStatusListByDepartment")
+    Call<JsonArray> getStatusListByDepartment(@Query("EMPLOYEE_ID") int EMPLOYEE_ID);
+
     @GET("/getTrialLeadById/")
     Call<JsonArray> getTrialLeadById(@Query("CHILD_FOLLOW_UP_ID") long CHILD_FOLLOW_UP_ID);
 
     @GET("/getUnits/")
     Call<JsonArray> getUnits();
 
+    @GET("/getDepartmentList/")
+    Call<JsonArray> getDepartmentList();
     @GET("/getStates/")
     Call<ArrayList<State>> getStates();
 
