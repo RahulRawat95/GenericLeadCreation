@@ -281,7 +281,12 @@ public class LeadMeetingReportFragment extends Fragment implements LeadMeetRepor
 
     public void getLeadsList() {
         showProgress();
-        apiInterface.getAllLeads(empId).clone().enqueue(new Callback<JsonArray>() {
+        Call<JsonArray> call = null;
+        if (!isAdmin)
+            call = apiInterface.getAllLeads(empId);
+        else
+            call = apiInterface.getAllLeads();
+        call.enqueue(new Callback<JsonArray>() {
             @Override
             public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
                 hideProgress();

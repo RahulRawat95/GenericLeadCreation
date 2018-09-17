@@ -13,6 +13,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -62,12 +63,13 @@ public class MainActivity extends AppCompatActivity
     public static final String EXTRA_DB_NAME = "dbName";
     public static final String EXTRA_SCHEMA_NAME = "schemaName";
     public static final String EXTRA_APPLICATION_ID = "applicationId";
+    public static final String EXTRA_EMAIL_ID = "emailId";
 
     public static final int SESSION_AUTHORIZATION_TOKEN_OFFSET = 12;
 
     private ApiInterface apiInterface;
     private int empId;
-    private String empName;
+    private String empName, empEmailId;
     private boolean isAdmin;
     public static SimpleDateFormat simpleDateFormat;
 
@@ -77,7 +79,7 @@ public class MainActivity extends AppCompatActivity
 
     private ArrayList<String> empNames;
 
-    public static Intent getListLeadsIntent(Context context, String baseUrl, String dbName, String schemaName, String applicationId, int id, ArrayList<String> empNames) {
+    public static Intent getListLeadsIntent(Context context, String baseUrl, String dbName, String schemaName, String applicationId, int id, String emailId, ArrayList<String> empNames) {
         empNames.add(0, "Select");
         Intent intent = new Intent(context, MainActivity.class);
         intent.putExtra(EXTRA_BASE_URL, baseUrl);
@@ -86,10 +88,11 @@ public class MainActivity extends AppCompatActivity
         intent.putExtra(EXTRA_DB_NAME, dbName);
         intent.putExtra(EXTRA_SCHEMA_NAME, schemaName);
         intent.putExtra(EXTRA_APPLICATION_ID, applicationId);
+        intent.putExtra(EXTRA_EMAIL_ID, emailId);
         return intent;
     }
 
-    public static Intent getListLeadsIntent(Context context, String baseUrl, String dbName, String schemaName, String applicationId, int empId, String empName) {
+    public static Intent getListLeadsIntent(Context context, String baseUrl, String dbName, String schemaName, String applicationId, int empId, String emailId, String empName) {
         Intent intent = new Intent(context, MainActivity.class);
         intent.putExtra(EXTRA_ARG_EMPLOYEE_NAME, empName);
         intent.putExtra(EXTRA_ARG_EMPLOYEE_ID, empId);
@@ -97,6 +100,7 @@ public class MainActivity extends AppCompatActivity
         intent.putExtra(EXTRA_DB_NAME, dbName);
         intent.putExtra(EXTRA_SCHEMA_NAME, schemaName);
         intent.putExtra(EXTRA_APPLICATION_ID, applicationId);
+        intent.putExtra(EXTRA_EMAIL_ID, emailId);
         return intent;
     }
 
@@ -160,11 +164,10 @@ public class MainActivity extends AppCompatActivity
 
         View view = navigationView.getHeaderView(0);
         TextView drawerEmpName = view.findViewById(R.id.emp_name_drawer);
+        TextView emp_email_drawer = view.findViewById(R.id.emp_email_drawer);
 
-        if (!isAdmin)
-            drawerEmpName.setText(empName);
-        else
-            drawerEmpName.setText("Admin");
+
+        Log.e("AlucarD", drawerEmpName.getText().toString());
 
         Menu menu = navigationView.getMenu();
         if (!isAdmin) {
@@ -228,6 +231,19 @@ public class MainActivity extends AppCompatActivity
                 isUserAdmin(false);
             }
         }
+
+        if (!getIntent().hasExtra(EXTRA_EMAIL_ID)) {
+            ShowToast.showToast(this, "Email id is required");
+            finish();
+        }
+
+        empEmailId = getIntent().getStringExtra(EXTRA_EMAIL_ID);
+        emp_email_drawer.setText(empEmailId);
+        if (!isAdmin) {
+            drawerEmpName.setText(empName);
+        } else
+            drawerEmpName.setText("Admin");
+
 
         simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
@@ -305,7 +321,7 @@ public class MainActivity extends AppCompatActivity
             }
         }
     }
-    
+
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
