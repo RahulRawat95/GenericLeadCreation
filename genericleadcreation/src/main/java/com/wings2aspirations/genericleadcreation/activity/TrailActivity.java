@@ -105,8 +105,8 @@ public class TrailActivity extends AppCompatActivity {
                     trail_list.setLayoutManager(linearLayoutManager);
                     trail_list.setAdapter(adapter);
 
-
-                    if (trailDetails.get(trailDetails.size() - 1).getCALL_TYPE().equalsIgnoreCase("Closed")) {
+                    String trial_call_type = trailDetails.get(trailDetails.size() - 1).getCALL_TYPE();
+                    if (trial_call_type.equalsIgnoreCase("Force closed") || trial_call_type.equalsIgnoreCase("Confirm closed")) {
                         fab_trial.setVisibility(View.GONE);
                         Utility.globalMessageDialog(TrailActivity.this, "This Lead is closed");
                     }

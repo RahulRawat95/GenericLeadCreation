@@ -44,6 +44,7 @@ import com.wings2aspirations.genericleadcreation.network.ApiClient;
 import com.wings2aspirations.genericleadcreation.network.ApiInterface;
 import com.wings2aspirations.genericleadcreation.repository.ShowOptionSelectionDialog;
 import com.wings2aspirations.genericleadcreation.repository.ShowToast;
+import com.wings2aspirations.genericleadcreation.repository.Utility;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -234,6 +235,7 @@ public class ProductStatusFragment extends Fragment implements View.OnClickListe
                 showAddSingleFieldDialog(TYPE_STATUS, new AddSingleFieldCallBack() {
                     @Override
                     public void callBack(String NAME_VC, int WHICH_TO_ADD) {
+                        showProgress();
                         callAddDetailsApi(NAME_VC, WHICH_TO_ADD);
                     }
                 });
@@ -458,9 +460,10 @@ public class ProductStatusFragment extends Fragment implements View.OnClickListe
             public void onClick(View v) {
 
                 if (emptyFieldValidation(validateViewList)) {
-                    if (!TextUtils.isEmpty(unit_tv.getText().toString()))
+                    if (!TextUtils.isEmpty(unit_tv.getText().toString())) {
+                        globalAddProductDialog.dismiss();
                         addProductCallBack.callBack(product_name_et.getText().toString().trim(), selectedUnitId, Double.parseDouble(product_price_et.getText().toString()));
-                    else
+                    } else
                         ShowToast.showToast(getActivity(), "Please select unit");
                 }
             }
@@ -552,6 +555,7 @@ public class ProductStatusFragment extends Fragment implements View.OnClickListe
                         showAddSingleFieldDialog(TYPE_UNIT, new AddSingleFieldCallBack() {
                             @Override
                             public void callBack(String NAME_VC, int WHICH_TO_ADD) {
+                                showProgress();
                                 callAddDetailsApi(NAME_VC, WHICH_TO_ADD);
                             }
                         });
@@ -611,9 +615,8 @@ public class ProductStatusFragment extends Fragment implements View.OnClickListe
 
 
                 hideProgress();
-                globalAddProductDialog.dismiss();
                 if (!response.isSuccessful()) {
-                    ShowToast.showToast(getActivity(), "Response Insuccessful");
+                    Utility.globalMessageDialog(getActivity(), "Product already exists");
                     return;
                 }
                 ShowToast.showToast(getActivity(), "Product Added");
@@ -695,6 +698,9 @@ public class ProductStatusFragment extends Fragment implements View.OnClickListe
                         }
 
                     addSingleFieldCallBack.callBack(name_et.getText().toString(), isUnitAdd);
+
+
+                    globalAddSingleFieldDialog.dismiss();
                 } else
                     name_et_til.setError("Field Required");
 
@@ -720,28 +726,40 @@ public class ProductStatusFragment extends Fragment implements View.OnClickListe
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
 
                 hideProgress();
-                globalAddSingleFieldDialog.dismiss();
                 if (!response.isSuccessful()) {
-                    ShowToast.showToast(getActivity(), "Response Insuccessful");
                     return;
                 }
 
-                switch (WHICH_TO_ADD) {
-                    case 1:
-                        ShowToast.showToast(getActivity(), "Status Added");
-                        getStatusList(true);
-                        break;
-                    case 3:
-                        ShowToast.showToast(getActivity(), "Unit Added");
-                        getUnitList(true);
-                        break;
+                JsonObject result = response.body();
+                String message = result.get("message").getAsString();
+                if (message.equalsIgnoreCase("error")) {
+                    Utility.globalMessageDialog(getActivity(), "Value already exists");
+                    return;
                 }
+                if (message.equalsIgnoreCase("success")) {
+                    switch (WHICH_TO_ADD) {
+                        case 1:
+                            ShowToast.showToast(getActivity(), "Status Added");
+                            getStatusList(true);
+                            break;
+                        case 3:
+                            ShowToast.showToast(getActivity(), "Unit Added");
+                            getUnitList(true);
+                            break;
+                    }
+                } else if (message.equalsIgnoreCase("failure")) {
+                    ShowToast.showToast(getActivity(), "Response Insuccessful");
+                } else {
+                    Utility.globalMessageDialog(getActivity(), message);
+                }
+
 
             }
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
                 hideProgress();
+                Log.e("AlucarD", "e", t);
             }
         });
 

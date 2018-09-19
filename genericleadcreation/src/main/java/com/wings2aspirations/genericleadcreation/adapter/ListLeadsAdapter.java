@@ -122,7 +122,16 @@ public class ListLeadsAdapter extends RecyclerView.Adapter<ListLeadsAdapter.View
         holder.emailId.setText(lead.getEMAIL());
         holder.status.setText(lead.getCALL_TYPE());
         holder.followUpDate.setText(lead.getNEXT_FOLLOW_UP_DATE());
-
+        switch (lead.getCALL_TYPE()) {
+            case "Force Closed":
+                holder.status.setTextColor(Color.parseColor("#c10d0d"));
+                break;
+            case "Confirm Closed":
+                holder.status.setTextColor(Color.parseColor("#1d5e0b"));
+                break;
+            default:
+                holder.status.setTextColor(Color.parseColor("#000000"));
+        }
         if (isAdmin)
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

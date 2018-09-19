@@ -94,15 +94,14 @@ public class LeadMeetReportAdapter extends RecyclerView.Adapter<LeadMeetReportAd
         holder.emailId.setText(lead.getEMAIL());
         holder.status.setText(lead.getCALL_TYPE());
         switch (lead.getCALL_TYPE()) {
-            case "Warm":
-                holder.status.setTextColor(Color.parseColor("#f2c40e"));
-                break;
-            case "Hot":
+            case "Force Closed":
                 holder.status.setTextColor(Color.parseColor("#c10d0d"));
                 break;
-            case "Cold":
-                holder.status.setTextColor(Color.parseColor("#20b6e8"));
+            case "Confirm Closed":
+                holder.status.setTextColor(Color.parseColor("#1d5e0b"));
                 break;
+            default:
+                holder.status.setTextColor(Color.parseColor("#000000"));
         }
         holder.followUpDate.setText(lead.getNEXT_FOLLOW_UP_DATE());
 

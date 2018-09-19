@@ -169,11 +169,7 @@ public class MainActivity extends AppCompatActivity
 
         Log.e("AlucarD", drawerEmpName.getText().toString());
 
-        Menu menu = navigationView.getMenu();
-        if (!isAdmin) {
-            menu.getItem(0).setVisible(false);
-            menu.getItem(1).setVisible(false);
-        }
+
 
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -230,6 +226,15 @@ public class MainActivity extends AppCompatActivity
             } else {
                 isUserAdmin(false);
             }
+        }
+
+        Menu menu = navigationView.getMenu();
+        if (!isAdmin) {
+            menu.getItem(0).setVisible(false);
+            menu.getItem(1).setVisible(false);
+        }else{
+            menu.getItem(0).setVisible(true);
+            menu.getItem(1).setVisible(true);
         }
 
         if (!getIntent().hasExtra(EXTRA_EMAIL_ID)) {
@@ -355,6 +360,8 @@ public class MainActivity extends AppCompatActivity
 
     public void isUserAdmin(boolean isAdmin) {
         this.isAdmin = isAdmin;
+
+
     }
 
     private void getStatusList() {

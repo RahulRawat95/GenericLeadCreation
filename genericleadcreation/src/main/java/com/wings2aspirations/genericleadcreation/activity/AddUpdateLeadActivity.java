@@ -418,8 +418,17 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
             jsonObject.addProperty("LEAD_REMARKS", leadRemarksEt.getText().toString());
         jsonObject.addProperty("NEXT_FOLLOW_UP_DATE", nextFollowUpDateEt.getText().toString());
         jsonObject.addProperty("NEXT_FOLLOW_UP_TIME", nextFollowUpTimeEt.getText().toString());
-        jsonObject.addProperty("LATITUDE", location.getLatitude());
-        jsonObject.addProperty("LONGITUDE", location.getLongitude());
+        try {
+            jsonObject.addProperty("LATITUDE", location.getLatitude());
+        } catch (Exception e) {
+            jsonObject.addProperty("LATITUDE", 0D);
+        }
+        try {
+            jsonObject.addProperty("LONGITUDE", location.getLongitude());
+        } catch (Exception e) {
+            jsonObject.addProperty("LONGITUDE", 0D);
+        }
+
         jsonObject.addProperty("CALL_TYPE_ID", (int) statusSp.getTag());
         jsonObject.addProperty("EMP_ID", empId);
         jsonObject.addProperty("EMP_NAME", empName);
