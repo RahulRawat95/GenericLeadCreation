@@ -2,6 +2,7 @@ package com.wings2aspirations.leadcreation;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.CalendarContract;
 import android.support.v7.app.AppCompatActivity;
 
 import com.wings2aspirations.genericleadcreation.activity.ListLeadsActivity;
@@ -18,7 +19,6 @@ public class MainActivity extends AppCompatActivity {
         strings.add("Lokesh");
         Intent intent = com.wings2aspirations.genericleadcreation.activity.MainActivity.getListLeadsIntent(this, "http://13.126.198.143:10004/",
                 "attendanceAppDB", "Mukul1062", BuildConfig.APPLICATION_ID, 1,"lokeshmudgal06@gmail.com", strings);
-
         startActivity(intent);
         finish();
     }
