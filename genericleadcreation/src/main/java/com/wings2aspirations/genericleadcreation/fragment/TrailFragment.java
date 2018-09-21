@@ -97,9 +97,9 @@ public class TrailFragment extends Fragment {
             }
         });
 
-        try{
+        try {
             ((MainActivity) getActivity()).setActionBarTitle("Lead Trail List");
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
         return view;
@@ -140,9 +140,10 @@ public class TrailFragment extends Fragment {
                     trail_list.setAdapter(adapter);
 
 
-                    if (trailDetails.get(trailDetails.size() - 1).getCALL_TYPE().equalsIgnoreCase("Closed")) {
+                    String trial_call_type = trailDetails.get(trailDetails.size() - 1).getCALL_TYPE();
+                    if (trial_call_type.equalsIgnoreCase("Force closed") || trial_call_type.equalsIgnoreCase("Confirm closed")) {
                         fab_trial.setVisibility(View.GONE);
-                        Utility.globalMessageDialog(getActivity(), "This Lead is closed");
+                        Utility.globalMessageDialog(getActivity(), "This Lead is " + trial_call_type);
                     }
 
                 } else

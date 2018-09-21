@@ -8,6 +8,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.support.design.widget.BottomSheetDialog;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.view.Gravity;
@@ -22,6 +23,7 @@ import android.widget.TimePicker;
 
 import com.wings2aspirations.genericleadcreation.BuildConfig;
 import com.wings2aspirations.genericleadcreation.R;
+import com.wings2aspirations.genericleadcreation.fragment.MessageDialogFragment;
 import com.wings2aspirations.genericleadcreation.network.ApiClient;
 
 import java.io.File;
@@ -279,41 +281,16 @@ public class Utility {
     }
 
 
-
-
-
-
-
-
-    public static BottomSheetDialog globalMessageDialog;
+    private static MessageDialogFragment messageDialogFragment;
 
     public static void globalMessageDialog(final Context mContext, String message) {
 
-        //        AlertDialog.Builder builder = new AlertDialog.Builder(mContext, R.style.DialogSlideAnim);
-        LayoutInflater layoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = layoutInflater.inflate(R.layout.global_message_layout, null);
 
-        TextView globalMessage = view.findViewById(R.id.globalMessage);
-        globalMessage.setText(message);
+        if (messageDialogFragment != null && messageDialogFragment.isVisible())
+            messageDialogFragment.dismiss();
 
-        //finding text views
-        TextView ok = view.findViewById(R.id.button_okOption);
-        ok.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                globalMessageDialog.dismiss();
-            }
-        });
-
-
-        globalMessageDialog = new BottomSheetDialog(mContext);
-        globalMessageDialog.setContentView(view);
-//        globalMessageDialog = builder.create();
-
-        globalMessageDialog.setCancelable(false);
-        globalMessageDialog.setCanceledOnTouchOutside(false);
-        globalMessageDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        globalMessageDialog.show();
+        messageDialogFragment = MessageDialogFragment.newInstance(message);
+        messageDialogFragment.show(((FragmentActivity) mContext).getSupportFragmentManager(), "Message");
     }
 
 }

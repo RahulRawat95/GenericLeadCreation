@@ -34,6 +34,7 @@
     <string name="lead_create_product">Create Product</string>
     <string name="lead_report_label">Lead Report</string>
     <string name="meeting_report_label">Meeting Report</string>
+    <string name="meeting_scheduler">Meeting Schedular</string>
     <string name="product_name_label">Product Name</string>
     <string name="add_single_name_label">Enter required detail</string>
     <string name="product_unit_label">Unit</string>
@@ -41,6 +42,12 @@
     <string name="product_detail_label">Product Details</string>
     <string name="product_add">Add Product</string>
     <string name="add">Add</string>
+
+    <string name="event_title">Event Title</string>
+    <string name="event_description">Event Description</string>
+    <string name="event_location">Event Location</string>
+    <string name="event_email">Email</string>
+
 
     <string name="title_activity_settings">Settings</string>
 

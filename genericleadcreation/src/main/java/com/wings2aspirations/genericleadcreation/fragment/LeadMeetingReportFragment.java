@@ -1,12 +1,11 @@
 package com.wings2aspirations.genericleadcreation.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -26,18 +25,13 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.reflect.TypeToken;
 import com.wings2aspirations.genericleadcreation.R;
-import com.wings2aspirations.genericleadcreation.activity.ListLeadsActivity;
 import com.wings2aspirations.genericleadcreation.activity.MainActivity;
-import com.wings2aspirations.genericleadcreation.activity.TrailActivity;
-import com.wings2aspirations.genericleadcreation.adapter.Adapter;
 import com.wings2aspirations.genericleadcreation.adapter.LeadMeetReportAdapter;
 import com.wings2aspirations.genericleadcreation.models.ItemModel;
 import com.wings2aspirations.genericleadcreation.models.LeadDetail;
 import com.wings2aspirations.genericleadcreation.network.ApiClient;
 import com.wings2aspirations.genericleadcreation.network.ApiInterface;
 import com.wings2aspirations.genericleadcreation.repository.Constants;
-import com.wings2aspirations.genericleadcreation.repository.ShowOptionSelectionDialog;
-import com.wings2aspirations.genericleadcreation.repository.ShowToast;
 import com.wings2aspirations.genericleadcreation.repository.Utility;
 
 import java.lang.reflect.Type;
@@ -50,10 +44,6 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static com.wings2aspirations.genericleadcreation.repository.ShowOptionSelectionDialog.TYPE_CITY;
-import static com.wings2aspirations.genericleadcreation.repository.ShowOptionSelectionDialog.TYPE_PRODUCT;
-import static com.wings2aspirations.genericleadcreation.repository.ShowOptionSelectionDialog.TYPE_STATUS;
 
 public class LeadMeetingReportFragment extends Fragment implements LeadMeetReportAdapter.ProgressCallback {
     private static final String ARG_IS_LEAD_REPORT = "argIsLeadReport";
@@ -334,12 +324,13 @@ public class LeadMeetingReportFragment extends Fragment implements LeadMeetRepor
         adapter = new LeadMeetReportAdapter(refineDetails, getActivity(), hashSets, isAdmin, isLeadReport, this, new LeadMeetReportAdapter.LeadOnClickCallBack() {
             @Override
             public void callback(LeadDetail leadDetail) {
-                Intent trialIntent = new Intent(getActivity(), TrailActivity.class);
-                trialIntent.putExtra("CHILD_FOLLOW_UP_ID", leadDetail.getCHILD_FOLLOW_UP_ID());
-                trialIntent.putExtra("ID", leadDetail.getID());
-                trialIntent.putExtra("emp_name", leadDetail.getEMP_NAME());
-                trialIntent.putExtra("emp_id", leadDetail.getEMP_ID());
-                startActivity(trialIntent);
+                TrailFragment fragment = TrailFragment.newInstance(leadDetail.getCHILD_FOLLOW_UP_ID(), leadDetail.getID(), leadDetail.getEMP_NAME(), leadDetail.getEMP_ID());
+                ((FragmentActivity) getActivity()).
+                        getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_frame, fragment, fragment.getClass().getSimpleName())
+                        .addToBackStack(null)
+                        .commit();
+
             }
         });
         recyclerView.setAdapter(adapter);

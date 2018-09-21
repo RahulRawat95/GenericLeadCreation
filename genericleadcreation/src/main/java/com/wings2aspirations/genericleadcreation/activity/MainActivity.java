@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.provider.CalendarContract;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.support.design.widget.NavigationView;
@@ -34,6 +35,7 @@ import com.wings2aspirations.genericleadcreation.models.ProductListModel;
 import com.wings2aspirations.genericleadcreation.models.State;
 import com.wings2aspirations.genericleadcreation.network.ApiClient;
 import com.wings2aspirations.genericleadcreation.network.ApiInterface;
+import com.wings2aspirations.genericleadcreation.repository.CalendarHelper;
 import com.wings2aspirations.genericleadcreation.repository.Constants;
 import com.wings2aspirations.genericleadcreation.repository.ShowOptionSelectionDialog;
 import com.wings2aspirations.genericleadcreation.repository.ShowToast;
@@ -169,11 +171,7 @@ public class MainActivity extends AppCompatActivity
 
         Log.e("AlucarD", drawerEmpName.getText().toString());
 
-        Menu menu = navigationView.getMenu();
-        if (!isAdmin) {
-            menu.getItem(0).setVisible(false);
-            menu.getItem(1).setVisible(false);
-        }
+
 
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -230,6 +228,15 @@ public class MainActivity extends AppCompatActivity
             } else {
                 isUserAdmin(false);
             }
+        }
+
+        Menu menu = navigationView.getMenu();
+        if (!isAdmin) {
+            menu.getItem(0).setVisible(false);
+            menu.getItem(1).setVisible(false);
+        }else{
+            menu.getItem(0).setVisible(true);
+            menu.getItem(1).setVisible(true);
         }
 
         if (!getIntent().hasExtra(EXTRA_EMAIL_ID)) {
@@ -344,6 +351,9 @@ public class MainActivity extends AppCompatActivity
                 fragment = ListLeadsFragment.newInstance(ApiClient.BASE_URL, ApiClient.getDbName(), ApiClient.getSchemaName(), ApiClient.applicationId, empId, empNames);
             else
                 fragment = ListLeadsFragment.newInstance(ApiClient.BASE_URL, ApiClient.getDbName(), ApiClient.getSchemaName(), ApiClient.applicationId, empId, empName);
+        }else if(id == R.id.action_meeting_scheduler){
+            startActivity(new Intent(Intent.ACTION_INSERT).setData(CalendarContract.Events.CONTENT_URI));
+            return true;
         }
 
         addFragmentToBackStack(fragment);
@@ -355,6 +365,8 @@ public class MainActivity extends AppCompatActivity
 
     public void isUserAdmin(boolean isAdmin) {
         this.isAdmin = isAdmin;
+
+
     }
 
     private void getStatusList() {
