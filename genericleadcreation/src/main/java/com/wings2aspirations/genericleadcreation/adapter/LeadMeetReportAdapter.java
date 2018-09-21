@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.location.Location;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -13,8 +14,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.JsonObject;
 import com.wings2aspirations.genericleadcreation.R;
 import com.wings2aspirations.genericleadcreation.activity.AddUpdateLeadActivity;
@@ -86,6 +89,25 @@ public class LeadMeetReportAdapter extends RecyclerView.Adapter<LeadMeetReportAd
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         final LeadDetail lead = filteredLeadDetails.get(position);
+
+        if (position == 0) {
+            holder.distanceLL.setVisibility(View.GONE);
+        } else {
+            holder.distanceLL.setVisibility(View.VISIBLE);
+            LeadDetail lead2 = filteredLeadDetails.get(position - 1);
+            float[] results = new float[3];
+            try {
+                Location.distanceBetween(Double.parseDouble(lead.getLATITUDE()), Double.parseDouble(lead.getLONGITUDE()), Double.parseDouble(lead2.getLATITUDE()), Double.parseDouble(lead2.getLONGITUDE()), results);
+                if (((int) results[0] / 1000) > 0) {
+                    holder.distanceTv.setText(String.format("%.2f", results[0] / 1000) + " Km");
+                } else {
+                    holder.distanceTv.setText(String.format("%.2f", results[0]) + " m");
+                }
+            } catch (Exception e) {
+                holder.distanceLL.setVisibility(View.GONE);
+            }
+        }
+
         holder.empName.setText(lead.getEMP_NAME());
         holder.date.setText(lead.getDATE_VC());
         holder.compName.setText(lead.getCOMPANY_NAME());
@@ -195,8 +217,10 @@ public class LeadMeetReportAdapter extends RecyclerView.Adapter<LeadMeetReportAd
         private TextView emailId;
         private TextView status;
         private TextView followUpDate;
+        private TextView distanceTv;
+        private LinearLayout distanceLL;
 
-        public ViewHolder(View itemView) {
+        ViewHolder(View itemView) {
             super(itemView);
             empName = (TextView) itemView.findViewById(R.id.emp_name);
             date = (TextView) itemView.findViewById(R.id.date);
@@ -206,6 +230,8 @@ public class LeadMeetReportAdapter extends RecyclerView.Adapter<LeadMeetReportAd
             emailId = (TextView) itemView.findViewById(R.id.email_id);
             status = (TextView) itemView.findViewById(R.id.status);
             followUpDate = (TextView) itemView.findViewById(R.id.follow_up_date);
+            distanceTv = itemView.findViewById(R.id.distance_tv);
+            distanceLL = itemView.findViewById(R.id.distance_ll);
 
             itemView.setOnClickListener(this);
         }
