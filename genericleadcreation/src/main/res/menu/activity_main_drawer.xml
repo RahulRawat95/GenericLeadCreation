@@ -29,6 +29,12 @@
             android:id="@+id/action_meeting_report"
             android:orderInCategory="104"
             android:title="@string/meeting_report_label" />
+
+
+        <item
+            android:id="@+id/action_meeting_schedular"
+            android:orderInCategory="105"
+            android:title="@string/meeting_schedular" />
     </group>
 
 </menu>
