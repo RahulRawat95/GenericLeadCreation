@@ -46,6 +46,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class LeadMeetingReportFragment extends Fragment implements LeadMeetReportAdapter.ProgressCallback {
+    public static final int RESPONSE_CODE_ADD_LEAD_ACTIVITY = 14;
+
     private static final String ARG_IS_LEAD_REPORT = "argIsLeadReport";
     private static final String ARG_EMP_ID = "argEmployeeId";
     private static final String ARG_IS_ADMIN = "argIsAdmin";

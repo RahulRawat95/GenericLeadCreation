@@ -458,6 +458,7 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
                         return;
                     }
                     ShowToast.showToast(AddUpdateLeadActivity.this, "Success");
+                    setResult(RESULT_OK);
                     finish();
                 }
 

@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.location.Location;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,6 +23,7 @@ import com.google.gson.JsonObject;
 import com.wings2aspirations.genericleadcreation.R;
 import com.wings2aspirations.genericleadcreation.activity.AddUpdateLeadActivity;
 import com.wings2aspirations.genericleadcreation.activity.ListLeadsActivity;
+import com.wings2aspirations.genericleadcreation.fragment.LeadMeetingReportFragment;
 import com.wings2aspirations.genericleadcreation.models.ItemModel;
 import com.wings2aspirations.genericleadcreation.models.LeadDetail;
 import com.wings2aspirations.genericleadcreation.network.ApiClient;
@@ -45,7 +47,6 @@ public class LeadMeetReportAdapter extends RecyclerView.Adapter<LeadMeetReportAd
     private ApiInterface apiInterface;
     private long deleteId = -1;
     private boolean isAdmin, isLead;
-
     private Date fromDate, toDate;
     private LeadOnClickCallBack leadOnClickCallBack;
 

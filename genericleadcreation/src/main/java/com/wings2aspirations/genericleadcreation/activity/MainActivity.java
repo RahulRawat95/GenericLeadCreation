@@ -172,8 +172,6 @@ public class MainActivity extends AppCompatActivity
         Log.e("AlucarD", drawerEmpName.getText().toString());
 
 
-
-
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         if (TextUtils.isEmpty(preferences.getString(getString(R.string.key_remind_at_time), "")))
             preferences.edit().putString(getString(R.string.key_remind_at_time), "18:00").commit();
@@ -234,7 +232,7 @@ public class MainActivity extends AppCompatActivity
         if (!isAdmin) {
             menu.getItem(0).setVisible(false);
             menu.getItem(1).setVisible(false);
-        }else{
+        } else {
             menu.getItem(0).setVisible(true);
             menu.getItem(1).setVisible(true);
         }
@@ -279,21 +277,7 @@ public class MainActivity extends AppCompatActivity
         getAuthString(empId, new ListLeadsActivity.ListLeadCallback() {
             @Override
             public void callback() {
-                int localId = isAdmin ? 0 : empId;
-                apiInterface.getCityListForFilter(localId).enqueue(new Callback<ArrayList<City>>() {
-                    @Override
-                    public void onResponse(Call<ArrayList<City>> call, Response<ArrayList<City>> response) {
-                        if (!response.isSuccessful()) {
-                            return;
-                        }
-                        Constants.setCities(response.body());
-                    }
-
-                    @Override
-                    public void onFailure(Call<ArrayList<City>> call, Throwable t) {
-
-                    }
-                });
+                getCityList();
                 apiInterface.getStates().enqueue(new Callback<ArrayList<State>>() {
                     @Override
                     public void onResponse(Call<ArrayList<State>> call, Response<ArrayList<State>> response) {
@@ -351,7 +335,7 @@ public class MainActivity extends AppCompatActivity
                 fragment = ListLeadsFragment.newInstance(ApiClient.BASE_URL, ApiClient.getDbName(), ApiClient.getSchemaName(), ApiClient.applicationId, empId, empNames);
             else
                 fragment = ListLeadsFragment.newInstance(ApiClient.BASE_URL, ApiClient.getDbName(), ApiClient.getSchemaName(), ApiClient.applicationId, empId, empName);
-        }else if(id == R.id.action_meeting_scheduler){
+        } else if (id == R.id.action_meeting_scheduler) {
             startActivity(new Intent(Intent.ACTION_INSERT).setData(CalendarContract.Events.CONTENT_URI));
             return true;
         }
@@ -377,7 +361,6 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onResponse(Call<ArrayList<ItemModel>> call, Response<ArrayList<ItemModel>> response) {
                 if (response.isSuccessful()) {
-
                     itemModelsListStatus = response.body();
                 } else {
                     itemModelsListStatus = new ArrayList<>();
@@ -417,6 +400,29 @@ public class MainActivity extends AppCompatActivity
                 itemModelsListProduct = new ArrayList<>();
             }
         });
+    }
+
+    private void getCityList() {
+        int localId = isAdmin ? 0 : empId;
+        apiInterface.getCityListForFilter(localId).enqueue(new Callback<ArrayList<City>>() {
+            @Override
+            public void onResponse(Call<ArrayList<City>> call, Response<ArrayList<City>> response) {
+                if (!response.isSuccessful()) {
+                    return;
+                }
+                Constants.setCities(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<City>> call, Throwable t) {
+
+            }
+        });
+    }
+
+    public void updateStatusAndCityFilter(){
+        getCityList();
+        getStatusList();
     }
 
     @Override

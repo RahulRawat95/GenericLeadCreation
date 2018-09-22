@@ -54,11 +54,14 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.app.Activity.RESULT_OK;
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 import static com.wings2aspirations.genericleadcreation.activity.AddUpdateLeadActivity.EXTRA_ARG_EMPLOYEE_ID;
 import static com.wings2aspirations.genericleadcreation.activity.AddUpdateLeadActivity.EXTRA_ARG_EMPLOYEE_NAME;
 
 public class ListLeadsFragment extends Fragment implements ListLeadsAdapter.ProgressCallback {
+    public static final int REQUEST_CODE_ADD_LEAD_ACTIVITY = 24;
+
     public static final String EXTRA_BASE_URL = "baseUrlForRetrofit";
     public static final String EXTRA_EMP_NAMES = "employeeNames";
     public static final String EXTRA_DB_NAME = "dbName";
@@ -384,7 +387,7 @@ public class ListLeadsFragment extends Fragment implements ListLeadsAdapter.Prog
                     showCreateOrSendExcelMailOptionDialog();
                 } else {
                     Intent intent = AddUpdateLeadActivity.getLeadIntent(getActivity(), empName, empId);
-                    startActivity(intent);
+                    startActivityForResult(intent, REQUEST_CODE_ADD_LEAD_ACTIVITY);
                 }
             }
         });
@@ -619,5 +622,20 @@ public class ListLeadsFragment extends Fragment implements ListLeadsAdapter.Prog
                 break;
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case REQUEST_CODE_ADD_LEAD_ACTIVITY:
+                    try {
+                        ((MainActivity) getActivity()).updateStatusAndCityFilter();
+                    } catch (Exception e) {
+                    }
+                    return;
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

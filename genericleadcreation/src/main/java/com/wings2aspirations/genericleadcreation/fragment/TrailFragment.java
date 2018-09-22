@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -33,7 +32,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.app.Activity.RESULT_OK;
+
 public class TrailFragment extends Fragment {
+    private static final int REQUEST_CODE_ADD_LEAD_ACTIVITY = 1;
+
     private static final String ARG_CHILD_FOLLOW_UP_ID = "CHILD_FOLLOW_UP_ID";
     private static final String ARG_ID = "ID";
     private static final String ARG_EMP_NAME = "emp_name";
@@ -93,7 +96,7 @@ public class TrailFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = AddUpdateLeadActivity.getLeadIntent(getActivity(), empName, empId, CHILD_FOLLOW_UP_ID, true);
-                startActivity(intent);
+                startActivityForResult(intent, REQUEST_CODE_ADD_LEAD_ACTIVITY);
             }
         });
 
@@ -165,5 +168,20 @@ public class TrailFragment extends Fragment {
 
     private void hideProgressTrialBar() {
         progress_bar.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case REQUEST_CODE_ADD_LEAD_ACTIVITY:
+                    try {
+                        ((MainActivity) getActivity()).updateStatusAndCityFilter();
+                    } catch (Exception e) {
+                    }
+                    return;
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }
