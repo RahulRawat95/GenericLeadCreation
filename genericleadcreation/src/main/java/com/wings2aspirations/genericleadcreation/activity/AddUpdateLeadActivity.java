@@ -141,8 +141,8 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
     private TextInputEditText leadRemarksEt;
     private TextInputEditText nextFollowUpDateEt;
     private TextInputEditText nextFollowUpTimeEt, snoozeTimeEt;
-    private TextInputEditText dobDateEt;
-    private TextInputEditText marriageDateEt;
+    //private TextInputEditText dobDateEt;
+    //private TextInputEditText marriageDateEt;
     //private RadioGroup callTypeRg;
     //private RadioButton callTypeHotRb;
     //private RadioButton callTypeColdRb;
@@ -226,9 +226,9 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
         leadRemarksEt = (TextInputEditText) findViewById(R.id.lead_remarks_et);
         nextFollowUpDateEt = (TextInputEditText) findViewById(R.id.next_follow_up_date_et);
         nextFollowUpTimeEt = (TextInputEditText) findViewById(R.id.next_follow_up_time_et);
-        dobDateEt = (TextInputEditText) findViewById(R.id.date_of_birth_et);
+        /*dobDateEt = (TextInputEditText) findViewById(R.id.date_of_birth_et);
         marriageDateEt = (TextInputEditText) findViewById(R.id.marriage_aniv_et);
-        /*callTypeRg = (RadioGroup) findViewById(R.id.call_type_rg);
+        callTypeRg = (RadioGroup) findViewById(R.id.call_type_rg);
         callTypeHotRb = (RadioButton) findViewById(R.id.call_type_hot_rb);
         callTypeColdRb = (RadioButton) findViewById(R.id.call_type_cold_rb);
         callTypeWarmRb = (RadioButton) findViewById(R.id.call_type_warm_rb);*/
@@ -255,16 +255,15 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
         timeUnitSp = findViewById(R.id.snooze_time_sp);
         timeUnitSp.setSelection(2);
 
-        /*callTypeHotRb.setOnClickListener(this);
+        /*dobDateEt.setOnClickListener(this);
+        marriageDateEt.setOnClickListener(this);
+        callTypeHotRb.setOnClickListener(this);
         callTypeColdRb.setOnClickListener(this);
         callTypeWarmRb.setOnClickListener(this);*/
         cameraBt.setOnClickListener(this);
         saveBt.setOnClickListener(this);
         nextFollowUpDateEt.setOnClickListener(this);
         nextFollowUpTimeEt.setOnClickListener(this);
-
-        dobDateEt.setOnClickListener(this);
-        marriageDateEt.setOnClickListener(this);
 
         productSp.setOnClickListener(this);
 
@@ -353,11 +352,11 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
             Utility.showDatePickerDialog(this, nextFollowUpDateEt, null, null, new Date());
         } else if (v == nextFollowUpTimeEt) {
             Utility.showTimePicker(this, nextFollowUpTimeEt);
-        } else if (v == dobDateEt) {
+        } /*else if (v == dobDateEt) {
             Utility.showDatePickerDialog(this, dobDateEt, null, Calendar.getInstance().getTime(), new Date());
         } else if (v == marriageDateEt) {
             Utility.showDatePickerDialog(this, marriageDateEt, null, null, new Date());
-        } else if (v == productSp) {
+        } */else if (v == productSp) {
             callShowOptionList(TYPE_PRODUCT, itemModelsListProduct, false);
         } else if (v == statusSp) {
             callShowOptionList(TYPE_STATUS, itemModelsListStatus, false);
@@ -369,7 +368,7 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
     }
 
     private boolean checkDateValidation() {
-        Date dobDateEntered = null, marrigeDateEntered = null;
+        /*Date dobDateEntered = null, marrigeDateEntered = null;
         try {
             dobDateEntered = simpleDateFormat.parse(dobDateEt.getText().toString());
         } catch (ParseException e) {
@@ -383,7 +382,7 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
         }
 
         if (!marrigeDateEntered.after(dobDateEntered))
-            return false;
+            return false;*/
         return true;
     }
 
@@ -436,8 +435,8 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
         Log.e("AlucarD", productSp.getText().toString());
         jsonObject.addProperty("PRODUCT_ID", (int) productSp.getTag());
         jsonObject.addProperty("PARENT_ID", followUpId);
-        jsonObject.addProperty("DATE_OF_BIRTH_VC", dobDateEt.getText().toString());
-        jsonObject.addProperty("MARRIAGE_DATE_VC", marriageDateEt.getText().toString());
+        /*jsonObject.addProperty("DATE_OF_BIRTH_VC", dobDateEt.getText().toString());
+        jsonObject.addProperty("MARRIAGE_DATE_VC", marriageDateEt.getText().toString());*/
         jsonObject.addProperty("CITY_ID", (int) cityTv.getTag());
         jsonObject.addProperty("STATE_ID", (int) stateTv.getTag());
         if (updateId >= 0) {
@@ -697,8 +696,8 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
                         mobileNoEt.setText(leadDetail.getMOBILE_NO());
                         addressEt.setText(leadDetail.getADDRESS());
                         pinCodeEt.setText(leadDetail.getPIN_CODE());
-                        dobDateEt.setText(leadDetail.getDATE_OF_BIRTH_VC());
-                        marriageDateEt.setText(leadDetail.getMARRIAGE_DATE_VC());
+                        /*dobDateEt.setText(leadDetail.getDATE_OF_BIRTH_VC());
+                        marriageDateEt.setText(leadDetail.getMARRIAGE_DATE_VC());*/
                         cityTv.setText(leadDetail.getCITY_NAME_VC());
                         cityTv.setTag(leadDetail.getCITY_ID());
 
