@@ -247,6 +247,9 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
         unit_sp = findViewById(R.id.unit_sp);
         progressLayout = findViewById(R.id.progress_bar);
 
+        dobDateEt.setVisibility(View.GONE);
+        marriageDateEt.setVisibility(View.GONE);
+
         nextFollowUpDateEt.setHint(simpleDateFormat.format(new Date()));
 
         Calendar calendar = Calendar.getInstance();

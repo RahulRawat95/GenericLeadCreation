@@ -326,7 +326,7 @@ public class LeadMeetingReportFragment extends Fragment implements LeadMeetRepor
         adapter = new LeadMeetReportAdapter(refineDetails, getActivity(), hashSets, isAdmin, isLeadReport, this, new LeadMeetReportAdapter.LeadOnClickCallBack() {
             @Override
             public void callback(LeadDetail leadDetail) {
-                TrailFragment fragment = TrailFragment.newInstance(leadDetail.getCHILD_FOLLOW_UP_ID(), leadDetail.getID(), leadDetail.getEMP_NAME(), leadDetail.getEMP_ID());
+                TrailFragment fragment = TrailFragment.newInstance(leadDetail.getCHILD_FOLLOW_UP_ID(), leadDetail.getID(), leadDetail.getEMP_NAME(), leadDetail.getEMP_ID(), true);
                 ((FragmentActivity) getActivity()).
                         getSupportFragmentManager().beginTransaction()
                         .replace(R.id.fragment_frame, fragment, fragment.getClass().getSimpleName())
