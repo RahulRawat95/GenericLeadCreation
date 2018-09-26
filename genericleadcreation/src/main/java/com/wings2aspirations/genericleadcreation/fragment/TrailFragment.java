@@ -41,6 +41,7 @@ public class TrailFragment extends Fragment {
     private static final String ARG_ID = "ID";
     private static final String ARG_EMP_NAME = "emp_name";
     private static final String ARG_EMP_ID = "emp_id";
+    private static final String ARG_CAN_ADD = "can_add";
 
     private int CHILD_FOLLOW_UP_ID;
     private int ID;
@@ -52,15 +53,18 @@ public class TrailFragment extends Fragment {
     private String empName;
     private int empId;
 
+    private boolean showAddButton;
+
     private List<LeadDetail> trailDetails;
 
-    public static TrailFragment newInstance(int childFollowUpId, int id, String empName, int empId) {
+    public static TrailFragment newInstance(int childFollowUpId, int id, String empName, int empId, boolean canAdd) {
 
         Bundle args = new Bundle();
         args.putInt(ARG_CHILD_FOLLOW_UP_ID, childFollowUpId);
         args.putInt(ARG_ID, id);
         args.putString(ARG_EMP_NAME, empName);
         args.putInt(ARG_EMP_ID, empId);
+        args.putBoolean(ARG_CAN_ADD, canAdd);
 
         TrailFragment fragment = new TrailFragment();
         fragment.setArguments(args);
@@ -74,6 +78,8 @@ public class TrailFragment extends Fragment {
         ID = bundle.getInt(ARG_ID);
         empName = bundle.getString(ARG_EMP_NAME);
         empId = bundle.getInt(ARG_EMP_ID);
+
+        showAddButton = bundle.getBoolean(ARG_CAN_ADD);
     }
 
     @Override
@@ -92,13 +98,19 @@ public class TrailFragment extends Fragment {
         progress_bar = view.findViewById(R.id.progress_bar);
         trail_list = view.findViewById(R.id.trail_list);
         fab_trial = view.findViewById(R.id.fab_trial);
-        fab_trial.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = AddUpdateLeadActivity.getLeadIntent(getActivity(), empName, empId, CHILD_FOLLOW_UP_ID, true);
-                startActivityForResult(intent, REQUEST_CODE_ADD_LEAD_ACTIVITY);
-            }
-        });
+
+        if (showAddButton){
+            fab_trial.setVisibility(View.VISIBLE);
+            fab_trial.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = AddUpdateLeadActivity.getLeadIntent(getActivity(), empName, empId, CHILD_FOLLOW_UP_ID, true);
+                    startActivityForResult(intent, REQUEST_CODE_ADD_LEAD_ACTIVITY);
+                }
+            });
+        }else
+            fab_trial.setVisibility(View.GONE);
+
 
         try {
             ((MainActivity) getActivity()).setActionBarTitle("Lead Trail List");

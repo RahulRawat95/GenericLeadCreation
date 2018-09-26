@@ -18,7 +18,9 @@ public class MainActivity extends AppCompatActivity {
         strings.add("Lalit");
         strings.add("Lokesh");
         Intent intent = com.wings2aspirations.genericleadcreation.activity.MainActivity.getListLeadsIntent(this, "http://13.126.198.143:10004/",
-                "attendanceAppDB", "Mukul1062", BuildConfig.APPLICATION_ID, 2,"lokeshmudgal06@gmail.com", "lokesh");
+                "attendanceAppDB", "Mukul1062", BuildConfig.APPLICATION_ID, 1,"lokeshmudgal06@gmail.com", strings);
+       /* Intent intent = com.wings2aspirations.genericleadcreation.activity.ViewLeadActivity.getListLeadsIntent(this, "http://13.126.198.143:10004/",
+                "attendanceAppDB", "Mukul1062", BuildConfig.APPLICATION_ID, 2,"lokeshmudgal06@gmail.com", "lokesh");*/
 
         startActivity(intent);
         finish();

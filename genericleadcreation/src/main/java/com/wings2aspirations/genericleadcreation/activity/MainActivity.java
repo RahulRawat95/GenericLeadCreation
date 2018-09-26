@@ -106,6 +106,8 @@ public class MainActivity extends AppCompatActivity
         return intent;
     }
 
+
+
     public void getAuthString(int id, final ListLeadsActivity.ListLeadCallback listLeadCallback) {
         Call<AuthorisationToken> call = apiInterface.getAuthToken(id);
         call.enqueue(new Callback<AuthorisationToken>() {
@@ -263,9 +265,9 @@ public class MainActivity extends AppCompatActivity
 
         Fragment fragment;
         if (isAdmin)
-            fragment = ListLeadsFragment.newInstance(ApiClient.BASE_URL, ApiClient.getDbName(), ApiClient.getSchemaName(), ApiClient.applicationId, empId, empNames);
+            fragment = ListLeadsFragment.newInstance(ApiClient.BASE_URL, ApiClient.getDbName(), ApiClient.getSchemaName(), ApiClient.applicationId, empId, empNames, true);
         else
-            fragment = ListLeadsFragment.newInstance(ApiClient.BASE_URL, ApiClient.getDbName(), ApiClient.getSchemaName(), ApiClient.applicationId, empId, empName);
+            fragment = ListLeadsFragment.newInstance(ApiClient.BASE_URL, ApiClient.getDbName(), ApiClient.getSchemaName(), ApiClient.applicationId, empId, empName, true);
 
         if (fragment != null)
             addFragmentToBackStack(fragment);
@@ -332,9 +334,9 @@ public class MainActivity extends AppCompatActivity
             fragment = LeadMeetingReportFragment.newInstance(false, empId, isAdmin, empNames);
         } else if (id == R.id.action_list_leads) {
             if (isAdmin)
-                fragment = ListLeadsFragment.newInstance(ApiClient.BASE_URL, ApiClient.getDbName(), ApiClient.getSchemaName(), ApiClient.applicationId, empId, empNames);
+                fragment = ListLeadsFragment.newInstance(ApiClient.BASE_URL, ApiClient.getDbName(), ApiClient.getSchemaName(), ApiClient.applicationId, empId, empNames, true);
             else
-                fragment = ListLeadsFragment.newInstance(ApiClient.BASE_URL, ApiClient.getDbName(), ApiClient.getSchemaName(), ApiClient.applicationId, empId, empName);
+                fragment = ListLeadsFragment.newInstance(ApiClient.BASE_URL, ApiClient.getDbName(), ApiClient.getSchemaName(), ApiClient.applicationId, empId, empName, true);
         } else if (id == R.id.action_meeting_scheduler) {
             startActivity(new Intent(Intent.ACTION_INSERT).setData(CalendarContract.Events.CONTENT_URI));
             return true;
@@ -420,7 +422,7 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
-    public void updateStatusAndCityFilter(){
+    public void updateStatusAndCityFilter() {
         getCityList();
         getStatusList();
     }

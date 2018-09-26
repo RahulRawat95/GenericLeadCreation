@@ -67,6 +67,7 @@ public class ListLeadsFragment extends Fragment implements ListLeadsAdapter.Prog
     public static final String EXTRA_DB_NAME = "dbName";
     public static final String EXTRA_SCHEMA_NAME = "schemaName";
     public static final String EXTRA_APPLICATION_ID = "applicationId";
+    public static final String EXTRA_SHOW_ADD_BUTTON = "show_button";
 
 
     public AlertDialog leadFileOptionDialog;
@@ -108,7 +109,9 @@ public class ListLeadsFragment extends Fragment implements ListLeadsAdapter.Prog
 
     private CalendarHelper calendarHelper;
 
-    public static ListLeadsFragment newInstance(String baseUrl, String dbName, String schemaName, String applicationId, int id, ArrayList<String> empNames) {
+    private boolean showAddButton;
+
+    public static ListLeadsFragment newInstance(String baseUrl, String dbName, String schemaName, String applicationId, int id, ArrayList<String> empNames, boolean canAdd) {
         Bundle bundle = new Bundle();
         bundle.putString(ListLeadsFragment.EXTRA_BASE_URL, baseUrl);
         bundle.putInt(EXTRA_ARG_EMPLOYEE_ID, id);
@@ -116,13 +119,14 @@ public class ListLeadsFragment extends Fragment implements ListLeadsAdapter.Prog
         bundle.putString(ListLeadsFragment.EXTRA_DB_NAME, dbName);
         bundle.putString(ListLeadsFragment.EXTRA_SCHEMA_NAME, schemaName);
         bundle.putString(ListLeadsFragment.EXTRA_APPLICATION_ID, applicationId);
+        bundle.putBoolean(ListLeadsFragment.EXTRA_SHOW_ADD_BUTTON, canAdd);
 
         ListLeadsFragment fragment = new ListLeadsFragment();
         fragment.setArguments(bundle);
         return fragment;
     }
 
-    public static ListLeadsFragment newInstance(String baseUrl, String dbName, String schemaName, String applicationId, int empId, String empName) {
+    public static ListLeadsFragment newInstance(String baseUrl, String dbName, String schemaName, String applicationId, int empId, String empName, boolean canAdd) {
         Bundle bundle = new Bundle();
 
         bundle.putString(EXTRA_ARG_EMPLOYEE_NAME, empName);
@@ -131,6 +135,7 @@ public class ListLeadsFragment extends Fragment implements ListLeadsAdapter.Prog
         bundle.putString(ListLeadsFragment.EXTRA_DB_NAME, dbName);
         bundle.putString(ListLeadsFragment.EXTRA_SCHEMA_NAME, schemaName);
         bundle.putString(ListLeadsFragment.EXTRA_APPLICATION_ID, applicationId);
+        bundle.putBoolean(ListLeadsFragment.EXTRA_SHOW_ADD_BUTTON, canAdd);
 
         ListLeadsFragment fragment = new ListLeadsFragment();
         fragment.setArguments(bundle);
@@ -207,7 +212,7 @@ public class ListLeadsFragment extends Fragment implements ListLeadsAdapter.Prog
         adapter = new ListLeadsAdapter(getActivity(), refineDetails, ListLeadsFragment.this, isAdmin, new ListLeadsAdapter.LeadOnClickCallBack() {
             @Override
             public void callback(LeadDetail leadDetail) {
-                TrailFragment fragment = TrailFragment.newInstance(leadDetail.getCHILD_FOLLOW_UP_ID(), leadDetail.getID(), leadDetail.getEMP_NAME(), leadDetail.getEMP_ID());
+                TrailFragment fragment = TrailFragment.newInstance(leadDetail.getCHILD_FOLLOW_UP_ID(), leadDetail.getID(), leadDetail.getEMP_NAME(), leadDetail.getEMP_ID(), showAddButton);
                 ((FragmentActivity) getActivity()).
                         getSupportFragmentManager().beginTransaction()
                         .replace(R.id.fragment_frame, fragment, fragment.getClass().getSimpleName())
@@ -257,6 +262,11 @@ public class ListLeadsFragment extends Fragment implements ListLeadsAdapter.Prog
         } catch (Exception e) {
 
         }
+
+        if (showAddButton)
+            floatingActionButton.setVisibility(View.VISIBLE);
+        else
+            floatingActionButton.setVisibility(View.GONE);
         getLeadsList();
         adapter = new ListLeadsAdapter(getActivity(), new ArrayList<LeadDetail>(), ListLeadsFragment.this, isAdmin, new ListLeadsAdapter.LeadOnClickCallBack() {
             @Override
@@ -400,6 +410,7 @@ public class ListLeadsFragment extends Fragment implements ListLeadsAdapter.Prog
 
         Bundle args = getArguments();
 
+
         if (!args.containsKey(EXTRA_DB_NAME)) {
             ShowToast.showToast(getActivity(), "No Db name specified");
             getActivity().finish();
@@ -417,6 +428,9 @@ public class ListLeadsFragment extends Fragment implements ListLeadsAdapter.Prog
             getActivity().finish();
             return;
         }
+
+        showAddButton = args.getBoolean(EXTRA_SHOW_ADD_BUTTON);
+
 
         ApiClient.setApplicationId(args.getString(EXTRA_APPLICATION_ID));
 

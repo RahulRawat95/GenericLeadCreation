@@ -247,6 +247,9 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
         unit_sp = findViewById(R.id.unit_sp);
         progressLayout = findViewById(R.id.progress_bar);
 
+        dobDateEt.setVisibility(View.GONE);
+        marriageDateEt.setVisibility(View.GONE);
+
         nextFollowUpDateEt.setHint(simpleDateFormat.format(new Date()));
 
         Calendar calendar = Calendar.getInstance();
@@ -697,8 +700,8 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
                         mobileNoEt.setText(leadDetail.getMOBILE_NO());
                         addressEt.setText(leadDetail.getADDRESS());
                         pinCodeEt.setText(leadDetail.getPIN_CODE());
-                        dobDateEt.setText(leadDetail.getDATE_OF_BIRTH_VC());
-                        marriageDateEt.setText(leadDetail.getMARRIAGE_DATE_VC());
+                        /*dobDateEt.setText(leadDetail.getDATE_OF_BIRTH_VC());
+                        marriageDateEt.setText(leadDetail.getMARRIAGE_DATE_VC());*/
                         cityTv.setText(leadDetail.getCITY_NAME_VC());
                         cityTv.setTag(leadDetail.getCITY_ID());
 
