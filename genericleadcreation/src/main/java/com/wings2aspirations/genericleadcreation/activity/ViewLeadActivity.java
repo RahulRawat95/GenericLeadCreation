@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.Menu;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -29,7 +30,7 @@ import java.util.List;
 import retrofit2.Call;
 
 
-public class ViewLeadActivity extends AppCompatActivity{
+public class ViewLeadActivity extends AppCompatActivity {
     public static final String EXTRA_ARG_EMPLOYEE_ID = "argsEmployeeId";
     public static final String EXTRA_ARG_EMPLOYEE_NAME = "argsEmployeeName";
     public static final String EXTRA_EMP_NAMES = "employeeNames";
@@ -46,7 +47,6 @@ public class ViewLeadActivity extends AppCompatActivity{
     private String empName;
     private ArrayList<String> empNames;
     public static SimpleDateFormat simpleDateFormat;
-
 
 
     public static Intent getListLeadsIntent(Context context, String baseUrl, String dbName, String schemaName, String applicationId, int id, String emailId, ArrayList<String> empNames) {
@@ -78,8 +78,6 @@ public class ViewLeadActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_lead);
-
-
 
 
         if (!getIntent().hasExtra(EXTRA_DB_NAME)) {
@@ -141,7 +139,6 @@ public class ViewLeadActivity extends AppCompatActivity{
         }
 
 
-
         simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
         if (isAdmin) {
@@ -167,8 +164,21 @@ public class ViewLeadActivity extends AppCompatActivity{
         apiInterface = ApiClient.getClient().create(ApiInterface.class);
 
 
-
     }
+
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.emp_admin_tag_menu, menu);
+        if (!isAdmin)
+            menu.findItem(R.id.tag).setTitle(empName);
+        else
+            menu.findItem(R.id.tag).setTitle("Admin");
+        return true;
+    }
+
+
     public void isUserAdmin(boolean isAdmin) {
         this.isAdmin = isAdmin;
     }
@@ -199,6 +209,7 @@ public class ViewLeadActivity extends AppCompatActivity{
                 .addToBackStack(null)
                 .commit();
     }
+
 
     public void setActionBarTitle(String pageTitle) {
         try {

@@ -112,6 +112,8 @@ public class TrailFragment extends Fragment {
         }else
             fab_trial.setVisibility(View.GONE);
 
+
+
         if (showAddButton){
             try {
                 ((MainActivity) getActivity()).setActionBarTitle("Lead Trail List");

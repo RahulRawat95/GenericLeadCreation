@@ -258,19 +258,19 @@ public class ListLeadsFragment extends Fragment implements ListLeadsAdapter.Prog
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 
-      if (showAddButton){
-          try {
-              ((MainActivity) getActivity()).setActionBarTitle("Lead List");
-          } catch (Exception e) {
+        if (showAddButton) {
+            try {
+                ((MainActivity) getActivity()).setActionBarTitle("Lead List");
+            } catch (Exception e) {
 
-          }
-      }else {
-          try {
-              ((ViewLeadActivity) getActivity()).setActionBarTitle("Lead List");
-          } catch (Exception e) {
+            }
+        } else {
+            try {
+                ((ViewLeadActivity) getActivity()).setActionBarTitle("Lead List");
+            } catch (Exception e) {
 
-          }
-      }
+            }
+        }
 
         if (showAddButton)
             floatingActionButton.setVisibility(View.VISIBLE);
@@ -583,7 +583,10 @@ public class ListLeadsFragment extends Fragment implements ListLeadsAdapter.Prog
 //            floatingActionButton.setVisibility(View.GONE);
 
             floatingActionButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_action_show_options));
-            filterView.setVisibility(View.VISIBLE);
+            if (!showAddButton)
+                filterView.setVisibility(View.GONE);
+            else
+                filterView.setVisibility(View.VISIBLE);
         } else {
 //            floatingActionButton.setVisibility(View.VISIBLE);
 
