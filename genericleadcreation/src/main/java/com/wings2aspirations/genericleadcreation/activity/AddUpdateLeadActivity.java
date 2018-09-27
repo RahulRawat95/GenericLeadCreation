@@ -25,10 +25,12 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.NestedScrollView;
+import android.text.InputFilter;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -62,6 +64,7 @@ import com.wings2aspirations.genericleadcreation.reciever.GpsStatusListener;
 import com.wings2aspirations.genericleadcreation.reciever.LocationUpdatesBroadcastReceiver;
 import com.wings2aspirations.genericleadcreation.repository.CalendarHelper;
 import com.wings2aspirations.genericleadcreation.repository.Constants;
+import com.wings2aspirations.genericleadcreation.repository.DecimalDigitsInputFilter;
 import com.wings2aspirations.genericleadcreation.repository.ShowOptionSelectionDialog;
 import com.wings2aspirations.genericleadcreation.repository.ShowToast;
 import com.wings2aspirations.genericleadcreation.repository.Utility;
@@ -141,8 +144,8 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
     private TextInputEditText leadRemarksEt;
     private TextInputEditText nextFollowUpDateEt;
     private TextInputEditText nextFollowUpTimeEt, snoozeTimeEt;
-    private TextInputEditText dobDateEt;
-    private TextInputEditText marriageDateEt;
+    //private TextInputEditText dobDateEt;
+    //private TextInputEditText marriageDateEt;
     //private RadioGroup callTypeRg;
     //private RadioButton callTypeHotRb;
     //private RadioButton callTypeColdRb;
@@ -150,6 +153,7 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
     private TextView productSp, statusSp, unit_sp, cityTv, stateTv;
     private FloatingActionButton cameraBt;
     private TextView fileNameTv;
+    private TextInputEditText quantityEt;
     private FloatingActionButton saveBt;
 
     private Spinner timeUnitSp;
@@ -226,15 +230,16 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
         leadRemarksEt = (TextInputEditText) findViewById(R.id.lead_remarks_et);
         nextFollowUpDateEt = (TextInputEditText) findViewById(R.id.next_follow_up_date_et);
         nextFollowUpTimeEt = (TextInputEditText) findViewById(R.id.next_follow_up_time_et);
-        dobDateEt = (TextInputEditText) findViewById(R.id.date_of_birth_et);
+        /*dobDateEt = (TextInputEditText) findViewById(R.id.date_of_birth_et);
         marriageDateEt = (TextInputEditText) findViewById(R.id.marriage_aniv_et);
-        /*callTypeRg = (RadioGroup) findViewById(R.id.call_type_rg);
+        callTypeRg = (RadioGroup) findViewById(R.id.call_type_rg);
         callTypeHotRb = (RadioButton) findViewById(R.id.call_type_hot_rb);
         callTypeColdRb = (RadioButton) findViewById(R.id.call_type_cold_rb);
         callTypeWarmRb = (RadioButton) findViewById(R.id.call_type_warm_rb);*/
         cameraBt = (FloatingActionButton) findViewById(R.id.camera_bt);
         fileNameTv = (TextView) findViewById(R.id.file_name_tv);
         saveBt = (FloatingActionButton) findViewById(R.id.save_bt);
+        quantityEt = findViewById(R.id.quantity_et);
 
         stateTv = findViewById(R.id.state_tv);
         cityTv = findViewById(R.id.city_tv);
@@ -247,8 +252,7 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
         unit_sp = findViewById(R.id.unit_sp);
         progressLayout = findViewById(R.id.progress_bar);
 
-        dobDateEt.setVisibility(View.GONE);
-        marriageDateEt.setVisibility(View.GONE);
+        quantityEt.setFilters(new InputFilter[]{new DecimalDigitsInputFilter(7, 3)});
 
         nextFollowUpDateEt.setHint(simpleDateFormat.format(new Date()));
 
@@ -258,16 +262,15 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
         timeUnitSp = findViewById(R.id.snooze_time_sp);
         timeUnitSp.setSelection(2);
 
-        /*callTypeHotRb.setOnClickListener(this);
+        /*dobDateEt.setOnClickListener(this);
+        marriageDateEt.setOnClickListener(this);
+        callTypeHotRb.setOnClickListener(this);
         callTypeColdRb.setOnClickListener(this);
         callTypeWarmRb.setOnClickListener(this);*/
         cameraBt.setOnClickListener(this);
         saveBt.setOnClickListener(this);
         nextFollowUpDateEt.setOnClickListener(this);
         nextFollowUpTimeEt.setOnClickListener(this);
-
-        dobDateEt.setOnClickListener(this);
-        marriageDateEt.setOnClickListener(this);
 
         productSp.setOnClickListener(this);
 
@@ -356,11 +359,11 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
             Utility.showDatePickerDialog(this, nextFollowUpDateEt, null, null, new Date());
         } else if (v == nextFollowUpTimeEt) {
             Utility.showTimePicker(this, nextFollowUpTimeEt);
-        } else if (v == dobDateEt) {
+        } /*else if (v == dobDateEt) {
             Utility.showDatePickerDialog(this, dobDateEt, null, Calendar.getInstance().getTime(), new Date());
         } else if (v == marriageDateEt) {
             Utility.showDatePickerDialog(this, marriageDateEt, null, null, new Date());
-        } else if (v == productSp) {
+        } */ else if (v == productSp) {
             callShowOptionList(TYPE_PRODUCT, itemModelsListProduct, false);
         } else if (v == statusSp) {
             callShowOptionList(TYPE_STATUS, itemModelsListStatus, false);
@@ -372,7 +375,7 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
     }
 
     private boolean checkDateValidation() {
-        Date dobDateEntered = null, marrigeDateEntered = null;
+        /*Date dobDateEntered = null, marrigeDateEntered = null;
         try {
             dobDateEntered = simpleDateFormat.parse(dobDateEt.getText().toString());
         } catch (ParseException e) {
@@ -386,7 +389,7 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
         }
 
         if (!marrigeDateEntered.after(dobDateEntered))
-            return false;
+            return false;*/
         return true;
     }
 
@@ -439,10 +442,11 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
         Log.e("AlucarD", productSp.getText().toString());
         jsonObject.addProperty("PRODUCT_ID", (int) productSp.getTag());
         jsonObject.addProperty("PARENT_ID", followUpId);
-        jsonObject.addProperty("DATE_OF_BIRTH_VC", dobDateEt.getText().toString());
-        jsonObject.addProperty("MARRIAGE_DATE_VC", marriageDateEt.getText().toString());
+        /*jsonObject.addProperty("DATE_OF_BIRTH_VC", dobDateEt.getText().toString());
+        jsonObject.addProperty("MARRIAGE_DATE_VC", marriageDateEt.getText().toString());*/
         jsonObject.addProperty("CITY_ID", (int) cityTv.getTag());
         jsonObject.addProperty("STATE_ID", (int) stateTv.getTag());
+        jsonObject.addProperty("QUANTITY_N", Double.parseDouble(quantityEt.getText().toString()));
         if (updateId >= 0) {
             jsonObject.addProperty("ID", updateId);
         } else {
@@ -493,6 +497,7 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
         stateTv.setEnabled(false);
         snoozeTimeEt.setEnabled(false);
         timeUnitSp.setEnabled(false);
+        quantityEt.setEnabled(false);
       /*  callTypeRg.setEnabled(false);
         callTypeHotRb.setEnabled(false);
         callTypeColdRb.setEnabled(false);
@@ -594,6 +599,7 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
                         leadRemarksEt.setText(leadDetail.getLEAD_REMARKS());
                         nextFollowUpDateEt.setText(leadDetail.getNEXT_FOLLOW_UP_DATE());
                         nextFollowUpTimeEt.setText(leadDetail.getNEXT_FOLLOW_UP_TIME());
+                        quantityEt.setText(String.format("%.3f", leadDetail.getQuantity()));
                         /*switch (leadDetail.getCALL_TYPE()) {
                          *//* case "Hot":
                                 callTypeHotRb.setChecked(true);
@@ -1259,6 +1265,7 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
         nextFollowUpDateEt.setError(null);
         nextFollowUpTimeEt.setError(null);
         cityTv.setError(null);
+        quantityEt.setError(null);
 
         if (isEmpty(customerNameEt)) {
             customerNameEt.setError("Required");
@@ -1292,6 +1299,10 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
             nextFollowUpTimeEt.setError("Required");
             return false;
         }
+        if (isEmpty(quantityEt)) {
+            quantityEt.setError("Required");
+            return false;
+        }
         if (TextUtils.isEmpty(stateTv.getText())) {
             stateTv.setError("Required");
             return false;
@@ -1306,6 +1317,11 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
         }
         if (TextUtils.isEmpty(productSp.getText().toString())) {
             ShowToast.showToast(AddUpdateLeadActivity.this, R.string.select_product_error);
+            return false;
+        }
+        double quantity = Double.parseDouble(quantityEt.getText().toString());
+        if (quantity == 0D) {
+            quantityEt.setError("Quantity cannot be Zero");
             return false;
         }
         if (mobileNoEt.getText().length() != 10) {

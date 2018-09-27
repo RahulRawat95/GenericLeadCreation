@@ -333,7 +333,7 @@
 
             </LinearLayout>
 
-            <LinearLayout
+            <!--<LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="@dimen/text_input_bottom_margin"
@@ -396,7 +396,7 @@
                         android:paddingTop="@dimen/edit_text_padding_top" />
                 </android.support.design.widget.TextInputLayout>
 
-            </LinearLayout>
+            </LinearLayout>-->
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -558,6 +558,32 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/edit_text_style"
                     android:gravity="center_vertical"
+                    android:padding="10dp"
+                    android:textColor="@android:color/black" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/text_input_bottom_margin"
+                android:layout_marginTop="@dimen/text_input_margin_top"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="@dimen/edit_text_right_margin"
+                    android:gravity="center_vertical"
+                    android:text="@string/quantity_label" />
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/quantity_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/edit_text_style"
+                    android:gravity="center_vertical"
+                    android:inputType="numberDecimal"
                     android:padding="10dp"
                     android:textColor="@android:color/black" />
 

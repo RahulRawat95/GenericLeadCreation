@@ -645,6 +645,7 @@ public class ListLeadsFragment extends Fragment implements ListLeadsAdapter.Prog
                 case REQUEST_CODE_ADD_LEAD_ACTIVITY:
                     try {
                         ((MainActivity) getActivity()).updateStatusAndCityFilter();
+                        getLeadsList();
                     } catch (Exception e) {
                     }
                     return;

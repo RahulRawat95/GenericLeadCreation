@@ -73,12 +73,12 @@ public class LeadDetail implements CalendarHelper.CalendarInstance {
     @SerializedName("PRODUCT_ID")
     @Expose
     private Integer PRODUCT_ID;
-    @SerializedName("DATE_OF_BIRTH_VC")
+    /*@SerializedName("DATE_OF_BIRTH_VC")
     @Expose
     private String DATE_OF_BIRTH_VC;
     @SerializedName("MARRIAGE_DATE_VC")
     @Expose
-    private String MARRIAGE_DATE_VC;
+    private String MARRIAGE_DATE_VC;*/
     @SerializedName("CITY_ID")
     @Expose
     private Integer CITY_ID;
@@ -103,6 +103,9 @@ public class LeadDetail implements CalendarHelper.CalendarInstance {
     @SerializedName("STATE_ID")
     @Expose
     private Integer STATE_ID;
+    @SerializedName("QUANTITY_N")
+    @Expose
+    private Double quantity;
 
     public String getCOMPANY_NAME() {
         return COMPANY_NAME;
@@ -252,7 +255,7 @@ public class LeadDetail implements CalendarHelper.CalendarInstance {
         this.PRODUCT_ID = PRODUCT_ID;
     }
 
-    public String getDATE_OF_BIRTH_VC() {
+    /*public String getDATE_OF_BIRTH_VC() {
         return DATE_OF_BIRTH_VC;
     }
 
@@ -266,7 +269,7 @@ public class LeadDetail implements CalendarHelper.CalendarInstance {
 
     public void setMARRIAGE_DATE_VC(String MARRIAGE_DATE_VC) {
         this.MARRIAGE_DATE_VC = MARRIAGE_DATE_VC;
-    }
+    }*/
 
     public void setCITY_ID(Integer CITY_ID) {
         this.CITY_ID = CITY_ID;
@@ -451,5 +454,13 @@ public class LeadDetail implements CalendarHelper.CalendarInstance {
 
     public void setSTATE_ID(Integer STATE_ID) {
         this.STATE_ID = STATE_ID;
+    }
+
+    public Double getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Double quantity) {
+        this.quantity = quantity;
     }
 }
