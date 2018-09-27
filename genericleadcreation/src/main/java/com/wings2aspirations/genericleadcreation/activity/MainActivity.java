@@ -329,9 +329,9 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.action_create_product) {
             fragment = ProductStatusFragment.newInstance(true);
         } else if (id == R.id.action_lead_report) {
-            fragment = LeadMeetingReportFragment.newInstance(true, empId, isAdmin, empNames);
+            fragment = LeadMeetingReportFragment.newInstance(true, empId, isAdmin, empNames, false);
         } else if (id == R.id.action_meeting_report) {
-            fragment = LeadMeetingReportFragment.newInstance(false, empId, isAdmin, empNames);
+            fragment = LeadMeetingReportFragment.newInstance(false, empId, isAdmin, empNames, false);
         } else if (id == R.id.action_list_leads) {
             if (isAdmin)
                 fragment = ListLeadsFragment.newInstance(ApiClient.BASE_URL, ApiClient.getDbName(), ApiClient.getSchemaName(), ApiClient.applicationId, empId, empNames, true);

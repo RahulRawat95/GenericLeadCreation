@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 
@@ -26,6 +27,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.reflect.TypeToken;
 import com.wings2aspirations.genericleadcreation.R;
 import com.wings2aspirations.genericleadcreation.activity.MainActivity;
+import com.wings2aspirations.genericleadcreation.activity.ViewLeadActivity;
 import com.wings2aspirations.genericleadcreation.adapter.LeadMeetReportAdapter;
 import com.wings2aspirations.genericleadcreation.models.ItemModel;
 import com.wings2aspirations.genericleadcreation.models.LeadDetail;
@@ -51,6 +53,7 @@ public class LeadMeetingReportFragment extends Fragment implements LeadMeetRepor
     private static final String ARG_IS_LEAD_REPORT = "argIsLeadReport";
     private static final String ARG_EMP_ID = "argEmployeeId";
     private static final String ARG_IS_ADMIN = "argIsAdmin";
+    private static final String ARG_IS_FOR_REPORT = "argIsForReport";
     public static final String ARG_EMP_NAMES = "employeeNames";
 
     private boolean isLeadReport;
@@ -75,15 +78,19 @@ public class LeadMeetingReportFragment extends Fragment implements LeadMeetRepor
     private String selectedEmpName = "";
     private int empId;
     private boolean isAdmin;
+    private boolean isOnlyForReports;
+
+    private LinearLayout filterViewReport;
 
     private HashSet<Integer>[] hashSets;
     private ArrayList<ItemModel>[] itemModels;
 
-    public static LeadMeetingReportFragment newInstance(boolean isLeadReport, int empId, boolean isAdmin, ArrayList<String> empNames) {
+    public static LeadMeetingReportFragment newInstance(boolean isLeadReport, int empId, boolean isAdmin, ArrayList<String> empNames, boolean isOnlyForReports) {
         Bundle args = new Bundle();
         args.putBoolean(ARG_IS_LEAD_REPORT, isLeadReport);
         args.putInt(ARG_EMP_ID, empId);
         args.putBoolean(ARG_IS_ADMIN, isAdmin);
+        args.putBoolean(ARG_IS_FOR_REPORT, isOnlyForReports);
         args.putSerializable(ARG_EMP_NAMES, empNames);
 
         LeadMeetingReportFragment fragment = new LeadMeetingReportFragment();
@@ -96,6 +103,7 @@ public class LeadMeetingReportFragment extends Fragment implements LeadMeetRepor
         isLeadReport = args.getBoolean(ARG_IS_LEAD_REPORT);
         empId = args.getInt(ARG_EMP_ID);
         isAdmin = args.getBoolean(ARG_IS_ADMIN);
+        isOnlyForReports = args.getBoolean(ARG_IS_FOR_REPORT);
         empNames = (ArrayList<String>) args.getSerializable(ARG_EMP_NAMES);
     }
 
@@ -121,6 +129,7 @@ public class LeadMeetingReportFragment extends Fragment implements LeadMeetRepor
         progressLayout = view.findViewById(R.id.progress_bar);
         leadFilterFab = view.findViewById(R.id.lead_filter_fab);
         spinner = view.findViewById(R.id.spinner);
+        filterViewReport = view.findViewById(R.id.filter_view_report);
         return view;
     }
 
@@ -133,122 +142,138 @@ public class LeadMeetingReportFragment extends Fragment implements LeadMeetRepor
 
         }
 
-        if (isAdmin) {
-            spinner.setAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_dropdown_item_1line, empNames));
+        try {
+            ((ViewLeadActivity) getActivity()).setActionBarTitle((isLeadReport ? "Lead" : "Meeting") + " Report");
+        } catch (Exception e) {
 
-            spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    if (position == 0) {
-                        selectedEmpName = "";
-                    } else {
-                        selectedEmpName = (String) parent.getItemAtPosition(position);
+        }
+
+        if (isOnlyForReports){
+            filterViewReport.setVisibility(View.GONE);
+        }else{
+            if (isAdmin) {
+                spinner.setAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_dropdown_item_1line, empNames));
+
+                spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        if (position == 0) {
+                            selectedEmpName = "";
+                        } else {
+                            selectedEmpName = (String) parent.getItemAtPosition(position);
+                        }
+                        try {
+                            adapter.getFilter().filter(selectedEmpName);
+                        } catch (Exception e) {
+                        }
                     }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                });
+            } else {
+                spinner.setVisibility(View.GONE);
+            }
+
+
+            fromDateEt.setOnClickListener(new View.OnClickListener() {
+                Date selectedTooDate = null;//creating local variable while click action occurring
+
+                @Override
+                public void onClick(View view) {
                     try {
-                        adapter.getFilter().filter(selectedEmpName);
+                        //checking for empty field
+                        if (!TextUtils.isEmpty(toDateEt.getText().toString())) {
+                            //getting starting temp date for setting minDate limit for the toDate datePicker
+                            selectedTooDate = MainActivity.simpleDateFormat.parse(toDateEt.getText().toString());
+                            //calling global datePicker
+                            Utility.showDatePickerDialog(getActivity(), fromDateEt, null, selectedTooDate, fromDate);
+                        } else {
+                            Utility.showDatePickerDialog(getActivity(), fromDateEt, null, null, fromDate);
+                        }
+
                     } catch (Exception e) {
                     }
                 }
+            });
+
+
+            fromDateEt.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
 
                 @Override
-                public void onNothingSelected(AdapterView<?> parent) {
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    try {
+                        //creating fromDate variable for executing query as date set on the editText
+                        fromDate = MainActivity.simpleDateFormat.parse(fromDateEt.getText().toString());
+                        adapter.setDate(fromDate, toDate, selectedEmpName);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
 
                 }
             });
-        } else {
-            spinner.setVisibility(View.GONE);
+
+            //setting on ClickListener on the toDate EitText
+            toDateEt.setOnClickListener(new View.OnClickListener() {
+                //creating onClick toDate variable
+                Date selectedFromDate = null;
+
+                @Override
+                public void onClick(View view) {
+                    try {
+                        //checking for empty field
+                        if (!TextUtils.isEmpty(fromDateEt.getText().toString())) {
+                            //getting from temp date for setting maxDate limit for the fromDate datePicker
+                            selectedFromDate = MainActivity.simpleDateFormat.parse(fromDateEt.getText().toString());
+                            Utility.showDatePickerDialog(getActivity(), toDateEt, selectedFromDate, null, toDate);
+                        } else {
+                            Utility.showDatePickerDialog(getActivity(), toDateEt, null, null, toDate);
+                        }
+
+                    } catch (Exception e) {
+                    }
+                }
+            });
+
+            toDateEt.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    try {
+                        //creating toDate variable for executing query as date set on the editText
+                        toDate = MainActivity.simpleDateFormat.parse(toDateEt.getText().toString());
+                        adapter.setDate(fromDate, toDate, selectedEmpName);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+
+                }
+            });
+
         }
 
+
+
+
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        fromDateEt.setOnClickListener(new View.OnClickListener() {
-            Date selectedTooDate = null;//creating local variable while click action occurring
-
-            @Override
-            public void onClick(View view) {
-                try {
-                    //checking for empty field
-                    if (!TextUtils.isEmpty(toDateEt.getText().toString())) {
-                        //getting starting temp date for setting minDate limit for the toDate datePicker
-                        selectedTooDate = MainActivity.simpleDateFormat.parse(toDateEt.getText().toString());
-                        //calling global datePicker
-                        Utility.showDatePickerDialog(getActivity(), fromDateEt, null, selectedTooDate, fromDate);
-                    } else {
-                        Utility.showDatePickerDialog(getActivity(), fromDateEt, null, null, fromDate);
-                    }
-
-                } catch (Exception e) {
-                }
-            }
-        });
-
-
-        fromDateEt.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                try {
-                    //creating fromDate variable for executing query as date set on the editText
-                    fromDate = MainActivity.simpleDateFormat.parse(fromDateEt.getText().toString());
-                    adapter.setDate(fromDate, toDate, selectedEmpName);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
-
-        //setting on ClickListener on the toDate EitText
-        toDateEt.setOnClickListener(new View.OnClickListener() {
-            //creating onClick toDate variable
-            Date selectedFromDate = null;
-
-            @Override
-            public void onClick(View view) {
-                try {
-                    //checking for empty field
-                    if (!TextUtils.isEmpty(fromDateEt.getText().toString())) {
-                        //getting from temp date for setting maxDate limit for the fromDate datePicker
-                        selectedFromDate = MainActivity.simpleDateFormat.parse(fromDateEt.getText().toString());
-                        Utility.showDatePickerDialog(getActivity(), toDateEt, selectedFromDate, null, toDate);
-                    } else {
-                        Utility.showDatePickerDialog(getActivity(), toDateEt, null, null, toDate);
-                    }
-
-                } catch (Exception e) {
-                }
-            }
-        });
-
-        toDateEt.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                try {
-                    //creating toDate variable for executing query as date set on the editText
-                    toDate = MainActivity.simpleDateFormat.parse(toDateEt.getText().toString());
-                    adapter.setDate(fromDate, toDate, selectedEmpName);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
 
         leadFilterFab.setOnClickListener(new View.OnClickListener() {
             @Override
