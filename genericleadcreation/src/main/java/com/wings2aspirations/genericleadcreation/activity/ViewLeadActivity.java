@@ -3,11 +3,15 @@ package com.wings2aspirations.genericleadcreation.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Menu;
+import android.view.View;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -97,6 +101,18 @@ public class ViewLeadActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_view_lead);
         setSupportActionBar(toolbar);
 
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.view_lead_drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+        toggle.setDrawerIndicatorEnabled(false);
+        toggle.syncState();
+
         if (!getIntent().hasExtra(EXTRA_DB_NAME)) {
             ShowToast.showToast(this, "No Db name specified");
             finish();
@@ -181,8 +197,8 @@ public class ViewLeadActivity extends AppCompatActivity {
             getAuthString(empId, new ListLeadsActivity.ListLeadCallback() {
                 @Override
                 public void callback() {
-                    if(fragment instanceof LeadMeetingReportFragment){
-                        ((LeadMeetingReportFragment)fragment).getLeadsList();
+                    if (fragment instanceof LeadMeetingReportFragment) {
+                        ((LeadMeetingReportFragment) fragment).getLeadsList();
                     }
                     getProductList();
                     getCityList();
