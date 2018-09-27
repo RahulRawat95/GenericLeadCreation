@@ -19,6 +19,7 @@ import com.google.gson.reflect.TypeToken;
 import com.wings2aspirations.genericleadcreation.R;
 import com.wings2aspirations.genericleadcreation.activity.AddUpdateLeadActivity;
 import com.wings2aspirations.genericleadcreation.activity.MainActivity;
+import com.wings2aspirations.genericleadcreation.activity.ViewLeadActivity;
 import com.wings2aspirations.genericleadcreation.adapter.TrialAdapter;
 import com.wings2aspirations.genericleadcreation.models.LeadDetail;
 import com.wings2aspirations.genericleadcreation.network.ApiClient;
@@ -111,12 +112,20 @@ public class TrailFragment extends Fragment {
         }else
             fab_trial.setVisibility(View.GONE);
 
+        if (showAddButton){
+            try {
+                ((MainActivity) getActivity()).setActionBarTitle("Lead Trail List");
+            } catch (Exception e) {
 
-        try {
-            ((MainActivity) getActivity()).setActionBarTitle("Lead Trail List");
-        } catch (Exception e) {
+            }
+        }else {
+            try {
+                ((ViewLeadActivity) getActivity()).setActionBarTitle("Lead Trail List");
+            } catch (Exception e) {
 
+            }
         }
+
         return view;
     }
 
