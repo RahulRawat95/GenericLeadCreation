@@ -79,7 +79,7 @@ public class ViewLeadActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_lead);
 
-        getSupportActionBar().setTitle("Created Leads");
+
 
 
         if (!getIntent().hasExtra(EXTRA_DB_NAME)) {
