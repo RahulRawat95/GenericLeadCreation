@@ -34,9 +34,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
+                android:layout_marginBottom="5dp"
                 android:background="@drawable/from_to_date_background"
                 android:orientation="horizontal">
 
@@ -87,14 +87,15 @@
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/lead_filter_fab"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_alignParentBottom="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
         android:layout_margin="10dp"
         android:tint="@color/filters_chips"
         app:backgroundTint="@color/filtersfab"
         app:elevation="0dp"
+        app:fabCustomSize="48dp"
         app:srcCompat="@drawable/ic_filter" />
 
     <include layout="@layout/progress_background" />

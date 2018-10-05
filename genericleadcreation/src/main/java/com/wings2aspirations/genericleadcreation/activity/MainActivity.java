@@ -107,7 +107,6 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-
     public void getAuthString(int id, final ListLeadsActivity.ListLeadCallback listLeadCallback) {
         Call<AuthorisationToken> call = apiInterface.getAuthToken(id);
         call.enqueue(new Callback<AuthorisationToken>() {
@@ -174,7 +173,7 @@ public class MainActivity extends AppCompatActivity
         Log.e("AlucarD", drawerEmpName.getText().toString());
 
 
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences preferences = getSharedPreferences(getPackageName(), MODE_PRIVATE);
         if (TextUtils.isEmpty(preferences.getString(getString(R.string.key_remind_at_time), "")))
             preferences.edit().putString(getString(R.string.key_remind_at_time), "18:00").commit();
 
