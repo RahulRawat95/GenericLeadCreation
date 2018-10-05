@@ -194,7 +194,7 @@ public class LeadMeetingReportFragment extends Fragment implements LeadMeetRepor
                     //creating fromDate variable for executing query as date set on the editText
                     fromDate = MainActivity.simpleDateFormat.parse(fromDateEt.getText().toString());
                     adapter.setDate(fromDate, toDate, selectedEmpName);
-                } catch (ParseException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -239,7 +239,7 @@ public class LeadMeetingReportFragment extends Fragment implements LeadMeetRepor
                     //creating toDate variable for executing query as date set on the editText
                     toDate = MainActivity.simpleDateFormat.parse(toDateEt.getText().toString());
                     adapter.setDate(fromDate, toDate, selectedEmpName);
-                } catch (ParseException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }

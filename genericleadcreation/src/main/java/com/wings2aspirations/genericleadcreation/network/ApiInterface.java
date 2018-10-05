@@ -61,7 +61,6 @@ public interface ApiInterface {
     @GET("/getAuthToken/")
     Call<AuthorisationToken> getAuthToken(@Query("ID") int id);
 
-
     @GET("/getProductList/")
     Call<JsonArray> getProductList();
 
