@@ -173,7 +173,7 @@ public class MainActivity extends AppCompatActivity
         Log.e("AlucarD", drawerEmpName.getText().toString());
 
 
-        SharedPreferences preferences = getSharedPreferences(getPackageName(), MODE_PRIVATE);
+        SharedPreferences preferences = getSharedPreferences(getPackageName()+"_preferences", MODE_PRIVATE);
         if (TextUtils.isEmpty(preferences.getString(getString(R.string.key_remind_at_time), "")))
             preferences.edit().putString(getString(R.string.key_remind_at_time), "18:00").commit();
 
