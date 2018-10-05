@@ -273,7 +273,7 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 try {
-                    totalTv.setText(String.format("0.2f",Double.parseDouble(quantityEt.getText().toString()) *
+                    totalTv.setText(String.format("%0.2f",Double.parseDouble(quantityEt.getText().toString()) *
                             Double.parseDouble(charSequence.toString())));
                 } catch (Exception e) {
                     totalTv.setText("0");
@@ -295,7 +295,7 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 try {
-                    totalTv.setText(String.format("0.2f",Double.parseDouble(charSequence.toString()) *
+                    totalTv.setText(String.format("%0.2f",Double.parseDouble(charSequence.toString()) *
                             Double.parseDouble(priceEt.getText().toString())));
                 } catch (Exception e) {
                     totalTv.setText("0");
