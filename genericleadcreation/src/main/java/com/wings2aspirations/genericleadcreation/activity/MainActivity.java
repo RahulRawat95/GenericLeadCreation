@@ -173,7 +173,7 @@ public class MainActivity extends AppCompatActivity
         Log.e("AlucarD", drawerEmpName.getText().toString());
 
 
-        SharedPreferences preferences = getSharedPreferences("com.wings2aspirations.leadcreation_preferences", MODE_PRIVATE);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);//getSharedPreferences("com.wings2aspirations.leadcreation_preferences", MODE_PRIVATE);
         if (TextUtils.isEmpty(preferences.getString(getString(R.string.key_remind_at_time), "")))
             preferences.edit().putString(getString(R.string.key_remind_at_time), "18:00").commit();
 
