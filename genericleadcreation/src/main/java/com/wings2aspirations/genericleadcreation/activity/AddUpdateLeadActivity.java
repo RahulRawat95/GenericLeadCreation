@@ -10,6 +10,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Build;
@@ -25,12 +27,14 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.NestedScrollView;
+import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -154,7 +158,8 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
     private FloatingActionButton cameraBt;
     private TextView fileNameTv;
     private TextInputEditText quantityEt, priceEt;
-    private FloatingActionButton saveBt;
+    private TextView totalTv;
+    private TextView saveBt;
 
     private Spinner timeUnitSp;
 
@@ -238,9 +243,10 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
         callTypeWarmRb = (RadioButton) findViewById(R.id.call_type_warm_rb);*/
         cameraBt = (FloatingActionButton) findViewById(R.id.camera_bt);
         fileNameTv = (TextView) findViewById(R.id.file_name_tv);
-        saveBt = (FloatingActionButton) findViewById(R.id.save_bt);
+        saveBt = (TextView) findViewById(R.id.save_bt);
         quantityEt = findViewById(R.id.quantity_et);
         priceEt = findViewById(R.id.price_et);
+        totalTv = findViewById(R.id.total_price_et);
 
         stateTv = findViewById(R.id.state_tv);
         cityTv = findViewById(R.id.city_tv);
@@ -255,6 +261,52 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
 
         quantityEt.setFilters(new InputFilter[]{new DecimalDigitsInputFilter(7, 3)});
         priceEt.setFilters(new InputFilter[]{new DecimalDigitsInputFilter(7, 2)});
+
+        setEndableDisableQuantityPrice(false);
+
+        priceEt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                try {
+                    totalTv.setText(String.format("0.2f",Double.parseDouble(quantityEt.getText().toString()) *
+                            Double.parseDouble(charSequence.toString())));
+                } catch (Exception e) {
+                    totalTv.setText("0");
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+        quantityEt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                try {
+                    totalTv.setText(String.format("0.2f",Double.parseDouble(charSequence.toString()) *
+                            Double.parseDouble(priceEt.getText().toString())));
+                } catch (Exception e) {
+                    totalTv.setText("0");
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
 
         nextFollowUpDateEt.setHint(simpleDateFormat.format(new Date()));
 
@@ -287,6 +339,12 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
 
         itemModelsListProduct = new ArrayList<>();
         itemModelsListStatus = new ArrayList<>();
+
+
+        Drawable rupeeDrawableBlack = Constants.getSymbol(AddUpdateLeadActivity.this, "\u20B9", 30f, Color.BLACK);
+        priceEt.setCompoundDrawablesWithIntrinsicBounds(rupeeDrawableBlack, null, null, null);
+        totalTv.setCompoundDrawablesWithIntrinsicBounds(rupeeDrawableBlack, null, null, null);
+
     }
 
     View.OnTouchListener touchListener = new View.OnTouchListener() {
@@ -491,17 +549,29 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
         customerRemarksEt.setEnabled(false);
         leadRemarksEt.setEnabled(false);
         nextFollowUpDateEt.setEnabled(false);
+        nextFollowUpDateEt.setBackground(getResources().getDrawable(R.drawable.generic_lead_disable_field_back));
         nextFollowUpTimeEt.setEnabled(false);
+        nextFollowUpTimeEt.setBackground(getResources().getDrawable(R.drawable.generic_lead_disable_field_back));
         productSp.setEnabled(false);
+        productSp.setBackground(getResources().getDrawable(R.drawable.generic_lead_disable_field_back));
         productSp.setOnClickListener(null);
+        productSp.setBackground(getResources().getDrawable(R.drawable.generic_lead_disable_field_back));
         statusSp.setEnabled(false);
+        statusSp.setBackground(getResources().getDrawable(R.drawable.generic_lead_disable_field_back));
         statusSp.setOnClickListener(null);
+        statusSp.setBackground(getResources().getDrawable(R.drawable.generic_lead_disable_field_back));
         cityTv.setEnabled(false);
+        cityTv.setBackground(getResources().getDrawable(R.drawable.generic_lead_disable_field_back));
         stateTv.setEnabled(false);
+        stateTv.setBackground(getResources().getDrawable(R.drawable.generic_lead_disable_field_back));
         snoozeTimeEt.setEnabled(false);
         timeUnitSp.setEnabled(false);
+        timeUnitSp.setBackground(getResources().getDrawable(R.drawable.generic_lead_disable_field_back));
         quantityEt.setEnabled(false);
+        quantityEt.setBackground(getResources().getDrawable(R.drawable.generic_lead_disable_field_back));
         priceEt.setEnabled(false);
+        priceEt.setBackground(getResources().getDrawable(R.drawable.generic_lead_disable_field_back));
+        unit_sp.setBackground(getResources().getDrawable(R.drawable.generic_lead_disable_field_back));
       /*  callTypeRg.setEnabled(false);
         callTypeHotRb.setEnabled(false);
         callTypeColdRb.setEnabled(false);
@@ -509,8 +579,9 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
         cameraBt.setEnabled(false);
 
         saveBt.setEnabled(false);
-        cameraBt.hide();
-        saveBt.hide();
+        cameraBt.setVisibility(View.GONE);
+        saveBt.setVisibility(View.GONE);
+        customerNameEt.clearFocus();
     }
 
     @Override
@@ -603,7 +674,8 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
                         leadRemarksEt.setText(leadDetail.getLEAD_REMARKS());
                         nextFollowUpDateEt.setText(leadDetail.getNEXT_FOLLOW_UP_DATE());
                         nextFollowUpTimeEt.setText(leadDetail.getNEXT_FOLLOW_UP_TIME());
-                        quantityEt.setText(String.format("%.3f", leadDetail.getQuantity()));
+//                        quantityEt.setText(String.format("%.3f", leadDetail.getQuantity()));
+                        quantityEt.setText(String.valueOf(leadDetail.getQuantity()));
                         priceEt.setText(String.format("%.2f", leadDetail.getPrice()));
                         /*switch (leadDetail.getCALL_TYPE()) {
                          *//* case "Hot":
@@ -776,8 +848,7 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
             public void callBack(ItemModel optionSelected) {
                 switch (type) {
                     case TYPE_PRODUCT:
-                        productSp.setText(optionSelected.getITEMNAME());
-                        productSp.setTag(optionSelected.getITEMID());
+                       setEndableDisableQuantityPrice(true);
 
                         int selectedProductUnitId = 0;
 
@@ -830,6 +901,22 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
                 }
             }
         });
+    }
+
+    private void setEndableDisableQuantityPrice(boolean setEnable) {
+        if (setEnable){
+            quantityEt.setEnabled(setEnable);
+            quantityEt.setBackground(getResources().getDrawable(R.drawable.edit_text_style));
+            quantityEt.setPadding(10,10,10,10);
+            priceEt.setEnabled(setEnable);
+            priceEt.setBackground(getResources().getDrawable(R.drawable.edit_text_style));
+            priceEt.setPadding(10,10,10,10);
+        }else {
+            quantityEt.setEnabled(false);
+            quantityEt.setBackground(getResources().getDrawable(R.drawable.generic_lead_disable_field_back));
+            priceEt.setEnabled(false);
+            priceEt.setBackground(getResources().getDrawable(R.drawable.generic_lead_disable_field_back));
+        }
     }
 
     private void getProductList() {
