@@ -31,6 +31,7 @@ import com.google.gson.reflect.TypeToken;
 import com.wings2aspirations.genericleadcreation.R;
 import com.wings2aspirations.genericleadcreation.activity.AddUpdateLeadActivity;
 import com.wings2aspirations.genericleadcreation.activity.MainActivity;
+import com.wings2aspirations.genericleadcreation.activity.ViewLeadActivity;
 import com.wings2aspirations.genericleadcreation.adapter.ListLeadsAdapter;
 import com.wings2aspirations.genericleadcreation.models.AuthorisationToken;
 import com.wings2aspirations.genericleadcreation.models.LeadDetail;
@@ -257,10 +258,18 @@ public class ListLeadsFragment extends Fragment implements ListLeadsAdapter.Prog
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 
-        try {
-            ((MainActivity) getActivity()).setActionBarTitle("Lead List");
-        } catch (Exception e) {
+        if (showAddButton) {
+            try {
+                ((MainActivity) getActivity()).setActionBarTitle("Lead List");
+            } catch (Exception e) {
 
+            }
+        } else {
+            try {
+                ((ViewLeadActivity) getActivity()).setActionBarTitle("Lead List");
+            } catch (Exception e) {
+
+            }
         }
 
         if (showAddButton)
@@ -574,7 +583,10 @@ public class ListLeadsFragment extends Fragment implements ListLeadsAdapter.Prog
 //            floatingActionButton.setVisibility(View.GONE);
 
             floatingActionButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_action_show_options));
-            filterView.setVisibility(View.VISIBLE);
+            if (!showAddButton)
+                filterView.setVisibility(View.GONE);
+            else
+                filterView.setVisibility(View.VISIBLE);
         } else {
 //            floatingActionButton.setVisibility(View.VISIBLE);
 
