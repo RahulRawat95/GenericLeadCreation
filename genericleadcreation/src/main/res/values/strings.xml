@@ -17,6 +17,7 @@
     <string name="product_label">Products</string>
     <string name="unit_label">Unit</string>
     <string name="quantity_label">Quantity</string>
+    <string name="price_label">Price</string>
     <string name="city_label">City</string>
     <string name="department_label">Department</string>
     <string name="state_label">State</string>

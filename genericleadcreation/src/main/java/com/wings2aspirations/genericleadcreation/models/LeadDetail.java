@@ -106,6 +106,9 @@ public class LeadDetail implements CalendarHelper.CalendarInstance {
     @SerializedName("QUANTITY_N")
     @Expose
     private Double quantity;
+    @SerializedName("PRICE_N")
+    @Expose
+    private Double price;
 
     public String getCOMPANY_NAME() {
         return COMPANY_NAME;
@@ -462,5 +465,13 @@ public class LeadDetail implements CalendarHelper.CalendarInstance {
 
     public void setQuantity(Double quantity) {
         this.quantity = quantity;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
     }
 }

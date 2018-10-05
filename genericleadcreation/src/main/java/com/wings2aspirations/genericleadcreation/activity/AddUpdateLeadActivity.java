@@ -153,7 +153,7 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
     private TextView productSp, statusSp, unit_sp, cityTv, stateTv;
     private FloatingActionButton cameraBt;
     private TextView fileNameTv;
-    private TextInputEditText quantityEt;
+    private TextInputEditText quantityEt, priceEt;
     private FloatingActionButton saveBt;
 
     private Spinner timeUnitSp;
@@ -240,6 +240,7 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
         fileNameTv = (TextView) findViewById(R.id.file_name_tv);
         saveBt = (FloatingActionButton) findViewById(R.id.save_bt);
         quantityEt = findViewById(R.id.quantity_et);
+        priceEt = findViewById(R.id.price_et);
 
         stateTv = findViewById(R.id.state_tv);
         cityTv = findViewById(R.id.city_tv);
@@ -253,6 +254,7 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
         progressLayout = findViewById(R.id.progress_bar);
 
         quantityEt.setFilters(new InputFilter[]{new DecimalDigitsInputFilter(7, 3)});
+        priceEt.setFilters(new InputFilter[]{new DecimalDigitsInputFilter(7, 2)});
 
         nextFollowUpDateEt.setHint(simpleDateFormat.format(new Date()));
 
@@ -447,6 +449,7 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
         jsonObject.addProperty("CITY_ID", (int) cityTv.getTag());
         jsonObject.addProperty("STATE_ID", (int) stateTv.getTag());
         jsonObject.addProperty("QUANTITY_N", Double.parseDouble(quantityEt.getText().toString()));
+        jsonObject.addProperty("PRICE_N", Double.parseDouble(priceEt.getText().toString()));
         if (updateId >= 0) {
             jsonObject.addProperty("ID", updateId);
         } else {
@@ -498,6 +501,7 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
         snoozeTimeEt.setEnabled(false);
         timeUnitSp.setEnabled(false);
         quantityEt.setEnabled(false);
+        priceEt.setEnabled(false);
       /*  callTypeRg.setEnabled(false);
         callTypeHotRb.setEnabled(false);
         callTypeColdRb.setEnabled(false);
@@ -505,8 +509,8 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
         cameraBt.setEnabled(false);
 
         saveBt.setEnabled(false);
-        cameraBt.setVisibility(View.GONE);
-        saveBt.setVisibility(View.GONE);
+        cameraBt.hide();
+        saveBt.hide();
     }
 
     @Override
@@ -600,6 +604,7 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
                         nextFollowUpDateEt.setText(leadDetail.getNEXT_FOLLOW_UP_DATE());
                         nextFollowUpTimeEt.setText(leadDetail.getNEXT_FOLLOW_UP_TIME());
                         quantityEt.setText(String.format("%.3f", leadDetail.getQuantity()));
+                        priceEt.setText(String.format("%.2f", leadDetail.getPrice()));
                         /*switch (leadDetail.getCALL_TYPE()) {
                          *//* case "Hot":
                                 callTypeHotRb.setChecked(true);
@@ -1266,6 +1271,7 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
         nextFollowUpTimeEt.setError(null);
         cityTv.setError(null);
         quantityEt.setError(null);
+        priceEt.setError(null);
 
         if (isEmpty(customerNameEt)) {
             customerNameEt.setError("Required");
@@ -1303,6 +1309,10 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
             quantityEt.setError("Required");
             return false;
         }
+        if (isEmpty(priceEt)) {
+            priceEt.setError("Required");
+            return false;
+        }
         if (TextUtils.isEmpty(stateTv.getText())) {
             stateTv.setError("Required");
             return false;
@@ -1322,6 +1332,11 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
         double quantity = Double.parseDouble(quantityEt.getText().toString());
         if (quantity == 0D) {
             quantityEt.setError("Quantity cannot be Zero");
+            return false;
+        }
+        double price = Double.parseDouble(priceEt.getText().toString());
+        if (price == 0D) {
+            priceEt.setError("Price cannot be Zero");
             return false;
         }
         if (mobileNoEt.getText().length() != 10) {
