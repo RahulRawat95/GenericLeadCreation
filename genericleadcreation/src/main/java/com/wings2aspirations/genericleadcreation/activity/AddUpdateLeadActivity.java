@@ -848,7 +848,9 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
             public void callBack(ItemModel optionSelected) {
                 switch (type) {
                     case TYPE_PRODUCT:
-                       setEndableDisableQuantityPrice(true);
+                        productSp.setText(optionSelected.getITEMNAME());
+                        productSp.setTag(optionSelected.getITEMID());
+                        setEndableDisableQuantityPrice(true);
 
                         int selectedProductUnitId = 0;
 
@@ -904,14 +906,14 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
     }
 
     private void setEndableDisableQuantityPrice(boolean setEnable) {
-        if (setEnable){
+        if (setEnable) {
             quantityEt.setEnabled(setEnable);
             quantityEt.setBackground(getResources().getDrawable(R.drawable.edit_text_style));
-            quantityEt.setPadding(10,10,10,10);
+            quantityEt.setPadding(10, 10, 10, 10);
             priceEt.setEnabled(setEnable);
             priceEt.setBackground(getResources().getDrawable(R.drawable.edit_text_style));
-            priceEt.setPadding(10,10,10,10);
-        }else {
+            priceEt.setPadding(10, 10, 10, 10);
+        } else {
             quantityEt.setEnabled(false);
             quantityEt.setBackground(getResources().getDrawable(R.drawable.generic_lead_disable_field_back));
             priceEt.setEnabled(false);
