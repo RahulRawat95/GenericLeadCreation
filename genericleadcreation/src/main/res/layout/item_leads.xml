@@ -212,8 +212,6 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:paddingLeft="@dimen/label_padding_default"
-                    android:paddingRight="@dimen/label_padding_default"
                     android:text="12-04-1029" />
             </LinearLayout>
 
@@ -237,8 +235,6 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:paddingLeft="@dimen/label_padding_default"
-                    android:paddingRight="@dimen/label_padding_default"
                     android:text="12-04-1029" />
 
             </LinearLayout>
