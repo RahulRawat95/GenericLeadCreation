@@ -101,8 +101,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="5dp">
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -185,96 +185,60 @@
         </LinearLayout>
 
 
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="5dp">
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
 
-            <LinearLayout
-                android:layout_width="0dp"
+
+            <TextView
+                android:layout_width="85dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
+                android:paddingLeft="@dimen/label_padding_default"
+                android:paddingRight="@dimen/label_padding_default"
+                android:text="Date :"
+                android:textSize="11sp"
+                android:textStyle="bold" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="@dimen/label_padding_default"
-                    android:paddingRight="@dimen/label_padding_default"
-                    android:text="Date :"
-                    android:textSize="11sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/date"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="@dimen/label_padding_default"
-                    android:paddingRight="@dimen/label_padding_default"
-                    android:text="12-04-1029" />
-
-
-            </LinearLayout>
-
-
-            <LinearLayout
+            <TextView
+                android:id="@+id/date"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:orientation="vertical">
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/label_padding_default"
+                android:paddingRight="@dimen/label_padding_default"
+                android:text="12-04-1029" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="@dimen/label_padding_default"
-                    android:paddingRight="@dimen/label_padding_default"
-                    android:text="Status :"
-                    android:textSize="11sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/status"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="@dimen/label_padding_default"
-                    android:paddingRight="@dimen/label_padding_default"
-                    android:text="hot"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
-            <LinearLayout
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:visibility="invisible">
+                android:paddingLeft="@dimen/label_padding_default"
+                android:paddingRight="@dimen/label_padding_default"
+                android:text="Status :"
+                android:textSize="11sp"
+                android:textStyle="bold" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="@dimen/label_padding_default"
-                    android:paddingRight="@dimen/label_padding_default"
-                    android:text="Distance"
-                    android:textSize="11sp"
-                    android:textStyle="bold" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:paddingLeft="@dimen/label_padding_default"
-                    android:paddingRight="@dimen/label_padding_default"
-                    android:text="10 Km" />
-
-            </LinearLayout>
+            <TextView
+                android:id="@+id/status"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/label_padding_default"
+                android:paddingRight="@dimen/label_padding_default"
+                android:text="hot"
+                android:textStyle="bold" />
 
         </LinearLayout>
 
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="5dp">
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
 
 
             <TextView

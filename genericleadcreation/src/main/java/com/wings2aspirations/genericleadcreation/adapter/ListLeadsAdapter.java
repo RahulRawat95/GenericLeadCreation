@@ -119,7 +119,7 @@ public class ListLeadsAdapter extends RecyclerView.Adapter<ListLeadsAdapter.View
         final LeadDetail lead = filteredLeadDetails.get(position);
 
         if (position == 0) {
-            holder.distanceLL.setVisibility(View.GONE);
+            holder.distanceLL.setVisibility(View.INVISIBLE);
         } else {
             holder.distanceLL.setVisibility(View.VISIBLE);
             LeadDetail lead2 = filteredLeadDetails.get(position - 1);
@@ -132,7 +132,7 @@ public class ListLeadsAdapter extends RecyclerView.Adapter<ListLeadsAdapter.View
                     holder.distanceTv.setText(String.format("%.2f", results[0]) + " m");
                 }
             } catch (Exception e) {
-                holder.distanceLL.setVisibility(View.GONE);
+                holder.distanceLL.setVisibility(View.INVISIBLE);
             }
         }
 
