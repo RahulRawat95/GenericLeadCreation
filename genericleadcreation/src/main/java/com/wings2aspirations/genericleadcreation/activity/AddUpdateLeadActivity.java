@@ -341,7 +341,7 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
         itemModelsListStatus = new ArrayList<>();
 
 
-        Drawable rupeeDrawableBlack = Constants.getSymbol(AddUpdateLeadActivity.this, "\u20B9", 30f, Color.BLACK);
+        Drawable rupeeDrawableBlack = Constants.getSymbol(AddUpdateLeadActivity.this, "\u20B9", 40f, Color.BLACK);
         priceEt.setCompoundDrawablesWithIntrinsicBounds(rupeeDrawableBlack, null, null, null);
         totalTv.setCompoundDrawablesWithIntrinsicBounds(rupeeDrawableBlack, null, null, null);
 
