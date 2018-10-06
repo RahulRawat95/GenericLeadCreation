@@ -185,7 +185,6 @@
         </LinearLayout>
 
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -193,43 +192,57 @@
             android:orientation="horizontal">
 
 
-            <TextView
-                android:layout_width="85dp"
-                android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/label_padding_default"
-                android:paddingRight="@dimen/label_padding_default"
-                android:text="Date :"
-                android:textSize="11sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/date"
+            <LinearLayout
                 android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/label_padding_default"
-                android:paddingRight="@dimen/label_padding_default"
-                android:text="12-04-1029" />
+                android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/label_padding_default"
-                android:paddingRight="@dimen/label_padding_default"
-                android:text="Status :"
-                android:textSize="11sp"
-                android:textStyle="bold" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/label_padding_default"
+                    android:paddingRight="@dimen/label_padding_default"
+                    android:text="Date :"
+                    android:textSize="11sp"
+                    android:textStyle="bold" />
 
+                <TextView
+                    android:id="@+id/date"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingLeft="@dimen/label_padding_default"
+                    android:paddingRight="@dimen/label_padding_default"
+                    android:text="12-04-1029" />
+            </LinearLayout>
 
-            <TextView
-                android:id="@+id/status"
+            <LinearLayout
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/label_padding_default"
-                android:paddingRight="@dimen/label_padding_default"
-                android:text="hot"
-                android:textStyle="bold" />
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/label_padding_default"
+                    android:paddingRight="@dimen/label_padding_default"
+                    android:text="Follow Up :"
+                    android:textSize="11sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/follow_up_date"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingLeft="@dimen/label_padding_default"
+                    android:paddingRight="@dimen/label_padding_default"
+                    android:text="12-04-1029" />
+
+            </LinearLayout>
+
 
         </LinearLayout>
 
@@ -240,24 +253,6 @@
             android:layout_marginTop="5dp"
             android:orientation="horizontal">
 
-
-            <TextView
-                android:layout_width="85dp"
-                android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/label_padding_default"
-                android:paddingRight="@dimen/label_padding_default"
-                android:text="Follow Up :"
-                android:textSize="11sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/follow_up_date"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:paddingLeft="@dimen/label_padding_default"
-                android:paddingRight="@dimen/label_padding_default"
-                android:text="12-04-1029" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -276,6 +271,27 @@
                 android:paddingLeft="@dimen/label_padding_default"
                 android:paddingRight="@dimen/label_padding_default"
                 android:text="Emp Name" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/label_padding_default"
+                android:paddingRight="@dimen/label_padding_default"
+                android:text="Status :"
+                android:textSize="11sp"
+                android:textStyle="bold" />
+
+
+            <TextView
+                android:id="@+id/status"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingLeft="@dimen/label_padding_default"
+                android:paddingRight="@dimen/label_padding_default"
+                android:text="hot"
+                android:textStyle="bold" />
+
 
         </LinearLayout>
 

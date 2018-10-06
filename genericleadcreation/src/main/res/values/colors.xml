@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <color name="colorPrimary">#0f6aaf</color>
+    <!--<color name="colorPrimary">#CC2026</color>-->
+    <color name="colorPrimaryDark">#053458</color>
+    <color name="colorAccent">#000000</color>
+
+
     <color name="button_background">#ffffff</color>
     <color name="button_background_stroke">#000000</color>
     <color name="progress_dialog_background">#aa000000</color>
