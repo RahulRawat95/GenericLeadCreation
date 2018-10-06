@@ -40,7 +40,7 @@ public class ListLeadsAdapter extends RecyclerView.Adapter<ListLeadsAdapter.View
     private Context context;
     private ProgressCallback progressCallback;
     private ApiInterface apiInterface;
-    private AlertDialog alertDialog;
+    /*private AlertDialog alertDialog;*/
     private long deleteId = -1;
     private boolean isAdmin;
 
@@ -65,7 +65,7 @@ public class ListLeadsAdapter extends RecyclerView.Adapter<ListLeadsAdapter.View
         this.isAdmin = isAdmin;
         this.leadOnClickCallBack = leadOnClickCallBack;
         apiInterface = ApiClient.getClient().create(ApiInterface.class);
-        alertDialog = new AlertDialog.Builder(context)
+       /* alertDialog = new AlertDialog.Builder(context)
                 .setMessage(R.string.delete_lead_message)
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
@@ -98,7 +98,7 @@ public class ListLeadsAdapter extends RecyclerView.Adapter<ListLeadsAdapter.View
                         dialog.dismiss();
                     }
                 })
-                .create();
+                .create();*/
     }
 
     public void setDate(Date fromDate, Date toDate, String s) {
