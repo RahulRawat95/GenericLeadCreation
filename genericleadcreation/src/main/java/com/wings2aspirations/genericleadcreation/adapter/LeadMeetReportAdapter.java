@@ -197,11 +197,11 @@ public class LeadMeetReportAdapter extends RecyclerView.Adapter<LeadMeetReportAd
     }
 
     private boolean shouldContinue(LeadDetail leadDetail) {
-        return (!hashSets[0].isEmpty() || !hashSets[1].isEmpty() || !hashSets[2].isEmpty())
-                &&
-                (!hashSets[0].isEmpty() && !hashSets[0].contains(leadDetail.getPRODUCT_ID()) ||
-                        !hashSets[1].isEmpty() && !hashSets[1].contains(leadDetail.getSTATUS_ID()) ||
-                        !hashSets[0].isEmpty() && !hashSets[2].contains(leadDetail.getCITY_ID()));
+        return (!hashSets[0].isEmpty() && !hashSets[1].isEmpty() && !hashSets[2].isEmpty())
+                ||
+                ((hashSets[0].isEmpty() || !hashSets[0].contains(leadDetail.getPRODUCT_ID())) &&
+                        (hashSets[1].isEmpty() || !hashSets[1].contains(leadDetail.getSTATUS_ID())) &&
+                        (hashSets[2].isEmpty() || !hashSets[2].contains(leadDetail.getCITY_ID())));
     }
 
     @Override

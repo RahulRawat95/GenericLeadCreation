@@ -337,10 +337,10 @@ public class MainActivity extends AppCompatActivity
                 fragment = ListLeadsFragment.newInstance(ApiClient.BASE_URL, ApiClient.getDbName(), ApiClient.getSchemaName(), ApiClient.applicationId, empId, empNames, true);
             else
                 fragment = ListLeadsFragment.newInstance(ApiClient.BASE_URL, ApiClient.getDbName(), ApiClient.getSchemaName(), ApiClient.applicationId, empId, empName, true);
-        } else if (id == R.id.action_meeting_scheduler) {
+        } /*else if (id == R.id.action_meeting_scheduler) {
             startActivity(new Intent(Intent.ACTION_INSERT).setData(CalendarContract.Events.CONTENT_URI));
             return true;
-        }
+        }*/
 
         addFragmentToBackStack(fragment);
 
