@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group>
+
+        <item
+            android:id="@+id/action_create_status"
+            android:icon="@drawable/createstatus"
+            android:orderInCategory="100"
+            android:title="@string/lead_create_status"/>
+
+        <item
+            android:id="@+id/action_create_product"
+            android:icon="@drawable/createproduct"
+            android:orderInCategory="101"
+            android:title="@string/lead_create_product"/>
+
+        <item
+            android:id="@+id/action_list_leads"
+            android:icon="@drawable/viewleads"
+            android:orderInCategory="102"
+            android:title="List Leads"/>
+
+        <item
+            android:id="@+id/action_lead_report"
+            android:icon="@drawable/leadreport"
+            android:orderInCategory="103"
+            android:title="@string/lead_report_label"/>
+
+        <item
+            android:id="@+id/action_meeting_report"
+            android:icon="@drawable/meetingreport"
+            android:orderInCategory="104"
+            android:title="@string/meeting_report_label" />
+
+
+        <!--<item
+            android:id="@+id/action_meeting_scheduler"
+            android:icon="@drawable/meetingschedular"
+            android:orderInCategory="105"
+            android:title="@string/meeting_scheduler" />-->
+    </group>
+
+</menu>
