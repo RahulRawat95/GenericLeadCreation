@@ -51,6 +51,7 @@ public class ViewLeadActivity extends AppCompatActivity {
     public static final String EXTRA_APPLICATION_ID = "applicationId";
     public static final String EXTRA_EMAIL_ID = "emailId";
     public static final String EXTRA_IS_FOR_REPORT = "forReport";
+    public static final String EXTRA_IS_ONLY_FOR_REPORT = "isOnlyForReport";
     private ApiInterface apiInterface;
 
     public static final int SESSION_AUTHORIZATION_TOKEN_OFFSET = 12;
@@ -61,11 +62,11 @@ public class ViewLeadActivity extends AppCompatActivity {
     private ArrayList<String> empNames;
     public static SimpleDateFormat simpleDateFormat;
 
-    private boolean isForReport;
+    private boolean isForReport, isOnlyForReport;
     private Fragment fragment;
 
     public static Intent getListLeadsIntent(Context context, String baseUrl, String dbName, String schemaName, String applicationId, int id, String emailId,
-                                            ArrayList<String> empNames, boolean isForReport) {
+                                            ArrayList<String> empNames, boolean isForReport, boolean isOnlyForReport) {
         empNames.add(0, "Select");
         Intent intent = new Intent(context, ViewLeadActivity.class);
         intent.putExtra(EXTRA_BASE_URL, baseUrl);
@@ -76,11 +77,12 @@ public class ViewLeadActivity extends AppCompatActivity {
         intent.putExtra(EXTRA_APPLICATION_ID, applicationId);
         intent.putExtra(EXTRA_EMAIL_ID, emailId);
         intent.putExtra(EXTRA_IS_FOR_REPORT, isForReport);
+        intent.putExtra(EXTRA_IS_ONLY_FOR_REPORT, isOnlyForReport);
         return intent;
     }
 
     public static Intent getListLeadsIntent(Context context, String baseUrl, String dbName, String schemaName, String applicationId, int empId,
-                                            String emailId, String empName, boolean isForReport) {
+                                            String emailId, String empName, boolean isForReport, boolean isOnlyForReport) {
         Intent intent = new Intent(context, ViewLeadActivity.class);
         intent.putExtra(EXTRA_ARG_EMPLOYEE_NAME, empName);
         intent.putExtra(EXTRA_ARG_EMPLOYEE_ID, empId);
@@ -90,6 +92,7 @@ public class ViewLeadActivity extends AppCompatActivity {
         intent.putExtra(EXTRA_APPLICATION_ID, applicationId);
         intent.putExtra(EXTRA_EMAIL_ID, emailId);
         intent.putExtra(EXTRA_IS_FOR_REPORT, isForReport);
+        intent.putExtra(EXTRA_IS_ONLY_FOR_REPORT, isOnlyForReport);
         return intent;
     }
 
@@ -191,8 +194,9 @@ public class ViewLeadActivity extends AppCompatActivity {
 
 
         isForReport = getIntent().getBooleanExtra(EXTRA_IS_FOR_REPORT, false);
+        isOnlyForReport = getIntent().getBooleanExtra(EXTRA_IS_ONLY_FOR_REPORT, false);
         if (isForReport) {
-            fragment = LeadMeetingReportFragment.newInstance(true, empId, isAdmin, empNames, true);
+            fragment = LeadMeetingReportFragment.newInstance(true, empId, isAdmin, empNames, isOnlyForReport);
 
 
             getAuthString(empId, new ListLeadsActivity.ListLeadCallback() {
