@@ -184,6 +184,8 @@ public class LeadMeetReportAdapter extends RecyclerView.Adapter<LeadMeetReportAd
                 }
 
                 FilterResults filterResults = new FilterResults();
+                if (filteredLeadDetails == null)
+                    filteredLeadDetails = new ArrayList<>();
                 filterResults.values = filteredLeadDetails;
                 return filterResults;
             }

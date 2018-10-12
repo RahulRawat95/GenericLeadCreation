@@ -43,7 +43,7 @@ import com.wings2aspirations.genericleadcreation.repository.ShowToast;
 import com.wings2aspirations.genericleadcreation.repository.Utility;
 
 import java.lang.reflect.Type;
-import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -79,6 +79,8 @@ public class LeadMeetingReportFragment extends Fragment implements LeadMeetRepor
     private List<LeadDetail> refineDetails;
 
     private HashSet<Integer> productHash, statusHash, cityHash;
+
+    private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
     private FilterSheetFragment filterSheetFragment;
     private Spinner spinner;
@@ -198,7 +200,7 @@ public class LeadMeetingReportFragment extends Fragment implements LeadMeetRepor
                         //checking for empty field
                         if (!TextUtils.isEmpty(toDateEt.getText().toString())) {
                             //getting starting temp date for setting minDate limit for the toDate datePicker
-                            selectedTooDate = MainActivity.simpleDateFormat.parse(toDateEt.getText().toString());
+                            selectedTooDate = simpleDateFormat.parse(toDateEt.getText().toString());
                             //calling global datePicker
                             Utility.showDatePickerDialog(getActivity(), fromDateEt, null, selectedTooDate, fromDate);
                         } else {
@@ -221,7 +223,7 @@ public class LeadMeetingReportFragment extends Fragment implements LeadMeetRepor
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                     try {
                         //creating fromDate variable for executing query as date set on the editText
-                        fromDate = MainActivity.simpleDateFormat.parse(fromDateEt.getText().toString());
+                        fromDate = simpleDateFormat.parse(fromDateEt.getText().toString());
                         adapter.setDate(fromDate, toDate, selectedEmpName);
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -245,7 +247,7 @@ public class LeadMeetingReportFragment extends Fragment implements LeadMeetRepor
                         //checking for empty field
                         if (!TextUtils.isEmpty(fromDateEt.getText().toString())) {
                             //getting from temp date for setting maxDate limit for the fromDate datePicker
-                            selectedFromDate = MainActivity.simpleDateFormat.parse(fromDateEt.getText().toString());
+                            selectedFromDate = simpleDateFormat.parse(fromDateEt.getText().toString());
                             Utility.showDatePickerDialog(getActivity(), toDateEt, selectedFromDate, null, fromDate);
                         } else {
                             Utility.showDatePickerDialog(getActivity(), toDateEt, null, null, toDate);
@@ -266,7 +268,7 @@ public class LeadMeetingReportFragment extends Fragment implements LeadMeetRepor
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                     try {
                         //creating toDate variable for executing query as date set on the editText
-                        toDate = MainActivity.simpleDateFormat.parse(toDateEt.getText().toString());
+                        toDate = simpleDateFormat.parse(toDateEt.getText().toString());
                         adapter.setDate(fromDate, toDate, selectedEmpName);
                     } catch (Exception e) {
                         e.printStackTrace();
