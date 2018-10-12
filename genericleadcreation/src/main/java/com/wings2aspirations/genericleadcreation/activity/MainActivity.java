@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity
     private int empId;
     private String empName, empEmailId;
     private boolean isAdmin;
-    public static SimpleDateFormat simpleDateFormat;
+    public static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
     private ArrayList<ProductListModel> itemModelsListProduct;
     private ArrayList<ItemModel> itemModelsListStatus;
@@ -251,8 +251,6 @@ public class MainActivity extends AppCompatActivity
         } else
             drawerEmpName.setText("Admin");
 
-
-        simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
         if (isAdmin) {
             if (!getIntent().hasExtra(EXTRA_EMP_NAMES)) {
