@@ -165,6 +165,8 @@ public class ProductStatusFragment extends Fragment implements View.OnClickListe
 
                 if (optionItemAdapter != null)
                     optionItemAdapter.getFilter().filter(charSequence);
+                else if (!isProduct && statusListAdapter != null)
+                    statusListAdapter.getFilter().filter(charSequence);
             }
 
             @Override
@@ -586,7 +588,7 @@ public class ProductStatusFragment extends Fragment implements View.OnClickListe
         });
 
 
-        search_option_item.addTextChangedListener(new TextWatcher() {
+        /*search_option_item.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -601,7 +603,7 @@ public class ProductStatusFragment extends Fragment implements View.OnClickListe
             public void afterTextChanged(Editable editable) {
 
             }
-        });
+        });*/
     }
 
     private void callAddProductApi(String productName, int unitId, double productPrice) {
@@ -691,7 +693,7 @@ public class ProductStatusFragment extends Fragment implements View.OnClickListe
             @Override
             public void onClick(View v) {
                 if (!TextUtils.isEmpty(name_et.getText().toString())) {
-                    if (isUnitAdd == TYPE_STATUS){
+                    if (isUnitAdd == TYPE_STATUS) {
 
                         if (selectedDepartmentId == -1) {
                             ShowToast.showToast(getActivity(), "Select a department");
@@ -699,7 +701,7 @@ public class ProductStatusFragment extends Fragment implements View.OnClickListe
                         }
 
                         if (name_et.getText().toString().trim().equalsIgnoreCase("Force Closed") ||
-                                name_et.getText().toString().trim().equalsIgnoreCase("Confirm Closed")){
+                                name_et.getText().toString().trim().equalsIgnoreCase("Confirm Closed")) {
                             ShowToast.showToast(getActivity(), "Status Already exists");
                             return;
                         }

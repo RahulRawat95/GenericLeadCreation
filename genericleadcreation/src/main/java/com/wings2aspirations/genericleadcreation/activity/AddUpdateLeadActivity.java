@@ -37,6 +37,9 @@ import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -61,6 +64,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.wings2aspirations.genericleadcreation.R;
 import com.wings2aspirations.genericleadcreation.models.City;
+import com.wings2aspirations.genericleadcreation.models.ExistingCustomer;
 import com.wings2aspirations.genericleadcreation.models.ItemModel;
 import com.wings2aspirations.genericleadcreation.models.LeadDetail;
 import com.wings2aspirations.genericleadcreation.models.ProductListModel;
@@ -141,7 +145,8 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
 
     private ApiInterface apiInterface;
 
-    private TextInputEditText customerNameEt;
+    private TextInputEditText designationEt;
+    private AutoCompleteTextView customerNameEt;
     private TextInputEditText contactPersonEt;
     private TextInputEditText emailAddressEt;
     private TextInputEditText mobileNoEt;
@@ -164,7 +169,7 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
     private TextView totalTv;
     private TextView saveBt;
 
-    private Spinner timeUnitSp;
+    private Spinner timeUnitSp, demoEventSp;
 
     private GoogleApiClient mGoogleApiClient;
 
@@ -172,7 +177,7 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
 
     private GpsStatusListener gpsStatusListener;
 
-    private String selectedRadioButtonValue;
+    private String selectedRadioButtonValue, existingCustomer = "No";
 
     private int empId;
     private String empName;
@@ -230,7 +235,8 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
     }
 
     private void findViews() {
-        customerNameEt = (TextInputEditText) findViewById(R.id.customer_name_et);
+        customerNameEt = (AutoCompleteTextView) findViewById(R.id.customer_name_et);
+        designationEt = (TextInputEditText) findViewById(R.id.designation_et);
         contactPersonEt = (TextInputEditText) findViewById(R.id.contact_person_et);
         emailAddressEt = (TextInputEditText) findViewById(R.id.email_address_et);
         mobileNoEt = (TextInputEditText) findViewById(R.id.mobile_no_et);
@@ -245,11 +251,35 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
         maxLength200 = new InputFilter[]{new EmojiExcludeLengthFilter(), new InputFilter.LengthFilter(200)};
 
         customerNameEt.setFilters(maxLength100);
+        designationEt.setFilters(maxLength100);
         contactPersonEt.setFilters(maxLength60);
         emailAddressEt.setFilters(maxLength60);
         addressEt.setFilters(maxLength200);
         customerRemarksEt.setFilters(maxLength200);
         leadRemarksEt.setFilters(maxLength200);
+
+        customerNameEt.setAdapter(new ArrayAdapter<ExistingCustomer>(this, android.R.layout.simple_expandable_list_item_1, Constants.getExistingCustomers()));
+
+        customerNameEt.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                existingCustomer = "Yes";
+                ExistingCustomer existingCustomer = (ExistingCustomer) parent.getItemAtPosition(position);
+                customerNameEt.setText(existingCustomer.getCOMPANYNAME());
+                designationEt.setText(existingCustomer.getDESIGNATIONVC());
+                contactPersonEt.setText(existingCustomer.getCONTACTPERSON());
+                emailAddressEt.setText(existingCustomer.getEMAIL());
+                addressEt.setText(existingCustomer.getADDRESS());
+                mobileNoEt.setText(existingCustomer.getMOBILENO());
+                pinCodeEt.setText(existingCustomer.getPINCODE());
+
+                cityTv.setText(existingCustomer.getCityNameVc());
+                cityTv.setTag(existingCustomer.getCITYID());
+
+                stateTv.setText(existingCustomer.getStateNameVc());
+                stateTv.setTag(existingCustomer.getSTATEID());
+            }
+        });
 
         nextFollowUpDateEt = (TextInputEditText) findViewById(R.id.next_follow_up_date_et);
         nextFollowUpTimeEt = (TextInputEditText) findViewById(R.id.next_follow_up_time_et);
@@ -332,6 +362,7 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
         nextFollowUpTimeEt.setHint(calendar.get(Calendar.HOUR_OF_DAY) + ":" + calendar.get(Calendar.MINUTE));
 
         timeUnitSp = findViewById(R.id.snooze_time_sp);
+        demoEventSp = findViewById(R.id.demo_event_sp);
         timeUnitSp.setSelection(2);
 
         /*dobDateEt.setOnClickListener(this);
@@ -489,8 +520,9 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
     }
 
     public void saveLead() {
-        JsonObject jsonObject = new JsonObject();
+        final JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("COMPANY_NAME", customerNameEt.getText().toString().replaceAll("\\s+", " "));
+        jsonObject.addProperty("DESIGNATION_VC", designationEt.getText().toString().replaceAll("\\s+", " "));
         jsonObject.addProperty("CONTACT_PERSON", contactPersonEt.getText().toString().replaceAll("\\s+", " "));
         jsonObject.addProperty("EMAIL", emailAddressEt.getText().toString());
         jsonObject.addProperty("MOBILE_NO", mobileNoEt.getText().toString());
@@ -525,6 +557,9 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
         jsonObject.addProperty("STATE_ID", (int) stateTv.getTag());
         jsonObject.addProperty("QUANTITY_N", Double.parseDouble(quantityEt.getText().toString()));
         jsonObject.addProperty("PRICE_N", Double.parseDouble(priceEt.getText().toString()));
+        jsonObject.addProperty("DEMO_VC", demoEventSp.getSelectedItem().toString());
+        jsonObject.addProperty("EXISTING_VC", existingCustomer);
+        final String state = stateTv.getText().toString(), city = cityTv.getText().toString();
         if (updateId >= 0) {
             jsonObject.addProperty("ID", updateId);
         } else {
@@ -539,8 +574,11 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
                 public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                     hideProgress();
                     if (!response.isSuccessful()) {
-                        ShowToast.showToast(AddUpdateLeadActivity.this, "Response Insuccessful");
+                        ShowToast.showToast(AddUpdateLeadActivity.this, "Please Try Again");
                         return;
+                    }
+                    if (followUpId == -1 && existingCustomer.equalsIgnoreCase("No")) {
+                        Constants.addToExistingCustomer(jsonObject, state, city);
                     }
                     ShowToast.showToast(AddUpdateLeadActivity.this, "Success");
                     setResult(RESULT_OK);
@@ -558,6 +596,7 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
 
     public void disableViews() {
         customerNameEt.setEnabled(false);
+        designationEt.setEnabled(false);
         contactPersonEt.setEnabled(false);
         emailAddressEt.setEnabled(false);
         mobileNoEt.setEnabled(false);
@@ -584,6 +623,8 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
         snoozeTimeEt.setEnabled(false);
         timeUnitSp.setEnabled(false);
         timeUnitSp.setBackground(getResources().getDrawable(R.drawable.generic_lead_disable_field_back));
+        demoEventSp.setEnabled(false);
+        demoEventSp.setBackground(getResources().getDrawable(R.drawable.generic_lead_disable_field_back));
         quantityEt.setEnabled(false);
         quantityEt.setBackground(getResources().getDrawable(R.drawable.generic_lead_disable_field_back));
         priceEt.setEnabled(false);
@@ -682,6 +723,7 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
                         }
                         final LeadDetail leadDetail = response.body();
                         customerNameEt.setText(leadDetail.getCOMPANY_NAME());
+                        designationEt.setText(leadDetail.getDesignation());
                         contactPersonEt.setText(leadDetail.getCONTACT_PERSON());
                         emailAddressEt.setText(leadDetail.getEMAIL());
                         mobileNoEt.setText(leadDetail.getMOBILE_NO());
@@ -719,6 +761,14 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
 
                         stateTv.setText(leadDetail.getSTATE_NAME_VC());
                         stateTv.setTag(leadDetail.getSTATE_ID());
+
+                        String[] demoVc = getResources().getStringArray(R.array.demo_event_entries);
+                        for (int i = 0; i < demoVc.length; i++) {
+                            if (demoVc[i].equalsIgnoreCase(leadDetail.getDemoVc())) {
+                                demoEventSp.setSelection(i);
+                                break;
+                            }
+                        }
 
                         showProgress();
                         apiInterface.getCityList(leadDetail.getSTATE_ID()).enqueue(new Callback<ArrayList<City>>() {
@@ -795,6 +845,7 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
                         }
                         final LeadDetail leadDetail = response.body();
                         customerNameEt.setText(leadDetail.getCOMPANY_NAME());
+                        designationEt.setText(leadDetail.getDesignation());
                         contactPersonEt.setText(leadDetail.getCONTACT_PERSON());
                         emailAddressEt.setText(leadDetail.getEMAIL());
                         mobileNoEt.setText(leadDetail.getMOBILE_NO());
@@ -1373,6 +1424,7 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
 
     public boolean checkValidation() {
         customerNameEt.setError(null);
+        designationEt.setError(null);
         contactPersonEt.setError(null);
         emailAddressEt.setError(null);
         mobileNoEt.setError(null);
@@ -1384,8 +1436,12 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
         quantityEt.setError(null);
         priceEt.setError(null);
 
-        if (isEmpty(customerNameEt)) {
+        if (TextUtils.isEmpty(customerNameEt.getText())) {
             customerNameEt.setError("Required");
+            return false;
+        }
+        if (isEmpty(designationEt)) {
+            designationEt.setError("Required");
             return false;
         }
         if (isEmpty(contactPersonEt)) {
@@ -1481,7 +1537,8 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
     }
 
     private boolean doesNotNeedSaving() {
-        return isEmpty(customerNameEt) &&
+        return TextUtils.isEmpty(customerNameEt.getText()) &&
+                isEmpty(designationEt) &&
                 isEmpty(contactPersonEt) &&
                 isEmpty(emailAddressEt) &&
                 isEmpty(mobileNoEt) &&

@@ -30,6 +30,7 @@ import com.wings2aspirations.genericleadcreation.fragment.ListLeadsFragment;
 import com.wings2aspirations.genericleadcreation.fragment.ProductStatusFragment;
 import com.wings2aspirations.genericleadcreation.models.AuthorisationToken;
 import com.wings2aspirations.genericleadcreation.models.City;
+import com.wings2aspirations.genericleadcreation.models.ExistingCustomer;
 import com.wings2aspirations.genericleadcreation.models.ItemModel;
 import com.wings2aspirations.genericleadcreation.models.ProductListModel;
 import com.wings2aspirations.genericleadcreation.models.State;
@@ -118,6 +119,7 @@ public class MainActivity extends AppCompatActivity
                 AuthorisationToken authorisationToken = response.body();
                 ApiClient.setAuthString(authorisationToken.getToken());
                 setTimerTask(empId, authorisationToken.getExpiresIn());
+                getExistingCustomer();
                 if (listLeadCallback != null)
                     listLeadCallback.callback();
             }
@@ -481,5 +483,37 @@ public class MainActivity extends AppCompatActivity
             getSupportActionBar().setTitle(pageTitle);
         } catch (Exception e) {
         }
+    }
+
+    public void getExistingCustomer() {
+        apiInterface.getExistingCustomer().enqueue(new Callback<ArrayList<ExistingCustomer>>() {
+            Timer timer;
+
+            @Override
+            public void onResponse(Call<ArrayList<ExistingCustomer>> call, Response<ArrayList<ExistingCustomer>> response) {
+                if (!response.isSuccessful()) {
+                    timer = new Timer();
+                    timer.schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            getExistingCustomer();
+                        }
+                    }, 3000);
+                    return;
+                }
+                Constants.setExistingCustomers(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<ExistingCustomer>> call, Throwable t) {
+                timer = new Timer();
+                timer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        getExistingCustomer();
+                    }
+                }, 3000);
+            }
+        });
     }
 }

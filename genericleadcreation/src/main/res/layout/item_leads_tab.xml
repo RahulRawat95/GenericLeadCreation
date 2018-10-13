@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingTop="@dimen/label_padding_default"
+    android:paddingBottom="@dimen/label_padding_default">
+
+
+    <TextView
+        android:id="@+id/comp_name"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="Company Name" />
+
+
+    <TextView
+        android:id="@+id/email_id"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="a@a.a" />
+
+    <TextView
+        android:id="@+id/cust_name"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="Customer Name" />
+
+
+    <TextView
+        android:id="@+id/mob_no"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="9899100101" />
+
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="12-04-1029" />
+
+    <TextView
+        android:id="@+id/follow_up_date"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="12-04-1029" />
+
+    <!--     <TextView
+    android:layout_marginRight="10dp"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:paddingLeft="@dimen/label_padding_default"
+             android:paddingRight="@dimen/label_padding_default"
+             android:text="Distance"
+             android:textSize="11sp"
+             android:textStyle="bold"
+             android:visibility="invisible" />
+-->
+
+    <TextView
+        android:id="@+id/emp_name"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="Emp Name" />
+
+
+    <TextView
+        android:id="@+id/status"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="hot"
+        android:textStyle="bold" />
+
+    <!-- <TextView
+    android:layout_marginRight="10dp"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:paddingLeft="@dimen/label_padding_default"
+         android:paddingRight="@dimen/label_padding_default"
+         android:text="Distance"
+         android:textSize="11sp"
+         android:textStyle="bold"
+         android:visibility="invisible" />
+-->
+
+    <TextView
+        android:id="@+id/distance_tv"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="0 Km" />
+
+</LinearLayout>

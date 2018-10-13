@@ -4,6 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.wings2aspirations.genericleadcreation.models.AuthorisationToken;
 import com.wings2aspirations.genericleadcreation.models.City;
+import com.wings2aspirations.genericleadcreation.models.ExistingCustomer;
 import com.wings2aspirations.genericleadcreation.models.ItemModel;
 import com.wings2aspirations.genericleadcreation.models.LeadDetail;
 import com.wings2aspirations.genericleadcreation.models.State;
@@ -89,4 +90,7 @@ public interface ApiInterface {
 
     @GET("/getStatusForFilter/")
     Call<ArrayList<ItemModel>> getStatusForFilter(@Query("userId") int userId);
+
+    @GET("/getExistingCustomer/")
+    Call<ArrayList<ExistingCustomer>> getExistingCustomer();
 }

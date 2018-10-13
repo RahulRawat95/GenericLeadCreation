@@ -7,7 +7,9 @@ import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
+import com.google.gson.JsonObject;
 import com.wings2aspirations.genericleadcreation.models.City;
+import com.wings2aspirations.genericleadcreation.models.ExistingCustomer;
 import com.wings2aspirations.genericleadcreation.models.ItemModel;
 import com.wings2aspirations.genericleadcreation.models.ProductListModel;
 import com.wings2aspirations.genericleadcreation.models.State;
@@ -20,6 +22,7 @@ public class Constants {
     private static ArrayList<State> states;
     private static ArrayList<ProductListModel> products;
     private static ArrayList<ItemModel> statuses;
+    private static ArrayList<ExistingCustomer> existingCustomers;
 
     public static ArrayList<City> getCities() {
         return cities == null ? new ArrayList<City>() : cities;
@@ -47,6 +50,26 @@ public class Constants {
 
     public static ArrayList<ItemModel> getStatuses() {
         return statuses == null ? new ArrayList<ItemModel>() : statuses;
+    }
+
+    public static ArrayList<ExistingCustomer> getExistingCustomers() {
+        if (existingCustomers == null) {
+            existingCustomers = new ArrayList<ExistingCustomer>();
+        }
+        return existingCustomers;
+    }
+
+    public static void addToExistingCustomer(JsonObject jsonObject, String state, String city) {
+        if (existingCustomers == null)
+            existingCustomers = new ArrayList<>();
+        existingCustomers.add(new ExistingCustomer(jsonObject, state, city));
+    }
+
+    public static void setExistingCustomers(ArrayList<ExistingCustomer> existingCustomers) {
+        if (Constants.existingCustomers == null)
+            Constants.existingCustomers = existingCustomers;
+        else
+            Constants.existingCustomers.addAll(existingCustomers);
     }
 
     public static void setStatuses(ArrayList<ItemModel> statuses) {

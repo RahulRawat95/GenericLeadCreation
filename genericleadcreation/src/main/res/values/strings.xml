@@ -1,6 +1,7 @@
 <resources>
     <string name="customer_name_label">Company Name</string>
     <string name="contact_person_label">Contact Person</string>
+    <string name="designation_label">Designation</string>
     <string name="email_address_label">Email</string>
     <string name="mobile_no_label">Mobile No.</string>
     <string name="address_label">Address</string>
@@ -60,6 +61,25 @@
         <item>Hour</item>
         <item>Minute</item>
         <item>Second</item>
+    </string-array>
+
+    <string-array name="demo_event_entries">
+        <item>Yes</item>
+        <item>No</item>
+        <item>NA</item>
+    </string-array>
+
+    <string-array name="select_demo_event_entries">
+        <item>Select</item>
+        <item>Yes</item>
+        <item>No</item>
+        <item>NA</item>
+    </string-array>
+
+    <string-array name="select_existing_customer_entries">
+        <item>Select</item>
+        <item>Existing</item>
+        <item>Fresh</item>
     </string-array>
 
     <string name="key_remind_at_time">remind_at_time</string>

@@ -1,14 +1,12 @@
 package com.wings2aspirations.genericleadcreation.adapter;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.location.Location;
 import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,10 +15,8 @@ import android.widget.Filterable;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.gson.JsonObject;
 import com.wings2aspirations.genericleadcreation.R;
 import com.wings2aspirations.genericleadcreation.activity.AddUpdateLeadActivity;
-import com.wings2aspirations.genericleadcreation.activity.ListLeadsActivity;
 import com.wings2aspirations.genericleadcreation.models.LeadDetail;
 import com.wings2aspirations.genericleadcreation.network.ApiClient;
 import com.wings2aspirations.genericleadcreation.network.ApiInterface;
@@ -28,10 +24,6 @@ import com.wings2aspirations.genericleadcreation.network.ApiInterface;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class ListLeadsAdapter extends RecyclerView.Adapter<ListLeadsAdapter.ViewHolder> implements Filterable {
 
@@ -43,9 +35,11 @@ public class ListLeadsAdapter extends RecyclerView.Adapter<ListLeadsAdapter.View
     /*private AlertDialog alertDialog;*/
     private long deleteId = -1;
     private boolean isAdmin;
+    private String demoVc, existingVc;
 
     private Date fromDate, toDate;
     private LeadOnClickCallBack leadOnClickCallBack;
+    private int resourceId;
 
     public interface ProgressCallback {
         void showProgress();
@@ -57,8 +51,9 @@ public class ListLeadsAdapter extends RecyclerView.Adapter<ListLeadsAdapter.View
         void callback(LeadDetail leadDetail);
     }
 
-    public ListLeadsAdapter(Context context, List<LeadDetail> leadDetails, ProgressCallback progressCallback, boolean isAdmin, LeadOnClickCallBack leadOnClickCallBack) {
+    public ListLeadsAdapter(Context context, List<LeadDetail> leadDetails, ProgressCallback progressCallback, boolean isAdmin, LeadOnClickCallBack leadOnClickCallBack, int resourceId) {
         this.leadDetails = leadDetails;
+        this.resourceId = resourceId;
         this.filteredLeadDetails = leadDetails;
         this.context = context;
         this.progressCallback = progressCallback;
@@ -101,17 +96,31 @@ public class ListLeadsAdapter extends RecyclerView.Adapter<ListLeadsAdapter.View
                 .create();*/
     }
 
+    public void setResourceId(int resourceId) {
+        this.resourceId = resourceId;
+    }
+
     public void setDate(Date fromDate, Date toDate, String s) {
         this.fromDate = fromDate;
         this.toDate = toDate;
         getFilter().filter(s);
     }
 
+    public void setDemo(String selectedEmp, String demo) {
+        this.demoVc = demo;
+        getFilter().filter(selectedEmp);
+    }
+
+    public void setExistingCust(String selectedEmp, String existing) {
+        this.existingVc = existing;
+        getFilter().filter(selectedEmp);
+    }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        return new ViewHolder(inflater.inflate(R.layout.item_leads, parent, false));
+        return new ViewHolder(inflater.inflate(resourceId, parent, false));
     }
 
     @Override
@@ -119,9 +128,11 @@ public class ListLeadsAdapter extends RecyclerView.Adapter<ListLeadsAdapter.View
         final LeadDetail lead = filteredLeadDetails.get(position);
 
         if (position == 0) {
-            holder.distanceLL.setVisibility(View.INVISIBLE);
+            if (holder.distanceLL != null)
+                holder.distanceLL.setVisibility(View.INVISIBLE);
         } else {
-            holder.distanceLL.setVisibility(View.VISIBLE);
+            if (holder.distanceLL != null)
+                holder.distanceLL.setVisibility(View.VISIBLE);
             LeadDetail lead2 = filteredLeadDetails.get(position - 1);
             float[] results = new float[3];
             try {
@@ -183,7 +194,7 @@ public class ListLeadsAdapter extends RecyclerView.Adapter<ListLeadsAdapter.View
                     List<LeadDetail> filteredList = new ArrayList<>();
                     Date date;
                     if (toDate == null || fromDate == null) {
-                        filteredList = leadDetails;
+                        filteredList.addAll(leadDetails);
                     } else
                         for (LeadDetail row : leadDetails) {
                             date = row.getDate();
@@ -208,6 +219,18 @@ public class ListLeadsAdapter extends RecyclerView.Adapter<ListLeadsAdapter.View
                         }
                     }
                     ListLeadsAdapter.this.filteredLeadDetails = filteredList;
+                }
+
+                LeadDetail leadDetail;
+                for (int i = 0; i < filteredLeadDetails.size(); ) {
+                    leadDetail = filteredLeadDetails.get(i);
+                    if (!TextUtils.isEmpty(demoVc) && !leadDetail.getDemoVc().equalsIgnoreCase(demoVc)) {
+                        filteredLeadDetails.remove(i);
+                    } else if (!TextUtils.isEmpty(existingVc) && !leadDetail.getExistingVc().equalsIgnoreCase(existingVc)) {
+                        filteredLeadDetails.remove(i);
+                    } else {
+                        i++;
+                    }
                 }
 
                 FilterResults filterResults = new FilterResults();

@@ -1,5 +1,6 @@
 package com.wings2aspirations.genericleadcreation.fragment;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
@@ -82,8 +84,9 @@ public class ListLeadsFragment extends Fragment implements ListLeadsAdapter.Prog
         void callback();
     }
 
-    private RecyclerView recyclerView;
+    private RecyclerView tabRecyclerView, cardRecyclerView;
     private FloatingActionButton floatingActionButton;
+    private HorizontalScrollView horizontalScrollView;
 
     private RelativeLayout progressLayout;
 
@@ -100,13 +103,13 @@ public class ListLeadsFragment extends Fragment implements ListLeadsAdapter.Prog
     private LinearLayout filterView;
     private Date fromDate, toDate;
 
-    private ListLeadsAdapter adapter;
-    private Spinner spinner;
+    private ListLeadsAdapter tabAdapter, cardAdapter;
+    private Spinner spinner, demoFilterSpinner, existingCustomerFilterSpinner;
 
     private String selectedEmpName = "";
 
     private ArrayList<String> empNames;
-
+    private int selectedResourceId;
     private Call<JsonArray> call;
 
     private ApiInterface apiInterface;
@@ -211,9 +214,7 @@ public class ListLeadsFragment extends Fragment implements ListLeadsAdapter.Prog
         for (int i = 0; i < sparseArray.size(); i++) {
             refineDetails.add(sparseArray.get(sparseArray.keyAt(i)));
         }
-
-
-        adapter = new ListLeadsAdapter(getActivity(), refineDetails, ListLeadsFragment.this, isAdmin, new ListLeadsAdapter.LeadOnClickCallBack() {
+        cardAdapter = new ListLeadsAdapter(getActivity(), refineDetails, ListLeadsFragment.this, isAdmin, new ListLeadsAdapter.LeadOnClickCallBack() {
             @Override
             public void callback(LeadDetail leadDetail) {
                 TrailFragment fragment = TrailFragment.newInstance(leadDetail.getCHILD_FOLLOW_UP_ID(), leadDetail.getID(), leadDetail.getEMP_NAME(), leadDetail.getEMP_ID(), showAddButton);
@@ -223,8 +224,21 @@ public class ListLeadsFragment extends Fragment implements ListLeadsAdapter.Prog
                         .addToBackStack(null)
                         .commit();
             }
-        });
-        recyclerView.setAdapter(adapter);
+        }, R.layout.item_leads_card);
+        tabAdapter = new ListLeadsAdapter(getActivity(), refineDetails, ListLeadsFragment.this, isAdmin, new ListLeadsAdapter.LeadOnClickCallBack() {
+            @Override
+            public void callback(LeadDetail leadDetail) {
+                TrailFragment fragment = TrailFragment.newInstance(leadDetail.getCHILD_FOLLOW_UP_ID(), leadDetail.getID(), leadDetail.getEMP_NAME(), leadDetail.getEMP_ID(), showAddButton);
+                ((FragmentActivity) getActivity()).
+                        getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_frame, fragment, fragment.getClass().getSimpleName())
+                        .addToBackStack(null)
+                        .commit();
+            }
+        }, R.layout.item_leads_tab);
+        cardRecyclerView.setAdapter(cardAdapter);
+        tabRecyclerView.setAdapter(tabAdapter);
+
     }
 
     public void addEvent(CalendarHelper.CalendarCallback calendarCallback) {
@@ -247,14 +261,19 @@ public class ListLeadsFragment extends Fragment implements ListLeadsAdapter.Prog
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_list_leads, container, false);
-        recyclerView = view.findViewById(R.id.recycler_view);
+        cardRecyclerView = view.findViewById(R.id.card_recycler_view);
+        tabRecyclerView = view.findViewById(R.id.tab_recycler_view);
         floatingActionButton = view.findViewById(R.id.fab);
+        horizontalScrollView = view.findViewById(R.id.horizontal_scroll_view);
         progressLayout = view.findViewById(R.id.progress_bar);
         filterView = view.findViewById(R.id.filter_view);
 
         fromDateEt = view.findViewById(R.id.from_date_et);
         toDateEt = view.findViewById(R.id.to_date_et);
         spinner = view.findViewById(R.id.spinner);
+
+        demoFilterSpinner = view.findViewById(R.id.demo_filter_spinner);
+        existingCustomerFilterSpinner = view.findViewById(R.id.existing_customer_filter_spinner);
         return view;
     }
 
@@ -281,13 +300,41 @@ public class ListLeadsFragment extends Fragment implements ListLeadsAdapter.Prog
         else
             floatingActionButton.setVisibility(View.GONE);
         getLeadsList();
-        adapter = new ListLeadsAdapter(getActivity(), new ArrayList<LeadDetail>(), ListLeadsFragment.this, isAdmin, new ListLeadsAdapter.LeadOnClickCallBack() {
+        cardAdapter = new ListLeadsAdapter(getActivity(), new ArrayList<LeadDetail>(), ListLeadsFragment.this, isAdmin, new ListLeadsAdapter.LeadOnClickCallBack() {
             @Override
             public void callback(LeadDetail leadDetail) {
 
             }
-        });
-        recyclerView.setAdapter(adapter);
+        }, R.layout.item_leads_card);
+        cardRecyclerView.setAdapter(cardAdapter);
+
+        tabAdapter = new ListLeadsAdapter(getActivity(), new ArrayList<LeadDetail>(), ListLeadsFragment.this, isAdmin, new ListLeadsAdapter.LeadOnClickCallBack() {
+            @Override
+            public void callback(LeadDetail leadDetail) {
+
+            }
+        }, R.layout.item_leads_tab);
+        tabRecyclerView.setAdapter(tabAdapter);
+
+        new AlertDialog.Builder(getActivity())
+                .setMessage("Report Format")
+                .setPositiveButton("Tabular", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        selectedResourceId = R.layout.item_leads_tab;
+                        switchLayout(true);
+                        dialog.dismiss();
+                    }
+                })
+                .setNeutralButton("Card", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        selectedResourceId = R.layout.item_leads_card;
+                        switchLayout(false);
+                        dialog.dismiss();
+                    }
+                })
+                .create().show();
 
         if (isAdmin) {
             spinner.setAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_dropdown_item_1line, empNames));
@@ -300,7 +347,68 @@ public class ListLeadsFragment extends Fragment implements ListLeadsAdapter.Prog
                     } else {
                         selectedEmpName = (String) parent.getItemAtPosition(position);
                     }
-                    adapter.getFilter().filter(selectedEmpName);
+                    if (selectedResourceId == R.layout.item_leads_tab) {
+                        tabAdapter.getFilter().filter(selectedEmpName);
+                    } else if (selectedResourceId == R.layout.item_leads_card) {
+                        cardAdapter.getFilter().filter(selectedEmpName);
+                    }
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
+
+            demoFilterSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    String demo = "";
+                    if (position != 0) {
+                        demo = (String) parent.getItemAtPosition(position);
+                    }
+                    try {
+                        if (selectedResourceId == R.layout.item_leads_tab) {
+                            tabAdapter.setDemo(selectedEmpName, demo);
+                        } else if (selectedResourceId == R.layout.item_leads_card) {
+                            cardAdapter.setDemo(selectedEmpName, demo);
+                        }
+                    } catch (Exception e) {
+                    }
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
+
+            existingCustomerFilterSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    String existingCust = "";
+                    if (position != 0) {
+                        existingCust = (String) parent.getItemAtPosition(position);
+                    }
+                    try {
+                        switch (position) {
+                            case 1:
+                                existingCust = "Yes";
+                                break;
+                            case 2:
+                                existingCust = "No";
+                                break;
+                        }
+                        try {
+                            if (selectedResourceId == R.layout.item_leads_tab) {
+                                tabAdapter.setExistingCust(selectedEmpName, existingCust);
+                            } else if (selectedResourceId == R.layout.item_leads_card) {
+                                cardAdapter.setExistingCust(selectedEmpName, existingCust);
+                            }
+                        } catch (Exception e) {
+                        }
+                    } catch (Exception e) {
+                    }
                 }
 
                 @Override
@@ -342,7 +450,14 @@ public class ListLeadsFragment extends Fragment implements ListLeadsAdapter.Prog
                     try {
                         //creating fromDate variable for executing query as date set on the editText
                         fromDate = simpleDateFormat.parse(fromDateEt.getText().toString());
-                        adapter.setDate(fromDate, toDate, selectedEmpName);
+                        try {
+                            if (selectedResourceId == R.layout.item_leads_tab) {
+                                tabAdapter.setDate(fromDate, toDate, selectedEmpName);
+                            } else if (selectedResourceId == R.layout.item_leads_card) {
+                                cardAdapter.setDate(fromDate, toDate, selectedEmpName);
+                            }
+                        } catch (Exception e) {
+                        }
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
@@ -387,7 +502,14 @@ public class ListLeadsFragment extends Fragment implements ListLeadsAdapter.Prog
                     try {
                         //creating toDate variable for executing query as date set on the editText
                         toDate = simpleDateFormat.parse(toDateEt.getText().toString());
-                        adapter.setDate(fromDate, toDate, selectedEmpName);
+                        try {
+                            if (selectedResourceId == R.layout.item_leads_tab) {
+                                tabAdapter.setDate(fromDate, toDate, selectedEmpName);
+                            } else if (selectedResourceId == R.layout.item_leads_card) {
+                                cardAdapter.setDate(fromDate, toDate, selectedEmpName);
+                            }
+                        } catch (Exception e) {
+                        }
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
@@ -400,7 +522,9 @@ public class ListLeadsFragment extends Fragment implements ListLeadsAdapter.Prog
             });
         }
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        cardRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        tabRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
         showProgress();
 
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
@@ -689,5 +813,10 @@ public class ListLeadsFragment extends Fragment implements ListLeadsAdapter.Prog
             }
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void switchLayout(boolean showHorizontal) {
+        horizontalScrollView.setVisibility(showHorizontal ? View.VISIBLE : View.GONE);
+        cardRecyclerView.setVisibility(showHorizontal ? View.GONE : View.VISIBLE);
     }
 }

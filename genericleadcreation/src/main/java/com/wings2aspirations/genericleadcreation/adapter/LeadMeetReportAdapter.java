@@ -1,15 +1,12 @@
 package com.wings2aspirations.genericleadcreation.adapter;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.location.Location;
 import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,13 +15,8 @@ import android.widget.Filterable;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.android.gms.maps.model.LatLng;
-import com.google.gson.JsonObject;
 import com.wings2aspirations.genericleadcreation.R;
 import com.wings2aspirations.genericleadcreation.activity.AddUpdateLeadActivity;
-import com.wings2aspirations.genericleadcreation.activity.ListLeadsActivity;
-import com.wings2aspirations.genericleadcreation.fragment.LeadMeetingReportFragment;
-import com.wings2aspirations.genericleadcreation.models.ItemModel;
 import com.wings2aspirations.genericleadcreation.models.LeadDetail;
 import com.wings2aspirations.genericleadcreation.network.ApiClient;
 import com.wings2aspirations.genericleadcreation.network.ApiInterface;
@@ -33,10 +25,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class LeadMeetReportAdapter extends RecyclerView.Adapter<LeadMeetReportAdapter.ViewHolder> implements Filterable {
 
@@ -48,7 +36,9 @@ public class LeadMeetReportAdapter extends RecyclerView.Adapter<LeadMeetReportAd
     private long deleteId = -1;
     private boolean isAdmin, isLead;
     private Date fromDate, toDate;
+    private String demoVc, existingVc;
     private LeadOnClickCallBack leadOnClickCallBack;
+    private int resourceId;
 
     public interface ProgressCallback {
         void showProgress();
@@ -62,8 +52,9 @@ public class LeadMeetReportAdapter extends RecyclerView.Adapter<LeadMeetReportAd
         void callback(LeadDetail leadDetail);
     }
 
-    public LeadMeetReportAdapter(List<LeadDetail> leadDetails, Context context, HashSet<Integer>[] hashSets, boolean isAdmin, boolean isLead, ProgressCallback progressCallback, LeadOnClickCallBack leadOnClickCallBack) {
+    public LeadMeetReportAdapter(List<LeadDetail> leadDetails, Context context, HashSet<Integer>[] hashSets, boolean isAdmin, boolean isLead, ProgressCallback progressCallback, LeadOnClickCallBack leadOnClickCallBack, int resourceId) {
         this.leadDetails = leadDetails;
+        this.resourceId = resourceId;
         this.filteredLeadDetails = leadDetails;
         this.hashSets = hashSets;
         this.context = context;
@@ -80,11 +71,21 @@ public class LeadMeetReportAdapter extends RecyclerView.Adapter<LeadMeetReportAd
         getFilter().filter(s);
     }
 
+    public void setDemo(String selectedEmp, String demo) {
+        this.demoVc = demo;
+        getFilter().filter(selectedEmp);
+    }
+
+    public void setExistingCust(String selectedEmp, String existing) {
+        this.existingVc = existing;
+        getFilter().filter(selectedEmp);
+    }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        return new ViewHolder(inflater.inflate(R.layout.item_leads, parent, false));
+        return new ViewHolder(inflater.inflate(resourceId, parent, false));
     }
 
     @Override
@@ -92,9 +93,11 @@ public class LeadMeetReportAdapter extends RecyclerView.Adapter<LeadMeetReportAd
         final LeadDetail lead = filteredLeadDetails.get(position);
 
         if (position == 0) {
-            holder.distanceLL.setVisibility(View.GONE);
+            if (holder.distanceLL != null)
+                holder.distanceLL.setVisibility(View.GONE);
         } else {
-            holder.distanceLL.setVisibility(View.VISIBLE);
+            if (holder.distanceLL != null)
+                holder.distanceLL.setVisibility(View.VISIBLE);
             LeadDetail lead2 = filteredLeadDetails.get(position - 1);
             float[] results = new float[3];
             try {
@@ -181,6 +184,18 @@ public class LeadMeetReportAdapter extends RecyclerView.Adapter<LeadMeetReportAd
                         }
                     }
                     LeadMeetReportAdapter.this.filteredLeadDetails = filteredList;
+                }
+
+                LeadDetail leadDetail;
+                for (int i = 0; i < filteredLeadDetails.size(); ) {
+                    leadDetail = filteredLeadDetails.get(i);
+                    if (!TextUtils.isEmpty(demoVc) && !leadDetail.getDemoVc().equalsIgnoreCase(demoVc)) {
+                        filteredLeadDetails.remove(i);
+                    } else if (!TextUtils.isEmpty(existingVc) && !leadDetail.getExistingVc().equalsIgnoreCase(existingVc)) {
+                        filteredLeadDetails.remove(i);
+                    } else {
+                        i++;
+                    }
                 }
 
                 FilterResults filterResults = new FilterResults();

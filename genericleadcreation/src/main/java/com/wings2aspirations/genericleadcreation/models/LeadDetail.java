@@ -109,6 +109,15 @@ public class LeadDetail implements CalendarHelper.CalendarInstance {
     @SerializedName("PRICE_N")
     @Expose
     private Double price;
+    @SerializedName("DESIGNATION_VC")
+    @Expose
+    private String designation;
+    @SerializedName("DEMO_VC")
+    @Expose
+    private String demoVc;
+    @SerializedName("EXISTING_VC")
+    @Expose
+    private String existingVc;
 
     public String getCOMPANY_NAME() {
         return COMPANY_NAME;
@@ -473,5 +482,29 @@ public class LeadDetail implements CalendarHelper.CalendarInstance {
 
     public void setPrice(Double price) {
         this.price = price;
+    }
+
+    public String getDesignation() {
+        return designation;
+    }
+
+    public void setDesignation(String designation) {
+        this.designation = designation;
+    }
+
+    public String getDemoVc() {
+        return demoVc;
+    }
+
+    public void setDemoVc(String demoVc) {
+        this.demoVc = demoVc;
+    }
+
+    public String getExistingVc() {
+        return existingVc;
+    }
+
+    public void setExistingVc(String existingVc) {
+        this.existingVc = existingVc;
     }
 }

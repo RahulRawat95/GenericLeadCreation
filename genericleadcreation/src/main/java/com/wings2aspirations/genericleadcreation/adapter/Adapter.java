@@ -30,10 +30,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.wings2aspirations.genericleadcreation.activity.AddUpdateLeadActivity.EXTRA_ARG_EMPLOYEE_ID;
-import static com.wings2aspirations.genericleadcreation.activity.AddUpdateLeadActivity.EXTRA_ARG_EMPLOYEE_NAME;
-import static com.wings2aspirations.genericleadcreation.activity.AddUpdateLeadActivity.EXTRA_ARG_UPDATE_PRIMARY_ID;
-
 public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> implements Filterable {
 
     private List<LeadDetail> leadDetails;
@@ -112,7 +108,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> implements
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        return new ViewHolder(inflater.inflate(R.layout.item_leads, parent, false));
+        return new ViewHolder(inflater.inflate(R.layout.item_leads_card, parent, false));
     }
 
     @Override
