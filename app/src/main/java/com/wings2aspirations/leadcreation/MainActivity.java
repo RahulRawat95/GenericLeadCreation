@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Intent intent = com.wings2aspirations.genericleadcreation.activity.MainActivity.getListLeadsIntent(MainActivity.this, "http://13.126.198.143:10004/",
-                        "attendanceAppDB", "Loki3142", BuildConfig.APPLICATION_ID, 1, "lokeshmudgal06@gmail.com", strings);
+                        "attendanceAppDB", "Loki3142", BuildConfig.APPLICATION_ID, 1, "lokeshmudgal06@gmail.com", strings, "Company Name");
 
        /* Intent intent = com.wings2aspirations.genericleadcreation.activity.ViewLeadActivity.getListLeadsIntent(this, "http://13.126.198.143:10004/",
                 "attendanceAppDB", "Mukul1062", BuildConfig.APPLICATION_ID, 2,"lokeshmudgal06@gmail.com", "lokesh");*/
@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Intent intent = com.wings2aspirations.genericleadcreation.activity.MainActivity.getListLeadsIntent(MainActivity.this, "http://13.126.198.143:10004/",
-                        "attendanceAppDB", "Loki3142", BuildConfig.APPLICATION_ID, 4, "lokeshmudgal06@gmail.com", "Lokesh");
+                        "attendanceAppDB", "Loki3142", BuildConfig.APPLICATION_ID, 4, "lokeshmudgal06@gmail.com", "Lokesh", "Company Name");
        /* Intent intent = com.wings2aspirations.genericleadcreation.activity.ViewLeadActivity.getListLeadsIntent(this, "http://13.126.198.143:10004/",
                 "attendanceAppDB", "Mukul1062", BuildConfig.APPLICATION_ID, 2,"lokeshmudgal06@gmail.com", "lokesh");*/
 

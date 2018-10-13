@@ -75,6 +75,7 @@ public class ListLeadsFragment extends Fragment implements ListLeadsAdapter.Prog
     public static final String EXTRA_APPLICATION_ID = "applicationId";
     public static final String EXTRA_SHOW_ADD_BUTTON = "show_button";
 
+    private AlertDialog formatDialog;
 
     public AlertDialog leadFileOptionDialog;
     private static final int REQUEST_CODE_CALENDAR_WRITE = 123;
@@ -316,25 +317,7 @@ public class ListLeadsFragment extends Fragment implements ListLeadsAdapter.Prog
         }, R.layout.item_leads_tab);
         tabRecyclerView.setAdapter(tabAdapter);
 
-        new AlertDialog.Builder(getActivity())
-                .setMessage("Report Format")
-                .setPositiveButton("Tabular", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        selectedResourceId = R.layout.item_leads_tab;
-                        switchLayout(true);
-                        dialog.dismiss();
-                    }
-                })
-                .setNeutralButton("Card", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        selectedResourceId = R.layout.item_leads_card;
-                        switchLayout(false);
-                        dialog.dismiss();
-                    }
-                })
-                .create().show();
+        createFormatDialog();
 
         if (isAdmin) {
             spinner.setAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_dropdown_item_1line, empNames));
@@ -539,6 +522,14 @@ public class ListLeadsFragment extends Fragment implements ListLeadsAdapter.Prog
             }
         });
         isUserAdmin(isAdmin);
+
+        if (formatDialog != null) {
+            formatDialog.show();
+        } else {
+            selectedResourceId = R.layout.item_leads_card;
+            switchLayout(false);
+            getLeadsList();
+        }
     }
 
     @Override
@@ -818,5 +809,42 @@ public class ListLeadsFragment extends Fragment implements ListLeadsAdapter.Prog
     private void switchLayout(boolean showHorizontal) {
         horizontalScrollView.setVisibility(showHorizontal ? View.VISIBLE : View.GONE);
         cardRecyclerView.setVisibility(showHorizontal ? View.GONE : View.VISIBLE);
+    }
+
+    public void createFormatDialog() {
+        try {
+            formatDialog = new AlertDialog.Builder(getActivity())
+                    .setMessage("Report Format")
+                    .setPositiveButton("Tabular", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            selectedResourceId = R.layout.item_leads_tab;
+                            switchLayout(true);
+                            getLeadsList();
+                            dialog.dismiss();
+                        }
+                    })
+                    .setNeutralButton("Card", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            selectedResourceId = R.layout.item_leads_card;
+                            switchLayout(false);
+                            getLeadsList();
+                            dialog.dismiss();
+                        }
+                    })
+                    .setCancelable(false)
+                    .create();
+        } catch (Exception e) {
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        try {
+            formatDialog.dismiss();
+        } catch (Exception e) {
+        }
     }
 }

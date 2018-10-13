@@ -27,6 +27,8 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.NestedScrollView;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.InputType;
@@ -107,7 +109,7 @@ import static com.wings2aspirations.genericleadcreation.repository.ShowOptionSel
 import static com.wings2aspirations.genericleadcreation.repository.ShowOptionSelectionDialog.TYPE_STATE;
 import static com.wings2aspirations.genericleadcreation.repository.ShowOptionSelectionDialog.TYPE_STATUS;
 
-public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapReadyCallback,
+public class AddUpdateLeadActivity extends AppCompatActivity implements //OnMapReadyCallback,
         View.OnClickListener,
         ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
@@ -646,6 +648,11 @@ public class AddUpdateLeadActivity extends FragmentActivity implements //OnMapRe
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_update_lead);
+
+        String companyName = Constants.getCompanyName();
+        TextView companyNameTv = findViewById(R.id.company_name_tv);
+        companyNameTv.setText(companyName);
+        ((Toolbar) findViewById(R.id.toolbar)).setTitle("Create Lead");
 
         saveAlertDialog = new AlertDialog.Builder(this)
                 .setMessage("Do you want to Exit without saving the Data")

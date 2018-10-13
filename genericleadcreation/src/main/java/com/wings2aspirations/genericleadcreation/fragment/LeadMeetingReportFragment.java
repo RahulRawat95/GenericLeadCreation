@@ -67,7 +67,7 @@ public class LeadMeetingReportFragment extends Fragment implements LeadMeetRepor
     public static final String ARG_EMP_NAMES = "employeeNames";
 
     private boolean isLeadReport;
-
+    private AlertDialog formatDialog;
     private EditText fromDateEt, toDateEt;
 
     private Date fromDate, toDate;
@@ -135,6 +135,35 @@ public class LeadMeetingReportFragment extends Fragment implements LeadMeetRepor
         hashSets = new HashSet[]{productHash, statusHash, cityHash};
         getValues();
         setHasOptionsMenu(true);
+        createFormatDialog();
+    }
+
+    public void createFormatDialog() {
+        try {
+            formatDialog = new AlertDialog.Builder(getActivity())
+                    .setMessage("Report Format")
+                    .setPositiveButton("Tabular", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            selectedResourceId = R.layout.item_leads_tab;
+                            switchLayout(true);
+                            getLeadsList();
+                            dialog.dismiss();
+                        }
+                    })
+                    .setNeutralButton("Card", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            selectedResourceId = R.layout.item_leads_card;
+                            switchLayout(false);
+                            getLeadsList();
+                            dialog.dismiss();
+                        }
+                    })
+                    .setCancelable(false)
+                    .create();
+        } catch (Exception e) {
+        }
     }
 
     @Nullable
@@ -200,62 +229,61 @@ public class LeadMeetingReportFragment extends Fragment implements LeadMeetRepor
 
                     }
                 });
-
-                demoFilterSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        String demo = "";
-                        if (position != 0) {
-                            demo = (String) parent.getItemAtPosition(position);
-                        }
-                        try {
-                            if (selectedResourceId == R.layout.item_leads_tab) {
-                                tabAdapter.setDemo(selectedEmpName, demo);
-                            } else if (selectedResourceId == R.layout.item_leads_card) {
-                                cardAdapter.setDemo(selectedEmpName, demo);
-                            }
-                        } catch (Exception e) {
-                        }
-                    }
-
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parent) {
-
-                    }
-                });
-
-                existingCustomerFilterSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        String existingCust = "";
-                        switch (position) {
-                            case 1:
-                                existingCust = "Yes";
-                                break;
-                            case 2:
-                                existingCust = "No";
-                                break;
-                        }
-                        try {
-                            if (selectedResourceId == R.layout.item_leads_tab) {
-                                tabAdapter.setExistingCust(selectedEmpName, existingCust);
-                            } else if (selectedResourceId == R.layout.item_leads_card) {
-                                cardAdapter.setExistingCust(selectedEmpName, existingCust);
-                            }
-                        } catch (Exception e) {
-                        }
-                    }
-
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parent) {
-
-                    }
-                });
             } else {
                 spinner.setVisibility(View.GONE);
                 adminEmployeeFilterLl.setVisibility(View.GONE);
             }
 
+            demoFilterSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    String demo = "";
+                    if (position != 0) {
+                        demo = (String) parent.getItemAtPosition(position);
+                    }
+                    try {
+                        if (selectedResourceId == R.layout.item_leads_tab) {
+                            tabAdapter.setDemo(selectedEmpName, demo);
+                        } else if (selectedResourceId == R.layout.item_leads_card) {
+                            cardAdapter.setDemo(selectedEmpName, demo);
+                        }
+                    } catch (Exception e) {
+                    }
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
+
+            existingCustomerFilterSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    String existingCust = "";
+                    switch (position) {
+                        case 1:
+                            existingCust = "Yes";
+                            break;
+                        case 2:
+                            existingCust = "No";
+                            break;
+                    }
+                    try {
+                        if (selectedResourceId == R.layout.item_leads_tab) {
+                            tabAdapter.setExistingCust(selectedEmpName, existingCust);
+                        } else if (selectedResourceId == R.layout.item_leads_card) {
+                            cardAdapter.setExistingCust(selectedEmpName, existingCust);
+                        }
+                    } catch (Exception e) {
+                    }
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
 
             fromDateEt.setOnClickListener(new View.OnClickListener() {
                 Date selectedTooDate = null;//creating local variable while click action occurring
@@ -381,27 +409,14 @@ public class LeadMeetingReportFragment extends Fragment implements LeadMeetRepor
             }
         });
 
-        new AlertDialog.Builder(getActivity())
-                .setMessage("Report Format")
-                .setPositiveButton("Tabular", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        selectedResourceId = R.layout.item_leads_tab;
-                        switchLayout(true);
-                        getLeadsList();
-                        dialog.dismiss();
-                    }
-                })
-                .setNeutralButton("Card", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        selectedResourceId = R.layout.item_leads_card;
-                        switchLayout(false);
-                        getLeadsList();
-                        dialog.dismiss();
-                    }
-                })
-                .create().show();
+        if (formatDialog != null) {
+            formatDialog.show();
+        } else {
+            selectedResourceId = R.layout.item_leads_card;
+            switchLayout(false);
+            getLeadsList();
+        }
+
     }
 
     public void getLeadsList() {
@@ -592,5 +607,14 @@ public class LeadMeetingReportFragment extends Fragment implements LeadMeetRepor
     private void switchLayout(boolean showHorizontal) {
         horizontalScrollView.setVisibility(showHorizontal ? View.VISIBLE : View.GONE);
         cardRecyclerView.setVisibility(showHorizontal ? View.GONE : View.VISIBLE);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        try {
+            formatDialog.dismiss();
+        } catch (Exception e) {
+        }
     }
 }

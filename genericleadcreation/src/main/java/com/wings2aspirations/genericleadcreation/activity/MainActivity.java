@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     public static final String EXTRA_BASE_URL = "baseUrlForRetrofit";
+    public static final String EXTRA_COMPANY_NAME = "companyName";
     public static final String EXTRA_EMP_NAMES = "employeeNames";
     public static final String EXTRA_DB_NAME = "dbName";
     public static final String EXTRA_SCHEMA_NAME = "schemaName";
@@ -82,7 +83,7 @@ public class MainActivity extends AppCompatActivity
 
     private ArrayList<String> empNames;
 
-    public static Intent getListLeadsIntent(Context context, String baseUrl, String dbName, String schemaName, String applicationId, int id, String emailId, ArrayList<String> empNames) {
+    public static Intent getListLeadsIntent(Context context, String baseUrl, String dbName, String schemaName, String applicationId, int id, String emailId, ArrayList<String> empNames, String companyName) {
         empNames.add(0, "Select");
         Intent intent = new Intent(context, MainActivity.class);
         intent.putExtra(EXTRA_BASE_URL, baseUrl);
@@ -92,10 +93,11 @@ public class MainActivity extends AppCompatActivity
         intent.putExtra(EXTRA_SCHEMA_NAME, schemaName);
         intent.putExtra(EXTRA_APPLICATION_ID, applicationId);
         intent.putExtra(EXTRA_EMAIL_ID, emailId);
+        intent.putExtra(EXTRA_COMPANY_NAME, companyName);
         return intent;
     }
 
-    public static Intent getListLeadsIntent(Context context, String baseUrl, String dbName, String schemaName, String applicationId, int empId, String emailId, String empName) {
+    public static Intent getListLeadsIntent(Context context, String baseUrl, String dbName, String schemaName, String applicationId, int empId, String emailId, String empName, String companyName) {
         Intent intent = new Intent(context, MainActivity.class);
         intent.putExtra(EXTRA_ARG_EMPLOYEE_NAME, empName);
         intent.putExtra(EXTRA_ARG_EMPLOYEE_ID, empId);
@@ -104,6 +106,7 @@ public class MainActivity extends AppCompatActivity
         intent.putExtra(EXTRA_SCHEMA_NAME, schemaName);
         intent.putExtra(EXTRA_APPLICATION_ID, applicationId);
         intent.putExtra(EXTRA_EMAIL_ID, emailId);
+        intent.putExtra(EXTRA_COMPANY_NAME, companyName);
         return intent;
     }
 
@@ -157,6 +160,18 @@ public class MainActivity extends AppCompatActivity
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        if (!getIntent().hasExtra(EXTRA_COMPANY_NAME)) {
+            ShowToast.showToast(this, "Provide Company Name");
+            finish();
+            return;
+        }
+
+        String companyName = getIntent().getStringExtra(EXTRA_COMPANY_NAME);
+        TextView companyNameTv = findViewById(R.id.company_name_tv);
+        companyNameTv.setText(companyName);
+
+        Constants.setCompanyName(companyName);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.view_lead_drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(

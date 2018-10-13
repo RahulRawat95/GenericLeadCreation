@@ -13,6 +13,7 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -52,6 +53,7 @@ public class ViewLeadActivity extends AppCompatActivity {
     public static final String EXTRA_EMAIL_ID = "emailId";
     public static final String EXTRA_IS_FOR_REPORT = "forReport";
     public static final String EXTRA_IS_ONLY_FOR_REPORT = "isOnlyForReport";
+    public static final String EXTRA_COMPANY_NAME = "companyName";
     private ApiInterface apiInterface;
 
     public static final int SESSION_AUTHORIZATION_TOKEN_OFFSET = 12;
@@ -66,7 +68,7 @@ public class ViewLeadActivity extends AppCompatActivity {
     private Fragment fragment;
 
     public static Intent getListLeadsIntent(Context context, String baseUrl, String dbName, String schemaName, String applicationId, int id, String emailId,
-                                            ArrayList<String> empNames, boolean isForReport, boolean isOnlyForReport) {
+                                            ArrayList<String> empNames, boolean isForReport, boolean isOnlyForReport, String companyName) {
         empNames.add(0, "Select");
         Intent intent = new Intent(context, ViewLeadActivity.class);
         intent.putExtra(EXTRA_BASE_URL, baseUrl);
@@ -78,11 +80,12 @@ public class ViewLeadActivity extends AppCompatActivity {
         intent.putExtra(EXTRA_EMAIL_ID, emailId);
         intent.putExtra(EXTRA_IS_FOR_REPORT, isForReport);
         intent.putExtra(EXTRA_IS_ONLY_FOR_REPORT, isOnlyForReport);
+        intent.putExtra(EXTRA_COMPANY_NAME, companyName);
         return intent;
     }
 
     public static Intent getListLeadsIntent(Context context, String baseUrl, String dbName, String schemaName, String applicationId, int empId,
-                                            String emailId, String empName, boolean isForReport, boolean isOnlyForReport) {
+                                            String emailId, String empName, boolean isForReport, boolean isOnlyForReport, String companyName) {
         Intent intent = new Intent(context, ViewLeadActivity.class);
         intent.putExtra(EXTRA_ARG_EMPLOYEE_NAME, empName);
         intent.putExtra(EXTRA_ARG_EMPLOYEE_ID, empId);
@@ -93,6 +96,7 @@ public class ViewLeadActivity extends AppCompatActivity {
         intent.putExtra(EXTRA_EMAIL_ID, emailId);
         intent.putExtra(EXTRA_IS_FOR_REPORT, isForReport);
         intent.putExtra(EXTRA_IS_ONLY_FOR_REPORT, isOnlyForReport);
+        intent.putExtra(EXTRA_COMPANY_NAME, companyName);
         return intent;
     }
 
@@ -101,10 +105,18 @@ public class ViewLeadActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_lead);
 
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_view_lead);
         setSupportActionBar(toolbar);
 
+        if (!getIntent().hasExtra(EXTRA_COMPANY_NAME)) {
+            ShowToast.showToast(this, "Provide Company Name");
+            finish();
+            return;
+        }
+
+        String companyName = getIntent().getStringExtra(EXTRA_COMPANY_NAME);
+        TextView companyNameTv = findViewById(R.id.company_name_tv);
+        companyNameTv.setText(companyName);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.view_lead_drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(

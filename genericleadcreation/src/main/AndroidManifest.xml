@@ -26,6 +26,7 @@
 
         <activity
             android:name=".activity.AddUpdateLeadActivity"
+            android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden|adjustResize"
             android:screenOrientation="portrait" />
         <activity
@@ -33,6 +34,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.SettingsActivity"
+            android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.TrailActivity"
@@ -42,7 +44,7 @@
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".activity.ViewLeadActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

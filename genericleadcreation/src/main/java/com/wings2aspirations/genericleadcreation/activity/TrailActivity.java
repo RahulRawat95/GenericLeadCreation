@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -19,6 +20,7 @@ import com.wings2aspirations.genericleadcreation.adapter.TrialAdapter;
 import com.wings2aspirations.genericleadcreation.models.LeadDetail;
 import com.wings2aspirations.genericleadcreation.network.ApiClient;
 import com.wings2aspirations.genericleadcreation.network.ApiInterface;
+import com.wings2aspirations.genericleadcreation.repository.ShowToast;
 import com.wings2aspirations.genericleadcreation.repository.Utility;
 
 import java.lang.reflect.Type;
@@ -29,6 +31,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class TrailActivity extends AppCompatActivity {
+    public static final String EXTRA_COMPANY_NAME = "companyName";
 
     int CHILD_FOLLOW_UP_ID;
     int ID;
@@ -46,6 +49,16 @@ public class TrailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trail);
+
+        if (!getIntent().hasExtra(EXTRA_COMPANY_NAME)) {
+            ShowToast.showToast(this, "Provide Company Name");
+            finish();
+            return;
+        }
+
+        String companyName = getIntent().getStringExtra(EXTRA_COMPANY_NAME);
+        TextView companyNameTv = findViewById(R.id.company_name_tv);
+        companyNameTv.setText(companyName);
 
         progress_bar = findViewById(R.id.progress_bar);
         trail_list = findViewById(R.id.trail_list);

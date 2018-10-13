@@ -11,6 +11,13 @@
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
 
+        <TextView
+            android:id="@+id/company_name_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimaryDark"
+            android:textColor="@android:color/white" />
+
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar_view_lead"
             android:layout_width="match_parent"

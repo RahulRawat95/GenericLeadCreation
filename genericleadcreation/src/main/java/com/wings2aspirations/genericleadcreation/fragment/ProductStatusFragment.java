@@ -502,7 +502,6 @@ public class ProductStatusFragment extends Fragment implements View.OnClickListe
 
         final TextView no_item_found = optionListView.findViewById(R.id.no_item_found);
 
-        EditText search_option_item = optionListView.findViewById(R.id.search_option_item);
 
         ImageView close = optionListView.findViewById(R.id.close_dialog);
         FloatingActionButton fab_add_item = optionListView.findViewById(R.id.fab_add_item);
@@ -540,6 +539,26 @@ public class ProductStatusFragment extends Fragment implements View.OnClickListe
                 no_item_found.setVisibility(View.VISIBLE);
             }
         }
+
+        EditText search_option_item = optionListView.findViewById(R.id.search_option_item);
+        search_option_item.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (unitOptionItemAdapter != null)
+                    unitOptionItemAdapter.getFilter().filter(s);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
 
         close.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -661,6 +680,7 @@ public class ProductStatusFragment extends Fragment implements View.OnClickListe
 
         switch (isUnitAdd) {
             case TYPE_STATUS:
+                name_et.setHint("Enter Status");
                 selectedDepartmentId = -1;
                 department_container.setVisibility(View.VISIBLE);
                 department_tv.setOnClickListener(new View.OnClickListener() {
@@ -681,6 +701,7 @@ public class ProductStatusFragment extends Fragment implements View.OnClickListe
                 add_which_tag.setText("Add new Status");
                 break;
             case TYPE_UNIT:
+                name_et.setHint("Enter Unit");
                 add_which_tag.setText("Add new Unit");
                 department_container.setVisibility(View.GONE);
                 break;

@@ -23,6 +23,15 @@ public class Constants {
     private static ArrayList<ProductListModel> products;
     private static ArrayList<ItemModel> statuses;
     private static ArrayList<ExistingCustomer> existingCustomers;
+    private static String companyName;
+
+    public static String getCompanyName() {
+        return companyName;
+    }
+
+    public static void setCompanyName(String companyName) {
+        Constants.companyName = companyName;
+    }
 
     public static ArrayList<City> getCities() {
         return cities == null ? new ArrayList<City>() : cities;
