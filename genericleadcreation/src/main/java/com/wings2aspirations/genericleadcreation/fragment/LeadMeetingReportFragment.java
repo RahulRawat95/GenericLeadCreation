@@ -581,7 +581,9 @@ public class LeadMeetingReportFragment extends Fragment implements LeadMeetRepor
                 "NEXT FOLLOW UP TIME",
                 "CALL TYPE",
                 "EMP NAME",
-                "DATE"};
+                "DATE",
+                "CUSTOMER TYPE",
+                "DEMO"};
 
         for (int i = 0; i < details.size(); i++) {
             columnRowData[i + 1] = details.get(i).getColumnData();

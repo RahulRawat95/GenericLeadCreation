@@ -366,7 +366,9 @@ public class LeadDetail implements CalendarHelper.CalendarInstance {
                 NEXT_FOLLOW_UP_TIME,
                 CALL_TYPE,
                 EMP_NAME,
-                DATE_VC};
+                DATE_VC,
+                existingVc.equalsIgnoreCase("Yes") ? "EXISTING" : "FRESH",
+                demoVc};
         return columnData;
     }
 

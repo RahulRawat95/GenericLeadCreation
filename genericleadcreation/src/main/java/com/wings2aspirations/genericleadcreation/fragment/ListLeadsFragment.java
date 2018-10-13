@@ -673,7 +673,9 @@ public class ListLeadsFragment extends Fragment implements ListLeadsAdapter.Prog
                 "NEXT FOLLOW UP TIME",
                 "CALL TYPE",
                 "EMP NAME",
-                "DATE"};
+                "DATE",
+                "CUSTOMER TYPE",
+                "DEMO"};
 
         for (int i = 0; i < details.size(); i++) {
             columnRowData[i + 1] = details.get(i).getColumnData();
