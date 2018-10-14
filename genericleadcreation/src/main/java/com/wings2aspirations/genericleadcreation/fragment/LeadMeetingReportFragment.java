@@ -73,8 +73,8 @@ public class LeadMeetingReportFragment extends Fragment implements LeadMeetRepor
     private Date fromDate, toDate;
     private FloatingActionButton leadFilterFab;
     private LeadMeetReportAdapter tabAdapter, cardAdapter;
-    private RelativeLayout progressLayout;
     private RecyclerView tabRecyclerView, cardRecyclerView;
+    private RelativeLayout progressLayout;
     private ApiInterface apiInterface;
     private List<LeadDetail> details;
     private ArrayList<String> empNames;
@@ -174,6 +174,7 @@ public class LeadMeetingReportFragment extends Fragment implements LeadMeetRepor
         toDateEt = view.findViewById(R.id.to_date_et);
         cardRecyclerView = view.findViewById(R.id.card_recycler_view);
         tabRecyclerView = view.findViewById(R.id.tab_recycler_view);
+        horizontalScrollView = view.findViewById(R.id.horizontal_scroll_view);
         progressLayout = view.findViewById(R.id.progress_bar);
         leadFilterFab = view.findViewById(R.id.lead_filter_fab);
         spinner = view.findViewById(R.id.spinner);
@@ -181,7 +182,6 @@ public class LeadMeetingReportFragment extends Fragment implements LeadMeetRepor
         demoFilterSpinner = view.findViewById(R.id.demo_filter_spinner);
         existingCustomerFilterSpinner = view.findViewById(R.id.existing_customer_filter_spinner);
         filterViewReport = view.findViewById(R.id.filter_view_report);
-        horizontalScrollView = view.findViewById(R.id.horizontal_scroll_view);
         return view;
     }
 

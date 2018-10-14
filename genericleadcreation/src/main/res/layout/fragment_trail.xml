@@ -30,14 +30,38 @@
                 android:background="#cccccc" />
 
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/trail_list"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="5dp">
+                android:layout_height="wrap_content">
 
-            </android.support.v7.widget.RecyclerView>
+                <HorizontalScrollView
+                    android:id="@+id/horizontal_scroll_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fillViewport="true"
+                    android:visibility="gone">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <include layout="@layout/include_trail_label_layout" />
+
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/tab_recycler_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                </HorizontalScrollView>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/card_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone" />
+            </RelativeLayout>
+
         </LinearLayout>
 
         <android.support.design.widget.FloatingActionButton

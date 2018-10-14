@@ -20,20 +20,20 @@ public class TrialAdapter extends RecyclerView.Adapter<TrialAdapter.TrialAdapter
     private Context context;
     private List<LeadDetail> trialDetailsList;
     private List<LeadDetail> trialDetailsListFiltered;
+    private int selectedResourceId;
 
-
-
-    public TrialAdapter(Context context, List<LeadDetail> trialDetailsList) {
+    public TrialAdapter(Context context, List<LeadDetail> trialDetailsList, int selectedResourceId) {
         this.context = context;
         this.trialDetailsList = trialDetailsList;
         this.trialDetailsListFiltered = trialDetailsList;
+        this.selectedResourceId = selectedResourceId;
     }
 
     @NonNull
     @Override
     public TrialAdapterViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        return new TrialAdapterViewHolder(inflater.inflate(R.layout.trail_item_layout, parent, false));
+        return new TrialAdapterViewHolder(inflater.inflate(selectedResourceId, parent, false));
     }
 
     @Override

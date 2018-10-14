@@ -1,16 +1,19 @@
 package com.wings2aspirations.genericleadcreation.fragment;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.HorizontalScrollView;
 import android.widget.RelativeLayout;
 
 import com.google.gson.Gson;
@@ -48,13 +51,18 @@ public class TrailFragment extends Fragment {
     private int ID;
     private ApiInterface apiInterface;
     private RelativeLayout progress_bar;
-    private RecyclerView trail_list;
-    private TrialAdapter adapter;
     private FloatingActionButton fab_trial;
     private String empName;
     private int empId;
 
+    private TrialAdapter tabAdapter, cardAdapter;
+    private RecyclerView tabRecyclerView, cardRecyclerView;
+    private AlertDialog formatDialog;
+    private int selectedResourceId;
+
     private boolean showAddButton;
+
+    private HorizontalScrollView horizontalScrollView;
 
     private List<LeadDetail> trailDetails;
 
@@ -89,18 +97,21 @@ public class TrailFragment extends Fragment {
 
         getValues();
         apiInterface = ApiClient.getClient().create(ApiInterface.class);
+        createFormatDialog();
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_trail, container, false);
+        View view = inflater.inflate(R.layout.fragment_trail, container, false);
 
         progress_bar = view.findViewById(R.id.progress_bar);
-        trail_list = view.findViewById(R.id.trail_list);
+        cardRecyclerView = view.findViewById(R.id.card_recycler_view);
+        tabRecyclerView = view.findViewById(R.id.tab_recycler_view);
+        horizontalScrollView = view.findViewById(R.id.horizontal_scroll_view);
         fab_trial = view.findViewById(R.id.fab_trial);
 
-        if (showAddButton){
+        if (showAddButton) {
             fab_trial.setVisibility(View.VISIBLE);
             fab_trial.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -109,25 +120,24 @@ public class TrailFragment extends Fragment {
                     startActivityForResult(intent, REQUEST_CODE_ADD_LEAD_ACTIVITY);
                 }
             });
-        }else
+        } else
             fab_trial.setVisibility(View.GONE);
 
 
-
-        if (showAddButton){
+        if (showAddButton) {
             try {
                 ((MainActivity) getActivity()).setActionBarTitle("Lead Trail List");
             } catch (Exception e) {
 
             }
-        }else {
+        } else {
             try {
                 ((ViewLeadActivity) getActivity()).setActionBarTitle("Lead Trail List");
             } catch (Exception e) {
 
             }
         }
-
+        formatDialog.show();
         return view;
     }
 
@@ -159,17 +169,21 @@ public class TrailFragment extends Fragment {
                 trailDetails = new Gson().fromJson(jsonArray, type);
 
                 if (trailDetails.size() > 0) {
-                    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
 
-                    adapter = new TrialAdapter(getActivity(), trailDetails);
-                    trail_list.setLayoutManager(linearLayoutManager);
-                    trail_list.setAdapter(adapter);
+                    tabAdapter = new TrialAdapter(getActivity(), trailDetails, R.layout.trail_item_layout_table);
+                    tabRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                    tabRecyclerView.setAdapter(tabAdapter);
 
+                    cardAdapter = new TrialAdapter(getActivity(), trailDetails, R.layout.trail_item_layout_card);
+                    cardRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                    cardRecyclerView.setAdapter(cardAdapter);
 
-                    String trial_call_type = trailDetails.get(trailDetails.size() - 1).getCALL_TYPE();
-                    if (trial_call_type.equalsIgnoreCase("Force closed") || trial_call_type.equalsIgnoreCase("Confirm closed")) {
-                        fab_trial.setVisibility(View.GONE);
-                        Utility.globalMessageDialog(getActivity(), "This Lead is " + trial_call_type);
+                    if (!formatDialog.isShowing()) {
+                        String trial_call_type = trailDetails.get(trailDetails.size() - 1).getCALL_TYPE();
+                        if (trial_call_type.equalsIgnoreCase("Force closed") || trial_call_type.equalsIgnoreCase("Confirm closed")) {
+                            fab_trial.setVisibility(View.GONE);
+                            Utility.globalMessageDialog(getActivity(), "This Lead is " + trial_call_type);
+                        }
                     }
 
                 } else
@@ -206,5 +220,52 @@ public class TrailFragment extends Fragment {
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void switchLayout(boolean showHorizontal) {
+        if (trailDetails != null) {
+            String trial_call_type = trailDetails.get(trailDetails.size() - 1).getCALL_TYPE();
+            if (trial_call_type.equalsIgnoreCase("Force closed") || trial_call_type.equalsIgnoreCase("Confirm closed")) {
+                fab_trial.setVisibility(View.GONE);
+                Utility.globalMessageDialog(getActivity(), "This Lead is " + trial_call_type);
+            }
+        }
+        horizontalScrollView.setVisibility(showHorizontal ? View.VISIBLE : View.GONE);
+        cardRecyclerView.setVisibility(showHorizontal ? View.GONE : View.VISIBLE);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        try {
+            formatDialog.dismiss();
+        } catch (Exception e) {
+        }
+    }
+
+    public void createFormatDialog() {
+        try {
+            formatDialog = new AlertDialog.Builder(getActivity())
+                    .setMessage("Report Format")
+                    .setPositiveButton("Tabular", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            selectedResourceId = R.layout.item_leads_tab;
+                            switchLayout(true);
+                            dialog.dismiss();
+                        }
+                    })
+                    .setNeutralButton("Card", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            selectedResourceId = R.layout.item_leads_card;
+                            switchLayout(false);
+                            dialog.dismiss();
+                        }
+                    })
+                    .setCancelable(false)
+                    .create();
+        } catch (Exception e) {
+        }
     }
 }

@@ -38,6 +38,7 @@ import com.wings2aspirations.genericleadcreation.network.ApiClient;
 import com.wings2aspirations.genericleadcreation.network.ApiInterface;
 import com.wings2aspirations.genericleadcreation.repository.CalendarHelper;
 import com.wings2aspirations.genericleadcreation.repository.Constants;
+import com.wings2aspirations.genericleadcreation.repository.ListLeadCallback;
 import com.wings2aspirations.genericleadcreation.repository.ShowOptionSelectionDialog;
 import com.wings2aspirations.genericleadcreation.repository.ShowToast;
 
@@ -111,7 +112,7 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    public void getAuthString(int id, final ListLeadsActivity.ListLeadCallback listLeadCallback) {
+    public void getAuthString(int id, final ListLeadCallback listLeadCallback) {
         Call<AuthorisationToken> call = apiInterface.getAuthToken(id);
         call.enqueue(new Callback<AuthorisationToken>() {
             @Override
@@ -293,7 +294,7 @@ public class MainActivity extends AppCompatActivity
         ApiClient.setBaseUrl(getIntent().getStringExtra(EXTRA_BASE_URL));
         apiInterface = ApiClient.getClient().create(ApiInterface.class);
 
-        getAuthString(empId, new ListLeadsActivity.ListLeadCallback() {
+        getAuthString(empId, new ListLeadCallback() {
             @Override
             public void callback() {
                 getCityList();

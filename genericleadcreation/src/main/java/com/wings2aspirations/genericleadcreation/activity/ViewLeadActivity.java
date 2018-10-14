@@ -29,6 +29,7 @@ import com.wings2aspirations.genericleadcreation.models.State;
 import com.wings2aspirations.genericleadcreation.network.ApiClient;
 import com.wings2aspirations.genericleadcreation.network.ApiInterface;
 import com.wings2aspirations.genericleadcreation.repository.Constants;
+import com.wings2aspirations.genericleadcreation.repository.ListLeadCallback;
 import com.wings2aspirations.genericleadcreation.repository.ShowToast;
 
 import java.lang.reflect.Type;
@@ -113,8 +114,8 @@ public class ViewLeadActivity extends AppCompatActivity {
             finish();
             return;
         }
-
         String companyName = getIntent().getStringExtra(EXTRA_COMPANY_NAME);
+        Constants.setCompanyName(companyName);
         TextView companyNameTv = findViewById(R.id.company_name_tv);
         companyNameTv.setText(companyName);
 
@@ -211,7 +212,7 @@ public class ViewLeadActivity extends AppCompatActivity {
             fragment = LeadMeetingReportFragment.newInstance(true, empId, isAdmin, empNames, isOnlyForReport);
 
 
-            getAuthString(empId, new ListLeadsActivity.ListLeadCallback() {
+            getAuthString(empId, new ListLeadCallback() {
                 @Override
                 public void callback() {
                     if (fragment instanceof LeadMeetingReportFragment) {
@@ -250,7 +251,7 @@ public class ViewLeadActivity extends AppCompatActivity {
 
     }
 
-    public void getAuthString(int id, final ListLeadsActivity.ListLeadCallback listLeadCallback) {
+    public void getAuthString(int id, final ListLeadCallback listLeadCallback) {
         Call<AuthorisationToken> call = apiInterface.getAuthToken(id);
         call.enqueue(new Callback<AuthorisationToken>() {
             @Override

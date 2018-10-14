@@ -7,7 +7,6 @@ import android.preference.PreferenceManager;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.wings2aspirations.genericleadcreation.R;
-import com.wings2aspirations.genericleadcreation.activity.ListLeadsActivity;
 import com.wings2aspirations.genericleadcreation.activity.MainActivity;
 import com.wings2aspirations.genericleadcreation.repository.CalendarHelper;
 

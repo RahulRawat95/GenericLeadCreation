@@ -261,7 +261,7 @@ public class ListLeadsFragment extends Fragment implements ListLeadsAdapter.Prog
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_list_leads, container, false);
+        View view = inflater.inflate(R.layout.fragment_list_leads, container, false);
         cardRecyclerView = view.findViewById(R.id.card_recycler_view);
         tabRecyclerView = view.findViewById(R.id.tab_recycler_view);
         floatingActionButton = view.findViewById(R.id.fab);

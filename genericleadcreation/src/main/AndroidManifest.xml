@@ -30,14 +30,8 @@
             android:windowSoftInputMode="stateHidden|adjustResize"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.ListLeadsActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".activity.SettingsActivity"
             android:theme="@style/AppTheme.NoActionBar"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.TrailActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.MainActivity"
