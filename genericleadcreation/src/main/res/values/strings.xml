@@ -1,0 +1,98 @@
+<resources>
+    <string name="customer_name_label">Company Name</string>
+    <string name="contact_person_label">Contact Person</string>
+    <string name="designation_label">Designation</string>
+    <string name="email_address_label">Email</string>
+    <string name="mobile_no_label">Mobile No.</string>
+    <string name="address_label">Address</string>
+    <string name="pin_code_label">Pin Code</string>
+    <string name="customer_remarks_label">Customer Remarks</string>
+    <string name="lead_remarks_label">Lead Remarks</string>
+    <string name="next_follow_up_date_label">Next Follow Up Date</string>
+    <string name="date_of_birth_label">Date of Birth</string>
+    <string name="marriage_anniversary_label">Anniversary Date</string>
+    <string name="snooze_time_label">Remind Before</string>
+    <string name="next_follow_up_time_label">Next Follow Up Time</string>
+    <string name="call_type_label">Lead Type</string>
+    <string name="call_type_hot_label">Hot</string>
+    <string name="product_label">Products</string>
+    <string name="unit_label">Unit</string>
+    <string name="quantity_label">Quantity</string>
+    <string name="price_label">Price Per Unit (₹)</string>
+    <string name="total_price_label">Total Order Value (₹)</string>
+    <string name="city_label">City</string>
+    <string name="department_label">Department</string>
+    <string name="state_label">State</string>
+    <string name="call_type_cold_label">Cold</string>
+    <string name="call_type_warm_label">Warm</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="business_card_label">Business Card</string>
+    <string name="save_label">Save</string>
+    <string name="specify_base_url_message">Please Specify Base Url</string>
+    <string name="delete_lead_message">Are you sure you want to Delete Message?</string>
+    <string name="select_call_type_error">Please Select Call Type</string>
+    <string name="select_product_error">Please Select Product</string>
+    <string name="date">Date</string>
+    <string name="time">Time</string>
+    <string name="lead_create_status">Create Status</string>
+    <string name="lead_create_product">Create Product</string>
+    <string name="lead_report_label">Lead Report</string>
+    <string name="meeting_report_label">Meeting Report</string>
+    <string name="meeting_scheduler">Meeting Scheduler</string>
+    <string name="product_name_label">Product Name</string>
+    <string name="add_single_name_label">Enter required detail</string>
+    <string name="product_unit_label">Unit</string>
+    <string name="product_price_label">Price</string>
+    <string name="product_detail_label">Product Details</string>
+    <string name="product_add">Add Product</string>
+    <string name="add">Add</string>
+
+    <string name="event_title">Event Title</string>
+    <string name="event_description">Event Description</string>
+    <string name="event_location">Event Location</string>
+    <string name="event_email">Email</string>
+
+
+    <string name="title_activity_settings">Settings</string>
+
+    <string-array name="snooze_time_entries">
+        <item>Week</item>
+        <item>Day</item>
+        <item>Hour</item>
+        <item>Minute</item>
+        <item>Second</item>
+    </string-array>
+
+    <string-array name="demo_event_entries">
+        <item>Yes</item>
+        <item>No</item>
+        <item>NA</item>
+    </string-array>
+
+    <string-array name="select_demo_event_entries">
+        <item>Select</item>
+        <item>Yes</item>
+        <item>No</item>
+        <item>NA</item>
+    </string-array>
+
+    <string-array name="select_existing_customer_entries">
+        <item>Select</item>
+        <item>Existing</item>
+        <item>Fresh</item>
+    </string-array>
+
+    <string name="key_remind_at_time">remind_at_time</string>
+    <string name="summary_remind_at_time">Puts your Lead Follow Ups in your Calendar A day before at time specified</string>
+    <string name="title_remind_at_time">Remind At</string>
+    <string name="default_value_remind_at_time">6</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="view_pager_bottom_sheet_behavior" translatable="false">com.wings2aspirations.genericleadcreation.repository.ViewPagerBottomSheetBehavior</string>
+</resources>
