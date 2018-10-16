@@ -4,6 +4,7 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:paddingTop="@dimen/label_padding_default"
+    android:paddingLeft="5dp"
     android:paddingBottom="@dimen/label_padding_default">
 
 
