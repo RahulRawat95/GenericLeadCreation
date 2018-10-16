@@ -14,6 +14,12 @@ public class MainActivity extends AppCompatActivity {
     AlertDialog optionAlertDialog;
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        optionAlertDialog.show();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -31,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = com.wings2aspirations.genericleadcreation.activity.MainActivity.getListLeadsIntent(MainActivity.this, "http://13.126.198.143:10004/",
                         "attendanceAppDB", "Loki3142", BuildConfig.APPLICATION_ID, 1, "lokeshmudgal06@gmail.com", strings, "Company Name");
                 startActivity(intent);
-                finish();
+                //finish();
             }
         });
         optionAlertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "By Employee", new DialogInterface.OnClickListener() {
@@ -40,11 +46,10 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = com.wings2aspirations.genericleadcreation.activity.MainActivity.getListLeadsIntent(MainActivity.this, "http://13.126.198.143:10004/",
                         "attendanceAppDB", "Loki3142", BuildConfig.APPLICATION_ID, 4, "lokeshmudgal06@gmail.com", "Lokesh", "Company Name");
                 startActivity(intent);
-                finish();
+                //finish();
             }
         });
 
-        optionAlertDialog.show();
 
     }
 }

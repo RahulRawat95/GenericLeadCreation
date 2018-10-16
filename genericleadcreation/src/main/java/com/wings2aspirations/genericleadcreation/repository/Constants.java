@@ -15,6 +15,8 @@ import com.wings2aspirations.genericleadcreation.models.ProductListModel;
 import com.wings2aspirations.genericleadcreation.models.State;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 
 public class Constants {
@@ -77,8 +79,18 @@ public class Constants {
     public static void setExistingCustomers(ArrayList<ExistingCustomer> existingCustomers) {
         if (Constants.existingCustomers == null)
             Constants.existingCustomers = existingCustomers;
-        else
-            Constants.existingCustomers.addAll(existingCustomers);
+        else {
+            HashSet<String> set = new HashSet<>();
+            for (ExistingCustomer existingCustomer : Constants.existingCustomers) {
+                set.add(existingCustomer.toString());
+            }
+            for (ExistingCustomer existingCustomer : existingCustomers) {
+                if (!set.contains(existingCustomer.toString())) {
+                    Constants.existingCustomers.add(existingCustomer);
+                }
+            }
+
+        }
     }
 
     public static void setStatuses(ArrayList<ItemModel> statuses) {
