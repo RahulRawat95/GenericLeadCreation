@@ -790,7 +790,7 @@ public class ListLeadsFragment extends Fragment implements ListLeadsAdapter.Prog
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_share, menu);
-        menu.findItem(R.id.menu_share).setTitle(isAdmin ? "Share" : "Add New Lead");
+        menu.findItem(R.id.menu_share).setTitle(isAdmin ? "Share Report" : "Add New Lead");
         super.onCreateOptionsMenu(menu, inflater);
     }
 
