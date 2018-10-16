@@ -1443,7 +1443,7 @@ public class AddUpdateLeadActivity extends AppCompatActivity implements //OnMapR
         quantityEt.setError(null);
         priceEt.setError(null);
 
-        if (TextUtils.isEmpty(customerNameEt.getText())) {
+        if (TextUtils.isEmpty(customerNameEt.getText().toString().trim())) {
             customerNameEt.setError("Required");
             return false;
         }
@@ -1532,7 +1532,7 @@ public class AddUpdateLeadActivity extends AppCompatActivity implements //OnMapR
     }
 
     private boolean isEmpty(TextInputEditText textInputEditText) {
-        boolean isEmpty = TextUtils.isEmpty(textInputEditText.getText());
+        boolean isEmpty = TextUtils.isEmpty(textInputEditText.getText().toString().trim());
         if (isEmpty) {
             focusView(textInputEditText);
         }
@@ -1544,7 +1544,7 @@ public class AddUpdateLeadActivity extends AppCompatActivity implements //OnMapR
     }
 
     private boolean doesNotNeedSaving() {
-        return TextUtils.isEmpty(customerNameEt.getText()) &&
+        return TextUtils.isEmpty(customerNameEt.getText().toString().trim()) &&
                 isEmpty(designationEt) &&
                 isEmpty(contactPersonEt) &&
                 isEmpty(emailAddressEt) &&
