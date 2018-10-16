@@ -1,0 +1,872 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/included_layout"
+        layout="@layout/real_toolbar" />
+
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/nested_scroll_view_nsv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/included_layout"
+        android:padding="@dimen/padding_default">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="right"
+            android:orientation="vertical"
+            android:padding="@dimen/padding_default">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:paddingRight="@dimen/edit_text_padding_top"
+                    android:src="@drawable/domain" />
+
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="@dimen/text_input_bottom_margin"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/customer_name_et"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:hint="@string/customer_name_label"
+                        android:inputType="textMultiLine|textCapWords"
+                        android:maxLength="100"
+                        android:maxLines="6"
+                        android:minHeight="@dimen/edit_text_height"
+                        android:paddingLeft="5dp"
+                        android:paddingTop="@dimen/edit_text_padding_top"
+                        android:textSize="@dimen/text_size" />
+                </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:paddingRight="@dimen/edit_text_padding_top"
+                    android:src="@drawable/account" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="@dimen/text_input_bottom_margin"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/contact_person_et"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:hint="@string/contact_person_label"
+                        android:inputType="textMultiLine|textCapWords"
+                        android:maxLength="50"
+                        android:maxLines="6"
+                        android:minHeight="@dimen/edit_text_height"
+                        android:paddingLeft="5dp"
+                        android:paddingTop="@dimen/edit_text_padding_top"
+                        android:textSize="@dimen/text_size" />
+                </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:paddingRight="@dimen/edit_text_padding_top"
+                    android:src="@drawable/account" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="@dimen/text_input_bottom_margin"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/designation_et"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:hint="@string/designation_label"
+                        android:inputType="textMultiLine|textCapWords"
+                        android:maxLength="50"
+                        android:maxLines="6"
+                        android:minHeight="@dimen/edit_text_height"
+                        android:paddingLeft="5dp"
+                        android:paddingTop="@dimen/edit_text_padding_top"
+                        android:textSize="@dimen/text_size" />
+                </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:paddingRight="@dimen/edit_text_padding_top"
+                    android:src="@drawable/email" />
+
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="@dimen/text_input_bottom_margin"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/email_address_et"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:hint="@string/email_address_label"
+                        android:inputType="textMultiLine|textEmailAddress"
+                        android:maxLength="60"
+                        android:maxLines="6"
+                        android:minHeight="@dimen/edit_text_height"
+                        android:paddingLeft="5dp"
+                        android:textSize="@dimen/text_size" />
+                </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:paddingRight="@dimen/edit_text_padding_top"
+                    android:src="@drawable/cellphone" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/text_input_bottom_margin"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/mobile_no_et"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/edit_text_height"
+                        android:digits="0123456789"
+                        android:gravity="center_vertical"
+                        android:hint="@string/mobile_no_label"
+                        android:inputType="phone"
+                        android:maxLength="10"
+                        android:paddingLeft="5dp"
+                        android:paddingTop="@dimen/edit_text_padding_top"
+                        android:textSize="@dimen/text_size" />
+                </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:paddingRight="@dimen/edit_text_padding_top"
+                    android:src="@drawable/map_marker" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/text_input_bottom_margin"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/address_et"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:hint="@string/address_label"
+                        android:inputType="textMultiLine"
+                        android:maxLength="200"
+                        android:maxLines="6"
+                        android:minHeight="@dimen/edit_text_height"
+                        android:paddingLeft="5dp"
+                        android:paddingTop="@dimen/edit_text_padding_top"
+                        android:textSize="@dimen/text_size" />
+                </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:paddingRight="@dimen/edit_text_padding_top"
+                    android:src="@drawable/textbox_password" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/text_input_bottom_margin"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/pin_code_et"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/edit_text_height"
+                        android:gravity="center_vertical"
+                        android:hint="@string/pin_code_label"
+                        android:inputType="number"
+                        android:maxLength="6"
+                        android:paddingLeft="5dp"
+                        android:paddingTop="@dimen/edit_text_padding_top"
+                        android:textSize="@dimen/text_size" />
+                </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:paddingRight="@dimen/edit_text_padding_top"
+                    android:src="@drawable/comment" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/text_input_bottom_margin"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/customer_remarks_et"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:hint="@string/customer_remarks_label"
+                        android:inputType="textMultiLine"
+                        android:maxLength="200"
+                        android:maxLines="6"
+                        android:minHeight="@dimen/edit_text_height"
+                        android:paddingLeft="5dp"
+                        android:paddingTop="@dimen/edit_text_padding_top"
+                        android:textSize="@dimen/text_size" />
+                </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/text_input_bottom_margin"
+                android:layout_marginBottom="@dimen/text_input_bottom_margin"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:paddingRight="@dimen/edit_text_padding_top"
+                    android:src="@drawable/comment" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:textSize="11sp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/text_input_bottom_margin"
+                        android:text="Demo :"
+                        android:textStyle="bold" />
+
+                    <Spinner
+                        android:id="@+id/demo_event_sp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:drawSelectorOnTop="true"
+                        android:entries="@array/demo_event_entries" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:paddingRight="@dimen/edit_text_padding_top"
+                    android:src="@drawable/comment_text" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/text_input_bottom_margin"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/lead_remarks_et"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:hint="@string/lead_remarks_label"
+                        android:inputType="textMultiLine"
+                        android:maxLength="200"
+                        android:maxLines="6"
+                        android:minHeight="@dimen/edit_text_height"
+                        android:paddingLeft="5dp"
+                        android:paddingTop="@dimen/edit_text_padding_top"
+                        android:textSize="@dimen/text_size" />
+                </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Next Follow Up :" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/text_input_bottom_margin"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:paddingRight="@dimen/edit_text_padding_top"
+                    android:src="@drawable/calendar" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/next_follow_up_date_et"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/edit_text_height"
+                        android:focusable="false"
+                        android:gravity="center_vertical"
+                        android:inputType="none"
+                        android:padding="@dimen/edit_text_padding_top" />
+                </android.support.design.widget.TextInputLayout>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:paddingLeft="@dimen/edit_text_padding_top"
+                    android:paddingRight="@dimen/edit_text_padding_top"
+                    android:src="@drawable/clock" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/next_follow_up_time_et"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/edit_text_height"
+                        android:focusable="false"
+                        android:gravity="center_vertical"
+                        android:inputType="none"
+                        android:padding="@dimen/edit_text_padding_top" />
+                </android.support.design.widget.TextInputLayout>
+
+            </LinearLayout>
+
+            <!--<LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/text_input_bottom_margin"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:paddingRight="@dimen/edit_text_padding_top"
+                    android:src="@drawable/calendar" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/date_of_birth_et"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/edit_text_height"
+                        android:focusable="false"
+                        android:gravity="center_vertical"
+                        android:hint="@string/date_of_birth_label"
+                        android:inputType="none"
+                        android:paddingTop="@dimen/edit_text_padding_top" />
+                </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/text_input_bottom_margin"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:paddingRight="@dimen/edit_text_padding_top"
+                    android:src="@drawable/calendar" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/marriage_aniv_et"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/edit_text_height"
+                        android:focusable="false"
+                        android:gravity="center_vertical"
+                        android:hint="@string/marriage_anniversary_label"
+                        android:inputType="none"
+                        android:paddingTop="@dimen/edit_text_padding_top" />
+                </android.support.design.widget.TextInputLayout>
+
+            </LinearLayout>-->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/text_input_bottom_margin"
+                android:layout_marginBottom="@dimen/text_input_bottom_margin"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:paddingRight="@dimen/edit_text_padding_top"
+                    android:src="@drawable/ic_snooze" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/snooze_time_et"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:hint="@string/snooze_time_label"
+                        android:inputType="number"
+                        android:maxLength="4"
+                        android:padding="5dp"
+                        android:text="4"
+                        android:textSize="@dimen/text_size" />
+                </android.support.design.widget.TextInputLayout>
+
+                <Spinner
+                    android:id="@+id/snooze_time_sp"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="1"
+                    android:drawSelectorOnTop="true"
+                    android:entries="@array/snooze_time_entries" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/text_input_margin_top"
+                android:layout_marginBottom="@dimen/text_input_bottom_margin"
+                android:orientation="vertical">
+
+                <!--<ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:paddingRight="@dimen/edit_text_padding_top"
+                    android:src="@drawable/type" />-->
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="@dimen/edit_text_right_margin"
+                    android:gravity="center_vertical"
+                    android:text="@string/call_type_label" />
+
+                <TextView
+                    android:id="@+id/lead_status_sp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/edit_text_style"
+                    android:gravity="center_vertical"
+                    android:padding="10dp"
+                    android:textColor="@android:color/black" />
+
+                <!--<RadioGroup
+                    android:id="@+id/call_type_rg"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/call_type_hot_rb"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/call_type_hot_label" />
+
+                    <RadioButton
+                        android:id="@+id/call_type_cold_rb"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/call_type_cold_label" />
+
+                    <RadioButton
+                        android:id="@+id/call_type_warm_rb"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/call_type_warm_label" />
+
+                </RadioGroup>-->
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/text_input_margin_top"
+                android:layout_marginBottom="@dimen/text_input_bottom_margin"
+                android:orientation="vertical">
+
+                <!--   <ImageView
+                       android:layout_width="wrap_content"
+                       android:layout_height="match_parent"
+                       android:layout_gravity="center_vertical"
+                       android:paddingRight="@dimen/edit_text_padding_top"
+                       android:src="@drawable/type" />-->
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="@dimen/edit_text_right_margin"
+                    android:gravity="center_vertical"
+                    android:text="@string/product_label" />
+
+                <TextView
+                    android:id="@+id/product_sp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/edit_text_style"
+                    android:gravity="center_vertical"
+                    android:padding="10dp"
+                    android:textColor="@android:color/black" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/text_input_margin_top"
+                android:layout_marginBottom="@dimen/text_input_bottom_margin"
+                android:orientation="vertical">
+
+                <!--   <ImageView
+                       android:layout_width="wrap_content"
+                       android:layout_height="match_parent"
+                       android:layout_gravity="center_vertical"
+                       android:paddingRight="@dimen/edit_text_padding_top"
+                       android:src="@drawable/type" />-->
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="@dimen/edit_text_right_margin"
+                    android:gravity="center_vertical"
+                    android:text="@string/unit_label" />
+
+                <TextView
+                    android:id="@+id/unit_sp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/edit_text_style"
+                    android:gravity="center_vertical"
+                    android:padding="10dp"
+                    android:textColor="@android:color/black" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/text_input_margin_top"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="@dimen/text_input_bottom_margin"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/edit_text_right_margin"
+                        android:gravity="center_vertical"
+                        android:text="@string/quantity_label" />
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/quantity_et"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/edit_text_style"
+                        android:gravity="center_vertical"
+                        android:inputType="numberDecimal"
+                        android:padding="10dp"
+                        android:textColor="@android:color/black" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="@dimen/text_input_margin_top"
+                    android:layout_marginBottom="@dimen/text_input_bottom_margin"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/edit_text_right_margin"
+                        android:gravity="center_vertical"
+                        android:text="@string/price_label" />
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/price_et"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/edit_text_style"
+                        android:drawablePadding="5dp"
+                        android:gravity="center_vertical"
+                        android:inputType="numberDecimal"
+                        android:padding="10dp"
+                        android:textColor="@android:color/black" />
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/text_input_margin_top"
+                android:layout_marginBottom="@dimen/text_input_bottom_margin"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/edit_text_right_margin"
+                    android:gravity="center_vertical"
+                    android:text="@string/total_price_label" />
+
+                <TextView
+                    android:id="@+id/total_price_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/generic_lead_disable_field_back"
+                    android:drawablePadding="5dp"
+                    android:gravity="center_vertical"
+                    android:inputType="numberDecimal"
+                    android:padding="10dp"
+                    android:textColor="@android:color/black" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/text_input_margin_top"
+                android:layout_marginBottom="@dimen/text_input_bottom_margin"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="@dimen/edit_text_right_margin"
+                    android:gravity="center_vertical"
+                    android:text="@string/state_label" />
+
+                <TextView
+                    android:id="@+id/state_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/edit_text_style"
+                    android:gravity="center_vertical"
+                    android:padding="10dp"
+                    android:textColor="@android:color/black" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/text_input_margin_top"
+                android:layout_marginBottom="@dimen/text_input_bottom_margin"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="@dimen/edit_text_right_margin"
+                    android:gravity="center_vertical"
+                    android:text="@string/city_label" />
+
+                <TextView
+                    android:id="@+id/city_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/edit_text_style"
+                    android:gravity="center_vertical"
+                    android:padding="10dp"
+                    android:textColor="@android:color/black" />
+
+            </LinearLayout>
+
+            <!--<fragment xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/map"
+                android:name="com.wings2aspirations.genericleadcreation.fragment.CustomMapFragment"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/map_height"
+                android:layout_marginBottom="@dimen/text_input_bottom_margin"
+
+                tools:context=".activity.AddUpdateLeadFragment" />-->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/camera_bt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/text_input_bottom_margin"
+                    android:layout_marginRight="@dimen/text_input_margin_top"
+                    android:src="@android:drawable/ic_menu_camera" />
+
+                <TextView
+                    android:id="@+id/file_name_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="No File Chosen..."
+                    android:textSize="@dimen/text_size" />
+
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/save_bt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@android:color/black"
+                android:gravity="right"
+                android:paddingLeft="20dp"
+                android:paddingTop="10dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="10dp"
+                android:text="Submit"
+                android:textColor="@android:color/white"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+    <include layout="@layout/progress_background" />
+</RelativeLayout>
