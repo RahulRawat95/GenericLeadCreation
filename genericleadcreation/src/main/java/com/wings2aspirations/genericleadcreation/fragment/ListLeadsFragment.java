@@ -1,5 +1,6 @@
 package com.wings2aspirations.genericleadcreation.fragment;
 
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -7,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AlertDialog;
@@ -43,6 +45,7 @@ import com.wings2aspirations.genericleadcreation.models.LeadDetail;
 import com.wings2aspirations.genericleadcreation.network.ApiClient;
 import com.wings2aspirations.genericleadcreation.network.ApiInterface;
 import com.wings2aspirations.genericleadcreation.repository.CalendarHelper;
+import com.wings2aspirations.genericleadcreation.repository.Constants;
 import com.wings2aspirations.genericleadcreation.repository.ExcelCreator;
 import com.wings2aspirations.genericleadcreation.repository.ShowToast;
 import com.wings2aspirations.genericleadcreation.repository.Utility;
@@ -51,6 +54,7 @@ import java.lang.reflect.Type;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Timer;
@@ -67,6 +71,7 @@ import static com.wings2aspirations.genericleadcreation.activity.AddUpdateLeadAc
 
 public class ListLeadsFragment extends Fragment implements ListLeadsAdapter.ProgressCallback {
     public static final int REQUEST_CODE_ADD_LEAD_ACTIVITY = 24;
+    private static final int CALL_FROM_FILE_REQUEST = 2;
 
     public static final String EXTRA_BASE_URL = "baseUrlForRetrofit";
     public static final String EXTRA_EMP_NAMES = "employeeNames";
@@ -656,45 +661,76 @@ public class ListLeadsFragment extends Fragment implements ListLeadsAdapter.Prog
 
     }
 
+    private boolean checkForFileCapturePermissions() {
+        if (!Constants.isPermissionGranted(Manifest.permission.READ_EXTERNAL_STORAGE, getActivity()) ||
+                !Constants.isPermissionGranted(Manifest.permission.WRITE_EXTERNAL_STORAGE, getActivity()))
+            return true;
+        return false;
+    }
+
+    public void requestPermission(int request, String... permissions) {
+        requestPermissions(permissions, request);
+    }
+
+    private boolean toSendMailExcelFile;
+
     private void callExcelCreator(final boolean isSendExcelFileByMail) {
+        toSendMailExcelFile = isSendExcelFileByMail;
+        if (!checkForFileCapturePermissions()) {
 
+            final String[][] columnRowData = new String[details.size() + 1][];
+            columnRowData[0] = new String[]{
+                    "EMP NAME",
+                    "COMPANY NAME",
+                    "CONTACT PERSON",
+                    "DESIGNATION",
+                    "EMAIL",
+                    "MOBILE NO",
+                    "ADDRESS",
+                    "PIN CODE",
+                    "CUSTOMER REMARKS",
+                    "DEMO",
+                    "LEAD REMARKS",
+                    "NEXT FOLLOW UP DATE",
+                    "NEXT FOLLOW UP TIME",
+                    "LEAD TYPE",
+                    "PRODUCT",
+                    "UNIT",
+                    "QUANTITY",
+                    "PRICE PER UNIT",
+                    "TOTAL ORDER VALUE",
+                    "STATE",
+                    "CITY",
+                    "CREATION DATE",
+                    "CUSTOMER TYPE"};
 
-        final String[][] columnRowData = new String[details.size() + 1][];
-        columnRowData[0] = new String[]{
-                "COMPANY NAME",
-                "CONTACT PERSON",
-                "EMAIL",
-                "MOBILE NO",
-                "ADDRESS",
-                "PIN CODE",
-                "CUSTOMER REMARKS",
-                "LEAD REMARKS",
-                "NEXT FOLLOW UP DATE",
-                "NEXT FOLLOW UP TIME",
-                "CALL TYPE",
-                "EMP NAME",
-                "DATE",
-                "CUSTOMER TYPE",
-                "DEMO"};
-
-        for (int i = 0; i < details.size(); i++) {
-            columnRowData[i + 1] = details.get(i).getColumnData();
-        }
-
-        final String fileName = ApiClient.getSchemaName() + ApiClient.getDbName() + System.currentTimeMillis();
-
-        showProgress();
-        ExcelCreator.createExcel(columnRowData, fileName, getActivity(), isSendExcelFileByMail, new ExcelCreator.ExcelCallBack() {
-            @Override
-            public void excelCreated(boolean hasExcelBeenCreated, String filePath) {
-                hideProgress();
-                if (hasExcelBeenCreated && !isSendExcelFileByMail)
-                    Utility.globalMessageDialog(getActivity(), "File Stored At : \n" + filePath);
-
-                if (hasExcelBeenCreated && isSendExcelFileByMail)
-                    ShowToast.showToast(getActivity(), "File Stored At : \n" + filePath);
+            for (int i = 0; i < details.size(); i++) {
+                columnRowData[i + 1] = details.get(i).getColumnData();
             }
-        });
+
+            final String fileName;
+            if (Constants.getCompanyName().length() > 5)
+                fileName = Constants.getCompanyName().substring(0, 5) +
+                        Constants.simpleDateFormat.format(new Date());
+            else
+                fileName = Constants.getCompanyName() +
+                        Constants.simpleDateFormat.format(new Date());
+
+            showProgress();
+            ExcelCreator.createExcel(columnRowData, fileName, getActivity(), isSendExcelFileByMail, new ExcelCreator.ExcelCallBack() {
+                @Override
+                public void excelCreated(boolean hasExcelBeenCreated, String filePath) {
+                    hideProgress();
+                    if (hasExcelBeenCreated && !isSendExcelFileByMail)
+                        Utility.globalMessageDialog(getActivity(), "File Stored At : \n" + filePath);
+
+                    if (hasExcelBeenCreated && isSendExcelFileByMail)
+                        ShowToast.showToast(getActivity(), "File Stored At : \n" + filePath);
+                }
+            });
+        } else {
+            requestPermission(CALL_FROM_FILE_REQUEST, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE);
+        }
 
     }
 
@@ -766,6 +802,13 @@ public class ListLeadsFragment extends Fragment implements ListLeadsAdapter.Prog
                 else {
                     ShowToast.showToast(getActivity(), "The Leads will not be added to your Calendar");
                 }
+                break;
+            case CALL_FROM_FILE_REQUEST:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED)
+                    callExcelCreator(toSendMailExcelFile);
+                else
+                    ShowToast.showToast(getActivity(), "Permission required to create excel file");
+
                 break;
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);

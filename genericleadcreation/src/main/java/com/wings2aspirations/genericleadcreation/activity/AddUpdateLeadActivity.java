@@ -260,28 +260,8 @@ public class AddUpdateLeadActivity extends AppCompatActivity implements //OnMapR
         customerRemarksEt.setFilters(maxLength200);
         leadRemarksEt.setFilters(maxLength200);
 
-        customerNameEt.setAdapter(new ArrayAdapter<ExistingCustomer>(this, android.R.layout.simple_expandable_list_item_1, Constants.getExistingCustomers()));
 
-        customerNameEt.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                existingCustomer = "Yes";
-                ExistingCustomer existingCustomer = (ExistingCustomer) parent.getItemAtPosition(position);
-                customerNameEt.setText(existingCustomer.getCOMPANYNAME());
-                designationEt.setText(existingCustomer.getDESIGNATIONVC());
-                contactPersonEt.setText(existingCustomer.getCONTACTPERSON());
-                emailAddressEt.setText(existingCustomer.getEMAIL());
-                addressEt.setText(existingCustomer.getADDRESS());
-                mobileNoEt.setText(existingCustomer.getMOBILENO());
-                pinCodeEt.setText(existingCustomer.getPINCODE());
 
-                cityTv.setText(existingCustomer.getCityNameVc());
-                cityTv.setTag(existingCustomer.getCITYID());
-
-                stateTv.setText(existingCustomer.getStateNameVc());
-                stateTv.setTag(existingCustomer.getSTATEID());
-            }
-        });
 
         nextFollowUpDateEt = (TextInputEditText) findViewById(R.id.next_follow_up_date_et);
         nextFollowUpTimeEt = (TextInputEditText) findViewById(R.id.next_follow_up_time_et);
@@ -881,6 +861,33 @@ public class AddUpdateLeadActivity extends AppCompatActivity implements //OnMapR
                     }
                 });
             }
+        }
+
+
+
+        if (!isAdmin) {
+            customerNameEt.setAdapter(new ArrayAdapter<ExistingCustomer>(this, android.R.layout.simple_expandable_list_item_1, Constants.getExistingCustomers()));
+
+            customerNameEt.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    existingCustomer = "Yes";
+                    ExistingCustomer existingCustomer = (ExistingCustomer) parent.getItemAtPosition(position);
+                    customerNameEt.setText(existingCustomer.getCOMPANYNAME());
+                    designationEt.setText(existingCustomer.getDESIGNATIONVC());
+                    contactPersonEt.setText(existingCustomer.getCONTACTPERSON());
+                    emailAddressEt.setText(existingCustomer.getEMAIL());
+                    addressEt.setText(existingCustomer.getADDRESS());
+                    mobileNoEt.setText(existingCustomer.getMOBILENO());
+                    pinCodeEt.setText(existingCustomer.getPINCODE());
+
+                    cityTv.setText(existingCustomer.getCityNameVc());
+                    cityTv.setTag(existingCustomer.getCITYID());
+
+                    stateTv.setText(existingCustomer.getStateNameVc());
+                    stateTv.setTag(existingCustomer.getSTATEID());
+                }
+            });
         }
 
         nestedScrollView = findViewById(R.id.nested_scroll_view_nsv);

@@ -1,11 +1,14 @@
 package com.wings2aspirations.genericleadcreation.repository;
 
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
+import android.support.v4.content.ContextCompat;
 
 import com.google.gson.JsonObject;
 import com.wings2aspirations.genericleadcreation.models.City;
@@ -14,6 +17,7 @@ import com.wings2aspirations.genericleadcreation.models.ItemModel;
 import com.wings2aspirations.genericleadcreation.models.ProductListModel;
 import com.wings2aspirations.genericleadcreation.models.State;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -26,6 +30,7 @@ public class Constants {
     private static ArrayList<ItemModel> statuses;
     private static ArrayList<ExistingCustomer> existingCustomers;
     private static String companyName;
+    public static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMM dd, yyyy HH:mm:ss");
 
     public static String getCompanyName() {
         return companyName;
@@ -110,5 +115,13 @@ public class Constants {
         Canvas canvas = new Canvas(image);
         canvas.drawText(symbol, 0, baseline, paint);
         return new BitmapDrawable(context.getResources(), image);
+    }
+
+
+    public static boolean isPermissionGranted(String permission, Context context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+            return ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED;
+        else
+            return true;
     }
 }

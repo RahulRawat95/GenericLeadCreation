@@ -354,21 +354,30 @@ public class LeadDetail implements CalendarHelper.CalendarInstance {
     }
 
     public String[] getColumnData() {
-        String[] columnData = new String[]{COMPANY_NAME,
+        String[] columnData = new String[]{
+                EMP_NAME,
+                COMPANY_NAME,
                 CONTACT_PERSON,
+                designation,
                 EMAIL,
                 MOBILE_NO,
                 ADDRESS,
                 PIN_CODE,
                 CUSTOMER_REMARKS,
+                demoVc,
                 LEAD_REMARKS,
                 NEXT_FOLLOW_UP_DATE,
                 NEXT_FOLLOW_UP_TIME,
                 CALL_TYPE,
-                EMP_NAME,
+                PRODUCT_NAME_VC,
+                UNIT_VC,
+                String.format("%.2f",quantity),
+                String.format("%.2f",price),
+                String.format("%.2f", quantity*price),
+                STATE_NAME_VC,
+                CITY_NAME_VC,
                 DATE_VC,
-                existingVc.equalsIgnoreCase("Yes") ? "EXISTING" : "FRESH",
-                demoVc};
+                existingVc.equalsIgnoreCase("Yes") ? "EXISTING" : "FRESH"};
         return columnData;
     }
 
