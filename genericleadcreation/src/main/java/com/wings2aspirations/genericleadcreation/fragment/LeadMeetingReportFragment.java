@@ -599,10 +599,10 @@ public class LeadMeetingReportFragment extends Fragment implements LeadMeetRepor
 
         final String fileName;
         if (Constants.getCompanyName().length() > 5)
-            fileName = Constants.getCompanyName().substring(0, 5) +
+            fileName = Constants.getCompanyName().substring(0, 5) +(isLeadReport?" Lead Report":" Meeting Report")+
                     Constants.simpleDateFormat.format(new Date());
         else
-            fileName = Constants.getCompanyName() +
+            fileName = Constants.getCompanyName() + (isLeadReport?" Lead Report ":" Meeting Report") +
                     Constants.simpleDateFormat.format(new Date());
 
         showProgress();
