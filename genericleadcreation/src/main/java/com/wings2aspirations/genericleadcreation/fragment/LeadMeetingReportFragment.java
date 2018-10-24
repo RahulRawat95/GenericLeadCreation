@@ -569,27 +569,41 @@ public class LeadMeetingReportFragment extends Fragment implements LeadMeetRepor
 
         final String[][] columnRowData = new String[details.size() + 1][];
         columnRowData[0] = new String[]{
+                "EMP NAME",
                 "COMPANY NAME",
                 "CONTACT PERSON",
+                "DESIGNATION",
                 "EMAIL",
                 "MOBILE NO",
                 "ADDRESS",
                 "PIN CODE",
                 "CUSTOMER REMARKS",
+                "DEMO",
                 "LEAD REMARKS",
                 "NEXT FOLLOW UP DATE",
                 "NEXT FOLLOW UP TIME",
-                "CALL TYPE",
-                "EMP NAME",
-                "DATE",
-                "CUSTOMER TYPE",
-                "DEMO"};
+                "LEAD TYPE",
+                "PRODUCT",
+                "UNIT",
+                "QUANTITY",
+                "PRICE PER UNIT",
+                "TOTAL ORDER VALUE",
+                "STATE",
+                "CITY",
+                "CREATION DATE",
+                "CUSTOMER TYPE"};
 
         for (int i = 0; i < details.size(); i++) {
             columnRowData[i + 1] = details.get(i).getColumnData();
         }
 
-        final String fileName = ApiClient.getSchemaName() + ApiClient.getDbName() + System.currentTimeMillis();
+        final String fileName;
+        if (Constants.getCompanyName().length() > 5)
+            fileName = Constants.getCompanyName().substring(0, 5) +
+                    Constants.simpleDateFormat.format(new Date());
+        else
+            fileName = Constants.getCompanyName() +
+                    Constants.simpleDateFormat.format(new Date());
 
         showProgress();
         ExcelCreator.createExcel(columnRowData, fileName, getActivity(), isSendExcelFileByMail, new ExcelCreator.ExcelCallBack() {
