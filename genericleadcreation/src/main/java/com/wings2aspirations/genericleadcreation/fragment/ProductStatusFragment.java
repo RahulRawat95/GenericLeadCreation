@@ -274,8 +274,10 @@ public class ProductStatusFragment extends Fragment implements View.OnClickListe
 
                             getProductList(false);
                         } else
-                            unitOptionItemAdapter.setItemList(itemModelsListUnits);
-
+                            try {
+                                unitOptionItemAdapter.setItemList(itemModelsListUnits);
+                            } catch (Exception e) {
+                            }
                     }
                 } else {
                     ShowToast.showToast(getActivity(), "Failed to get Products");
@@ -585,7 +587,7 @@ public class ProductStatusFragment extends Fragment implements View.OnClickListe
                 });
                 break;
             case TYPE_DEPARTMENT:
-                fab_add_item.setVisibility(View.GONE);
+                fab_add_item.hide();
                 break;
         }
         builder.setView(optionListView);
@@ -605,6 +607,8 @@ public class ProductStatusFragment extends Fragment implements View.OnClickListe
                 showOptionUniListDialog.dismiss();
             }
         });
+        if (itemModelsListUnits != null)
+            unitOptionItemAdapter.setItemList(itemModelsListUnits);
 
 
         /*search_option_item.addTextChangedListener(new TextWatcher() {
