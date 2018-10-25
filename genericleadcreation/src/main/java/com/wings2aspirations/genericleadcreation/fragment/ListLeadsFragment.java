@@ -300,11 +300,9 @@ public class ListLeadsFragment extends Fragment implements ListLeadsAdapter.Prog
             }
         }
 
-        if (showAddButton)
-            //floatingActionButton.setVisibility(View.VISIBLE);
-            floatingActionButton.setVisibility(View.INVISIBLE);
-        else
-            floatingActionButton.setVisibility(View.GONE);
+
+        floatingActionButton.hide();
+
         getLeadsList();
         cardAdapter = new ListLeadsAdapter(getActivity(), new ArrayList<LeadDetail>(), ListLeadsFragment.this, isAdmin, new ListLeadsAdapter.LeadOnClickCallBack() {
             @Override
@@ -702,10 +700,18 @@ public class ListLeadsFragment extends Fragment implements ListLeadsAdapter.Prog
                     "STATE",
                     "CITY",
                     "CREATION DATE",
-                    "CUSTOMER TYPE"};
+                    "CUSTOMER TYPE",
+                    "DISTANCE"};
 
             for (int i = 0; i < details.size(); i++) {
-                columnRowData[i + 1] = details.get(i).getColumnData();
+                if (i != 0){
+                    if (details.get(i - 1).getDATE_VC().trim().equalsIgnoreCase(details.get(i).getDATE_VC().trim())){
+                        columnRowData[i + 1] = details.get(i).getColumnData(Double.parseDouble(details.get(i-1).getLATITUDE()), Double.parseDouble(details.get(i-1).getLONGITUDE()));
+                    }else {
+                        columnRowData[i + 1] = details.get(i).getColumnData(0, 0);
+                    }
+                }else
+                    columnRowData[i + 1] = details.get(i).getColumnData(0, 0);
             }
 
             final String fileName;
@@ -717,7 +723,7 @@ public class ListLeadsFragment extends Fragment implements ListLeadsAdapter.Prog
                         Constants.simpleDateFormat.format(new Date());
 
             showProgress();
-            ExcelCreator.createExcel(columnRowData, fileName, getActivity(), isSendExcelFileByMail, new ExcelCreator.ExcelCallBack() {
+            ExcelCreator.createExcel(columnRowData, "Lead" ,fileName, getActivity(), isSendExcelFileByMail, new ExcelCreator.ExcelCallBack() {
                 @Override
                 public void excelCreated(boolean hasExcelBeenCreated, String filePath) {
                     hideProgress();

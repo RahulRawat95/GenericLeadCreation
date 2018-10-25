@@ -98,17 +98,23 @@ public class LeadMeetReportAdapter extends RecyclerView.Adapter<LeadMeetReportAd
         } else {
             if (holder.distanceLL != null)
                 holder.distanceLL.setVisibility(View.VISIBLE);
-            LeadDetail lead2 = filteredLeadDetails.get(position - 1);
-            float[] results = new float[3];
-            try {
-                Location.distanceBetween(Double.parseDouble(lead.getLATITUDE()), Double.parseDouble(lead.getLONGITUDE()), Double.parseDouble(lead2.getLATITUDE()), Double.parseDouble(lead2.getLONGITUDE()), results);
-                if (((int) results[0] / 1000) > 0) {
-                    holder.distanceTv.setText(String.format("%.2f", results[0] / 1000) + " Km");
-                } else {
-                    holder.distanceTv.setText(String.format("%.2f", results[0]) + " m");
+            if (filteredLeadDetails.get(position - 1).getDATE_VC().trim().equalsIgnoreCase(filteredLeadDetails.get(position).getDATE_VC().trim())) {
+                LeadDetail lead2 = filteredLeadDetails.get(position - 1);
+                float[] results = new float[3];
+                try {
+                    Location.distanceBetween(Double.parseDouble(lead.getLATITUDE()), Double.parseDouble(lead.getLONGITUDE()),
+                            Double.parseDouble(lead2.getLATITUDE()), Double.parseDouble(lead2.getLONGITUDE()), results);
+                    if (((int) results[0] / 1000) > 0) {
+                        holder.distanceTv.setText(String.format("%.2f", results[0] / 1000) + " Km");
+                    } else {
+                        holder.distanceTv.setText(String.format("%.2f", results[0]) + " m");
+                    }
+                } catch (Exception e) {
+                    holder.distanceLL.setVisibility(View.INVISIBLE);
                 }
-            } catch (Exception e) {
-                holder.distanceLL.setVisibility(View.GONE);
+            } else {
+                if (holder.distanceLL != null)
+                    holder.distanceLL.setVisibility(View.INVISIBLE);
             }
         }
 

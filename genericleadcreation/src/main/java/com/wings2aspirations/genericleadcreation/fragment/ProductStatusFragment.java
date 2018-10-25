@@ -273,11 +273,10 @@ public class ProductStatusFragment extends Fragment implements View.OnClickListe
 
 
                             getProductList(false);
-                        } else
-                            try {
+                        } else {
+                            if (unitOptionItemAdapter != null)
                                 unitOptionItemAdapter.setItemList(itemModelsListUnits);
-                            } catch (Exception e) {
-                            }
+                        }
                     }
                 } else {
                     ShowToast.showToast(getActivity(), "Failed to get Products");
