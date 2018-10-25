@@ -591,7 +591,8 @@ public class LeadMeetingReportFragment extends Fragment implements LeadMeetRepor
                 "STATE",
                 "CITY",
                 "CREATION DATE",
-                "CUSTOMER TYPE"};
+                "CUSTOMER TYPE",
+                "DISTANCE"};
 
         for (int i = 0; i < details.size(); i++) {
 
