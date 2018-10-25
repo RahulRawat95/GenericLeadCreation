@@ -273,8 +273,11 @@ public class ProductStatusFragment extends Fragment implements View.OnClickListe
 
 
                             getProductList(false);
-                        } else
-                            unitOptionItemAdapter.setItemList(itemModelsListUnits);
+                        } else {
+                            if (unitOptionItemAdapter != null)
+                                unitOptionItemAdapter.setItemList(itemModelsListUnits);
+                        }
+
 
                     }
                 } else {
