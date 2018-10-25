@@ -491,28 +491,46 @@ public class ListLeadsActivity extends AppCompatActivity implements Adapter.Prog
 
         final String[][] columnRowData = new String[details.size() + 1][];
         columnRowData[0] = new String[]{
+                "EMP NAME",
                 "COMPANY NAME",
                 "CONTACT PERSON",
+                "DESIGNATION",
                 "EMAIL",
                 "MOBILE NO",
                 "ADDRESS",
                 "PIN CODE",
                 "CUSTOMER REMARKS",
+                "DEMO",
                 "LEAD REMARKS",
                 "NEXT FOLLOW UP DATE",
                 "NEXT FOLLOW UP TIME",
-                "CALL TYPE",
-                "EMP NAME",
-                "DATE"};
+                "LEAD TYPE",
+                "PRODUCT",
+                "UNIT",
+                "QUANTITY",
+                "PRICE PER UNIT",
+                "TOTAL ORDER VALUE",
+                "STATE",
+                "CITY",
+                "CREATION DATE",
+                "CUSTOMER TYPE",
+                "DISTANCE"};
 
         for (int i = 0; i < details.size(); i++) {
-            columnRowData[i + 1] = details.get(i).getColumnData();
+            if (i != 0){
+                if (details.get(i - 1).getDATE_VC().trim().equalsIgnoreCase(details.get(i).getDATE_VC().trim())){
+                    columnRowData[i + 1] = details.get(i).getColumnData(Double.parseDouble(details.get(i-1).getLATITUDE()), Double.parseDouble(details.get(i-1).getLONGITUDE()));
+                }else {
+                    columnRowData[i + 1] = details.get(i).getColumnData(0, 0);
+                }
+            }else
+                columnRowData[i + 1] = details.get(i).getColumnData(0, 0);
         }
 
         final String fileName = ApiClient.getSchemaName() + ApiClient.getDbName() + System.currentTimeMillis();
 
         showProgress();
-        ExcelCreator.createExcel(columnRowData, fileName, ListLeadsActivity.this, isSendExcelFileByMail, new ExcelCreator.ExcelCallBack() {
+        ExcelCreator.createExcel(columnRowData, "Lead",fileName, ListLeadsActivity.this, isSendExcelFileByMail, new ExcelCreator.ExcelCallBack() {
             @Override
             public void excelCreated(boolean hasExcelBeenCreated, String filePath) {
                 hideProgress();

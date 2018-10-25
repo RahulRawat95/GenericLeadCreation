@@ -2,8 +2,10 @@ package com.wings2aspirations.genericleadcreation.models;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.location.Location;
 import android.preference.PreferenceManager;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.wings2aspirations.genericleadcreation.R;
@@ -353,7 +355,22 @@ public class LeadDetail implements CalendarHelper.CalendarInstance {
         return followUpDate;
     }
 
-    public String[] getColumnData() {
+    public String[] getColumnData(double lat, double longi) {
+        double distanceCalculation;
+        String distanceToShow = null;
+        if (lat != 0 && longi != 0){
+            float[] dist=new float[3];
+            Location.distanceBetween(lat,longi,Double.parseDouble(getLATITUDE()),Double.parseDouble(getLONGITUDE()),dist);
+            distanceCalculation=dist[0];
+
+            if (((int) distanceCalculation / 1000) > 0) {
+                distanceToShow = String.format("%.2f", distanceCalculation / 1000) + " Km";
+            } else {
+                distanceToShow = String.format("%.2f", distanceCalculation) + " m";
+            }
+        }else
+            distanceCalculation = 0;
+
         String[] columnData = new String[]{
                 EMP_NAME,
                 COMPANY_NAME,
@@ -377,7 +394,8 @@ public class LeadDetail implements CalendarHelper.CalendarInstance {
                 STATE_NAME_VC,
                 CITY_NAME_VC,
                 DATE_VC,
-                existingVc.equalsIgnoreCase("Yes") ? "EXISTING" : "FRESH"};
+                existingVc.equalsIgnoreCase("Yes") ? "EXISTING" : "FRESH",
+                distanceToShow};
         return columnData;
     }
 

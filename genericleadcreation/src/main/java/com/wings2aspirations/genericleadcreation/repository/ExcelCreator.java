@@ -23,8 +23,8 @@ public class ExcelCreator {
 
     private static final SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 
-    public static void createExcel(final String[][] data, final String fileName, final Context context,
-                                   final boolean shouldShare, final ExcelCallBack callBack) {
+    public static void  createExcel(final String[][] data, final String subjectMail, final String fileName, final Context context,
+                                    final boolean shouldShare, final ExcelCallBack callBack) {
         new AsyncTask<Void, Void, Void>() {
             private boolean hasExcelBeenCreated = false;
             private String filePath;
@@ -69,8 +69,8 @@ public class ExcelCreator {
                             Intent intentShareFile = new Intent(Intent.ACTION_SEND);
                             intentShareFile.setType("application/vnd.ms-excel");
                             intentShareFile.putExtra(Intent.EXTRA_STREAM, Utility.getUriType(context, myFile));
-                            intentShareFile.putExtra(Intent.EXTRA_SUBJECT, "Lead Report");
-                            intentShareFile.putExtra(Intent.EXTRA_TEXT, "Lead Report");
+                            intentShareFile.putExtra(Intent.EXTRA_SUBJECT, subjectMail);
+                            intentShareFile.putExtra(Intent.EXTRA_TEXT, subjectMail);
                             if (intentShareFile.resolveActivity(context.getPackageManager()) != null)
                                 context.startActivity(Intent.createChooser(intentShareFile, "SHARE via"));
                         } else {
